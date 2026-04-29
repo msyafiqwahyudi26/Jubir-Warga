@@ -1,0 +1,3789 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jubir Warga — Suara warga, rumahnya di sini.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bb':   '#1A2256',
+            'bc':   '#FFFAEE',
+            'bbs':  '#3B4A8A',
+            'ig':   '#2A2D3A',
+            'ln':   '#E6DECB',
+            'coral':'#E8632B',
+            'marigold':'#F2B137',
+            'mint': '#7FB69E',
+          },
+          fontFamily: {
+            display: ['Vollkorn','serif'],
+            hand:    ['Caveat','cursive'],
+            mono:    ['Fira Code','monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #FFFAEE; color: #2A2D3A; font-family: 'Inter', sans-serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #FFFAEE; }
+    ::-webkit-scrollbar-thumb { background: #E6DECB; border-radius: 4px; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Card hover */
+    .card-lift { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .card-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26,34,86,.10); }
+
+    /* Wordle tiles */
+    .wtile {
+      width: 54px; height: 54px;
+      border: 2px solid #E6DECB;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Vollkorn', serif;
+      font-size: 26px; font-weight: 700;
+      text-transform: uppercase;
+      transition: border-color .1s, transform .1s;
+      user-select: none;
+    }
+    @media (max-width: 420px) {
+      .wtile { width: 44px; height: 44px; font-size: 20px; }
+    }
+    .wkey {
+      height: 48px; min-width: 30px; padding: 0 6px;
+      border-radius: 6px; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      transition: filter .1s, transform .08s;
+      user-select: none;
+    }
+    .wkey:hover  { filter: brightness(.88); }
+    .wkey:active { transform: scale(.93); }
+
+    @keyframes flip-in  { 0%{transform:rotateX(0)}  50%{transform:rotateX(90deg)} }
+    @keyframes flip-out { 50%{transform:rotateX(90deg)} 100%{transform:rotateX(0)} }
+    @keyframes tile-pop { 0%{transform:scale(1)} 50%{transform:scale(1.13)} 100%{transform:scale(1)} }
+    @keyframes row-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    .flip-tile { animation: flip-in .25s ease forwards, flip-out .25s ease .25s forwards; }
+    .tile-pop  { animation: tile-pop .12s ease; }
+    .row-shake { animation: row-shake .4s ease; }
+
+    /* Sticky note tilt */
+    .sticky-a { transform: rotate(-1.2deg); }
+    .sticky-b { transform: rotate( 1.0deg); }
+
+    /* Squiggly underline */
+    .squiggly { text-decoration: underline wavy #E8632B; text-decoration-skip-ink: none; text-underline-offset: 4px; }
+
+    /* Badge shimmer */
+    @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.55} }
+    .badge-glow { animation: shimmer 2.4s ease-in-out infinite; }
+
+    /* Button ripple */
+    .btn-base { position: relative; overflow: hidden; transition: transform .1s, filter .1s; }
+    .btn-base:active { transform: scale(.97); }
+
+    /* Range input */
+    input[type=range] { accent-color: #E8632B; }
+
+    /* Line clamp */
+    .clamp2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <style>
+    #__loading {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #FFFAEE; z-index: 9999; flex-direction: column; gap: 16px;
+      font-family: 'Vollkorn', serif; color: #1A2256;
+    }
+    #__loading.gone { display: none; }
+    #__loading p { margin: 0; font-size: 18px; font-style: italic; }
+    #__loading small { font-size: 12px; color: #6B6860; font-family: monospace; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #__loading svg { animation: spin 1.5s linear infinite; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="__loading">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#E8632B" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10" stroke-dasharray="40 40" />
+    </svg>
+    <p>Lagi nyalain Jubir Warga…</p>
+    <small id="__loading-status">memuat React + Babel…</small>
+  </div>
+  <script>
+    // Hide loading when root has children (after React mounts)
+    (function(){
+      var ls = document.getElementById('__loading-status');
+      var attempts = 0;
+      var t = setInterval(function(){
+        var root = document.getElementById('root');
+        if (root && root.children && root.children.length > 0) {
+          var ld = document.getElementById('__loading');
+          if (ld) ld.classList.add('gone');
+          clearInterval(t);
+        } else {
+          attempts++;
+          if (attempts === 3)  ls.textContent = 'mengompilasi JSX…';
+          if (attempts === 8)  ls.textContent = 'render komponen…';
+          if (attempts === 20) ls.textContent = 'Hmm, lama nih. Buka DevTools (F12) untuk cek error.';
+        }
+      }, 500);
+    })();
+    window.addEventListener('error', function(e){
+      var ls = document.getElementById('__loading-status');
+      if (ls) ls.textContent = 'Error: ' + (e.message || e.error);
+      console.error('[Jubir Warga]', e);
+    });
+  </script>
+
+<script type="text/babel" data-presets="react" data-type="module">
+// === components.jsx ===
+// COMPONENTS — shared across all pages
+
+const { useState, useEffect } = React;
+
+const C = {
+  blue:     '#1A2256',
+  cream:    '#FFFAEE',
+  blueSoft: '#3B4A8A',
+  ink:      '#2A2D3A',
+  line:     '#E6DECB',
+  coral:    '#E8632B',
+  marigold: '#F2B137',
+  mint:     '#7FB69E',
+};
+
+// ── Pill ──────────────────────────────────────────────
+function Pill({ color = 'blue', children, className = '' }) {
+  const map = {
+    blue:     { bg: '#E8ECF7', text: '#1A2256', border: '#C4CCEB' },
+    coral:    { bg: '#FCE9E1', text: '#B84A1A', border: '#E8632B' },
+    marigold: { bg: '#FEF3D9', text: '#9A6500', border: '#F2B137' },
+    mint:     { bg: '#E1F2EC', text: '#2C7A5C', border: '#7FB69E' },
+    grey:     { bg: '#F0EDE8', text: '#6B6860', border: '#E6DECB' },
+  };
+  const s = map[color] || map.blue;
+  return (
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border flex-shrink-0 ${className}`}
+      style={{ background: s.bg, color: s.text, borderColor: s.border }}
+    >
+      {children}
+    </span>
+  );
+}
+
+// ── Button ────────────────────────────────────────────
+function Button({ variant = 'primary', size = 'md', onClick, children, className = '', disabled = false }) {
+  const sz = { sm: 'px-3.5 py-1.5 text-xs', md: 'px-5 py-2.5 text-sm', lg: 'px-7 py-3.5 text-base' }[size];
+  const base = `btn-base rounded-xl inline-flex items-center gap-1.5 font-semibold cursor-pointer select-none ${sz} ${className}`;
+  const vs = {
+    primary:       { background: C.blue,   color: C.cream,  border: 'none' },
+    coral:         { background: C.coral,  color: '#fff',   border: 'none' },
+    outline:       { background: 'transparent', color: C.blue,  border: `2px solid ${C.blue}` },
+    ghost:         { background: 'transparent', color: C.blue,  border: 'none' },
+    'outline-coral': { background: 'transparent', color: C.coral, border: `2px solid ${C.coral}` },
+    'outline-light': { background: 'transparent', color: C.ink+'99', border: `1.5px solid ${C.line}` },
+  };
+  const st = vs[variant] || vs.primary;
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={base}
+      style={{ ...st, opacity: disabled ? .4 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ── UserAvatar ────────────────────────────────────────
+function UserAvatar({ name = 'U', size = 'md', level = 3, showLevel = true, className = '' }) {
+  const sz = { sm: 32, md: 40, lg: 56, xl: 80 }[size] || 40;
+  const fs = { sm: 12, md: 14, lg: 18, xl: 26 }[size] || 14;
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const hue = (name.charCodeAt(0) * 37 + (name.charCodeAt(1) || 0) * 11) % 360;
+  return (
+    <div className={`relative inline-block flex-shrink-0 ${className}`}>
+      <div
+        className="rounded-full flex items-center justify-center font-semibold text-white"
+        style={{ width: sz, height: sz, fontSize: fs, background: `hsl(${hue},42%,40%)` }}
+      >
+        {initials}
+      </div>
+      {showLevel && (
+        <span
+          className="absolute -bottom-0.5 -right-0.5 badge-glow text-white font-bold rounded-full flex items-center justify-center leading-none"
+          style={{ width: 16, height: 16, fontSize: 9, background: C.marigold }}
+        >
+          {level}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ── ProgressBar ───────────────────────────────────────
+function ProgressBar({ percent = 0, colorKey = 'blue', className = '' }) {
+  const col = { blue: C.blue, coral: C.coral, mint: C.mint, marigold: C.marigold }[colorKey] || C.blue;
+  return (
+    <div className={`w-full h-2 rounded-full overflow-hidden ${className}`} style={{ background: C.line }}>
+      <div className="h-full rounded-full transition-all duration-700" style={{ width: `${Math.min(100, percent)}%`, background: col }} />
+    </div>
+  );
+}
+
+// ── StatBlock ─────────────────────────────────────────
+function StatBlock({ label, value }) {
+  return (
+    <div className="flex flex-col items-center gap-0.5">
+      <span className="font-mono font-bold text-xl" style={{ color: C.blue }}>{value}</span>
+      <span className="text-xs text-center leading-tight" style={{ color: C.ink + '77' }}>{label}</span>
+    </div>
+  );
+}
+
+// ── NavTabs ───────────────────────────────────────────
+function NavTabs({ items, active, onChange, className = '' }) {
+  return (
+    <div className={`flex border-b overflow-x-auto scrollbar-hide ${className}`} style={{ borderColor: C.line }}>
+      {items.map(it => (
+        <button
+          key={it.id}
+          onClick={() => onChange(it.id)}
+          className="px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors"
+          style={{
+            borderColor: active === it.id ? C.coral : 'transparent',
+            color:       active === it.id ? C.coral : C.ink + '88',
+          }}
+        >
+          {it.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── HeroSection ───────────────────────────────────────
+function HeroSection({ title, subtitle, actions, className = '' }) {
+  return (
+    <section className={`py-12 border-b ${className}`} style={{ borderColor: C.line }}>
+      <div className="max-w-6xl mx-auto px-6">
+        {title && (
+          <h1 className="font-display font-bold leading-tight text-4xl md:text-5xl" style={{ color: C.blue }}>
+            {title}
+          </h1>
+        )}
+        {subtitle && (
+          <p className="mt-3 text-base md:text-lg max-w-2xl" style={{ color: C.ink + '99' }}>{subtitle}</p>
+        )}
+        {actions && <div className="mt-5 flex flex-wrap gap-3">{actions}</div>}
+      </div>
+    </section>
+  );
+}
+
+// ── Modal ─────────────────────────────────────────────
+function Modal({ open, onClose, children, maxW = 'max-w-lg' }) {
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 backdrop-blur-sm"
+        style={{ background: C.blue + '88' }}
+        onClick={onClose}
+      />
+      <div
+        className={`relative rounded-2xl shadow-2xl ${maxW} w-full overflow-y-auto`}
+        style={{ background: C.cream, maxHeight: '92vh' }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ── Header ────────────────────────────────────────────
+function Header({ currentPage, onNavigate }) {
+  const [mOpen, setMOpen] = useState(false);
+
+  // Lucide-style line icons (inline SVG)
+  const I = (path) => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {path}
+    </svg>
+  );
+  const Icons = {
+    home:    I(<><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>),
+    msg:     I(<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/>),
+    edit:    I(<><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></>),
+    book:    I(<><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></>),
+    zap:     I(<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>),
+    clip:    I(<><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></>),
+    game:    I(<><line x1="6" y1="11" x2="10" y2="11"/><line x1="8" y1="9" x2="8" y2="13"/><line x1="15" y1="12" x2="15.01" y2="12"/><line x1="18" y1="10" x2="18.01" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/></>),
+    user:    I(<><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>),
+  };
+
+  const navItems = [
+    { id: 'beranda',   label: 'Beranda',     icon: Icons.home },
+    { id: 'komunitas', label: 'Komunitas',   icon: Icons.msg  },
+    { id: 'karya',     label: 'Karya',       icon: Icons.edit },
+    { id: 'kelas',     label: 'Kelas',       icon: Icons.book },
+    { id: 'aksi',      label: 'Aksi',        icon: Icons.zap  },
+    { id: 'tagih',     label: 'Tagih Janji', icon: Icons.clip },
+    { id: 'main',      label: 'Main',        icon: Icons.game },
+  ];
+
+  const bottomNav = [
+    { id: 'beranda',   label: 'Beranda',   icon: Icons.home },
+    { id: 'komunitas', label: 'Forum',     icon: Icons.msg  },
+    { id: 'tagih',     label: 'Janji',     icon: Icons.clip },
+    { id: 'nala',      label: 'Nala',      icon: Icons.msg  },
+    { id: 'profil',    label: 'Profil',    icon: Icons.user },
+  ];
+
+  return (
+    <>
+      <header
+        className="sticky top-0 z-40 border-b"
+        style={{ height: 64, background: C.cream, borderColor: C.line }}
+      >
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-full flex items-center gap-4">
+          {/* Logo */}
+          <button onClick={() => onNavigate('beranda')} className="flex-shrink-0 flex flex-col leading-none">
+            <span className="font-hand text-2xl font-bold" style={{ color: C.blue }}>Jubir Warga</span>
+            <svg viewBox="0 0 90 7" width="90" height="7" style={{ marginTop: -2 }}>
+              <path d="M2,5 Q22,1 45,4 Q68,7 88,3" stroke={C.coral} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            </svg>
+          </button>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-0.5 flex-1 justify-center">
+            {navItems.map(n => (
+              <button
+                key={n.id}
+                onClick={() => onNavigate(n.id)}
+                className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5"
+                style={{
+                  background: currentPage === n.id ? C.blue : 'transparent',
+                  color:      currentPage === n.id ? C.cream : C.ink,
+                }}
+              >
+                {n.icon}
+                {n.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Right actions */}
+          <div className="flex items-center gap-2 ml-auto">
+            <button className="relative w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: C.ink }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full" style={{ background: C.coral }} />
+            </button>
+            <button
+              onClick={() => onNavigate('nala')}
+              className="hidden sm:flex btn-base rounded-full pl-1 pr-3.5 py-0.5 text-xs font-semibold border-2 transition-all items-center gap-1.5"
+              style={{ borderColor: C.coral, background: C.cream, color: C.coral }}
+              title="Tanya Nala — AI sahabatmu"
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                {/* Mini Nala bird icon */}
+                <svg width="22" height="22" viewBox="0 0 28 28">
+                  <ellipse cx="14" cy="16" rx="8" ry="7" fill={C.blue}/>
+                  <ellipse cx="14" cy="17" rx="5" ry="4.5" fill={C.cream} opacity="0.9"/>
+                  <ellipse cx="14" cy="10" rx="6.5" ry="6" fill={C.blue}/>
+                  <ellipse cx="11" cy="9" rx="1.5" ry="1.5" fill="#fff"/>
+                  <ellipse cx="11.3" cy="9.3" rx="0.7" ry="0.7" fill={C.blue}/>
+                  <path d="M17 10 L22 12 L17 14 Z" fill={C.marigold}/>
+                  <ellipse cx="13" cy="4" rx="1.5" ry="2.5" fill={C.coral}/>
+                </svg>
+              </span>
+              Nala
+            </button>
+            <button onClick={() => onNavigate('profil')}>
+              <UserAvatar name="Aulia Pratiwi" size="sm" level={3} />
+            </button>
+            <button
+              className="md:hidden w-9 h-9 flex items-center justify-center"
+              onClick={() => setMOpen(!mOpen)}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="2">
+                <line x1="3" y1="6"  x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile dropdown */}
+        {mOpen && (
+          <div
+            className="md:hidden absolute top-full left-0 right-0 border-b shadow-lg z-50"
+            style={{ background: C.cream, borderColor: C.line }}
+          >
+            {[...navItems, { id: 'nala', label: 'Tanya Nala', icon: Icons.msg }, { id: 'profil', label: 'Profil Saya', icon: Icons.user }].map(n => (
+              <button
+                key={n.id}
+                onClick={() => { onNavigate(n.id); setMOpen(false); }}
+                className="w-full text-left px-6 py-3 text-sm font-medium border-b flex items-center gap-2"
+                style={{ borderColor: C.line + '60', color: currentPage === n.id ? C.coral : C.ink }}
+              >
+                {n.icon}
+                {n.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Mobile bottom nav */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t flex"
+        style={{ background: C.cream, borderColor: C.line }}
+      >
+        {bottomNav.map(n => (
+          <button
+            key={n.id}
+            onClick={() => onNavigate(n.id)}
+            className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5"
+            style={{ color: currentPage === n.id ? C.coral : C.ink + '66', fontSize: 10, fontWeight: 500 }}
+          >
+            <span style={{ display: 'inline-flex' }}>{n.icon}</span>
+            {n.label}
+          </button>
+        ))}
+      </nav>
+    </>
+  );
+}
+
+// ── Footer ────────────────────────────────────────────
+function Footer({ onNavigate }) {
+  return (
+    <footer style={{ background: C.blue, color: C.cream, paddingBottom: 80 }}>
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1">
+            <div className="font-hand text-2xl font-bold mb-2" style={{ color: C.cream }}>Jubir Warga</div>
+            <p className="text-sm mb-3" style={{ color: C.cream + '88' }}>Kumpul. Berkarya. Bersuara.</p>
+            <p className="text-xs leading-relaxed" style={{ color: C.cream + '55' }}>
+              Jl. Tebet Barat Dalam IIC No. 14,<br />Tebet, Jakarta Selatan
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['SPD', 'KitaBisa', 'Komisi.co', 'Indorelawan', 'ceksuaramu.com'].map(p => (
+                <span key={p} className="text-xs px-2 py-0.5 rounded-lg" style={{ background: C.cream + '18', color: C.cream + '77' }}>
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wider font-semibold mb-4" style={{ color: C.cream + '44' }}>Platform</div>
+            {['komunitas', 'karya', 'kelas', 'aksi', 'main'].map(id => (
+              <button key={id} onClick={() => onNavigate(id)}
+                className="block text-sm mb-2 text-left capitalize"
+                style={{ color: C.cream + '77' }}>
+                {id.charAt(0).toUpperCase() + id.slice(1)}
+              </button>
+            ))}
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wider font-semibold mb-4" style={{ color: C.cream + '44' }}>Tentang</div>
+            {['Cerita Kami', 'Tim', 'Partner', 'Karir', 'Press'].map(l => (
+              <span key={l} className="block text-sm mb-2" style={{ color: C.cream + '77' }}>{l}</span>
+            ))}
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wider font-semibold mb-4" style={{ color: C.cream + '44' }}>Hubungi</div>
+            <p className="text-sm mb-1" style={{ color: C.cream + '77' }}>@jubirwarga.id</p>
+            <p className="text-sm mb-5" style={{ color: C.cream + '77' }}>info@jubirwarga.id</p>
+            <button
+              className="text-sm px-4 py-2 rounded-xl font-semibold"
+              style={{ background: '#25D366', color: '#fff' }}
+            >
+              📱 Subscribe Newsletter
+            </button>
+          </div>
+        </div>
+        <div
+          className="mt-12 pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2"
+          style={{ borderTop: `1px solid ${C.cream}22` }}
+        >
+          <p className="text-xs" style={{ color: C.cream + '44' }}>
+            © 2026 Jubir Warga ·{' '}
+            <span style={{ color: C.cream + '66' }}>Inisiatif SPD</span> · Dalam pembentukan PT
+          </p>
+          <div className="flex gap-4">
+            {['Privasi', 'Syarat & Ketentuan'].map(l => (
+              <span key={l} className="text-xs cursor-pointer" style={{ color: C.cream + '44' }}>{l}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── Export ────────────────────────────────────────────
+Object.assign(window, { C, Pill, Button, UserAvatar, ProgressBar, StatBlock, NavTabs, HeroSection, Modal, Header, Footer });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === wordle.jsx ===
+// WORDLE — Tebak Kata Hari Ini playable mini game
+
+const { useState: useWState, useEffect: useWEffect, useCallback: useWCallback } = React;
+
+const C_W = window.C;
+
+const CIVIC_WORDS = ['WARGA','SUARA','PASAL','SAKSI','DAPIL','KORUM','DEBAT','CALON','NEGRI'];
+const TARGET_WORD = 'WARGA';
+
+const CIVIC_FACTS = {
+  WARGA: 'Warga negara Indonesia memiliki hak memilih sejak usia 17 tahun. Partisipasi aktif dalam demokrasi bukan sekadar hak — ini kewajiban bersama.',
+  SUARA: 'Dalam sistem pemilu proporsional terbuka Indonesia, suara terbanyak pada caleg di sebuah dapil menentukan siapa yang melenggang ke parlemen.',
+  PASAL: 'UUD 1945 memiliki 37 pasal. Pasal 28 A–J tentang Hak Asasi Manusia adalah produk amandemen 1999–2002 yang paling sering jadi dasar advokasi warga.',
+  SAKSI: 'Setiap partai peserta pemilu berhak menempatkan saksi di TPS. Kehadiran saksi yang kompeten adalah garda pertama transparansi penghitungan suara.',
+  DAPIL: 'Dapil (Daerah Pemilihan) menentukan berapa kursi DPR yang diperebutkan di sebuah wilayah. Semakin besar dapil, semakin proporsional hasilnya.',
+};
+
+const DEFAULT_FACT = 'Partisipasi warga yang aktif dan kritis adalah fondasi demokrasi yang sehat, akuntabel, dan berorientasi pada kepentingan publik.';
+
+const KEYBOARD_ROWS = [
+  ['Q','W','E','R','T','Y','U','I','O','P'],
+  ['A','S','D','F','G','H','J','K','L'],
+  ['ENTER','Z','X','C','V','B','N','M','⌫'],
+];
+
+function getTileStyle(status, revealed) {
+  if (!revealed) return { background: 'transparent', color: C_W.blue, borderColor: C_W.line };
+  const map = {
+    correct: { background: C_W.mint,     color: '#fff', borderColor: C_W.mint },
+    present: { background: C_W.marigold, color: '#fff', borderColor: C_W.marigold },
+    absent:  { background: '#8A9099',    color: '#fff', borderColor: '#8A9099' },
+  };
+  return map[status] || { background: C_W.line, color: C_W.ink, borderColor: C_W.line };
+}
+
+function getKeyStyle(status) {
+  const map = {
+    correct: { background: C_W.mint,     color: '#fff' },
+    present: { background: C_W.marigold, color: '#fff' },
+    absent:  { background: '#8A9099',    color: '#fff' },
+  };
+  return map[status] || { background: C_W.line, color: C_W.ink };
+}
+
+function evaluateGuess(word, target) {
+  const result = Array(5).fill('absent');
+  const tArr = target.split('');
+  const wArr = word.split('');
+  for (let i = 0; i < 5; i++) {
+    if (wArr[i] === tArr[i]) { result[i] = 'correct'; tArr[i] = null; wArr[i] = null; }
+  }
+  for (let i = 0; i < 5; i++) {
+    if (wArr[i] !== null) {
+      const idx = tArr.indexOf(wArr[i]);
+      if (idx !== -1) { result[i] = 'present'; tArr[idx] = null; }
+    }
+  }
+  return result;
+}
+
+function TebakKata({ onOpenPage, compact = false }) {
+  const [guesses,    setGuesses]    = useWState([]);
+  const [current,    setCurrent]    = useWState('');
+  const [gameState,  setGameState]  = useWState('playing'); // 'playing'|'won'|'lost'
+  const [shakeRow,   setShakeRow]   = useWState(false);
+  const [revealRow,  setRevealRow]  = useWState(-1);
+  const [keyStates,  setKeyStates]  = useWState({});
+  const [streak,     setStreak]     = useWState(5);
+  const [showResult, setShowResult] = useWState(false);
+  const [popCol,     setPopCol]     = useWState(-1);
+
+  const MAX = 6;
+  const target = TARGET_WORD;
+
+  const submit = useWCallback(() => {
+    if (gameState !== 'playing') return;
+    if (current.length !== 5) {
+      setShakeRow(true);
+      setTimeout(() => setShakeRow(false), 450);
+      return;
+    }
+    const statuses  = evaluateGuess(current, target);
+    const newGuess  = { word: current, statuses };
+    const newGuesses = [...guesses, newGuess];
+    setGuesses(newGuesses);
+    setCurrent('');
+    setRevealRow(newGuesses.length - 1);
+
+    const nk = { ...keyStates };
+    current.split('').forEach((ch, i) => {
+      const s = statuses[i];
+      const p = nk[ch];
+      if (!p || (p === 'absent') || (p === 'present' && s === 'correct')) nk[ch] = s;
+    });
+    setKeyStates(nk);
+
+    const won = current === target;
+    const lost = !won && newGuesses.length >= MAX;
+    if (won || lost) {
+      setTimeout(() => {
+        if (won) setStreak(s => s + 1);
+        setShowResult(true);
+        setGameState(won ? 'won' : 'lost');
+      }, 5 * 200 + 400);
+    }
+  }, [current, guesses, keyStates, gameState, target]);
+
+  const press = useWCallback((key) => {
+    if (gameState !== 'playing') return;
+    if (key === 'ENTER')   { submit(); return; }
+    if (key === '⌫' || key === 'BACKSPACE') { setCurrent(c => c.slice(0, -1)); return; }
+    if (/^[A-Z]$/.test(key) && current.length < 5) {
+      setCurrent(c => c + key);
+      setPopCol(current.length);
+      setTimeout(() => setPopCol(-1), 120);
+    }
+  }, [current, gameState, submit]);
+
+  useWEffect(() => {
+    const handler = e => {
+      const k = e.key.toUpperCase();
+      if (k === 'ENTER' || k === 'BACKSPACE' || /^[A-Z]$/.test(k)) press(k);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [press]);
+
+  const resetGame = () => {
+    setGuesses([]); setCurrent(''); setGameState('playing');
+    setKeyStates({}); setRevealRow(-1); setShowResult(false);
+  };
+
+  const curRow = guesses.length;
+
+  return (
+    <div className="flex flex-col items-center gap-5 py-4 select-none" style={{ color: C_W.blue }}>
+      {/* Header */}
+      <div className="text-center">
+        <h3 className="font-display font-bold text-xl" style={{ color: compact ? C_W.cream : C_W.blue }}>
+          Tebak Kata Hari Ini
+        </h3>
+        <p className="text-xs mt-0.5" style={{ color: compact ? C_W.cream+'88' : C_W.ink+'77' }}>
+          Tebak kata civic 5 huruf · 6 percobaan
+        </p>
+        <div className="mt-2 flex items-center justify-center gap-1.5">
+          <span>🔥</span>
+          <span className="font-mono font-bold" style={{ color: C_W.coral }}>{streak}</span>
+          <span className="text-xs" style={{ color: compact ? C_W.cream+'66' : C_W.ink+'55' }}>hari berturut-turut</span>
+        </div>
+      </div>
+
+      {/* Grid */}
+      <div className="flex flex-col gap-1.5">
+        {Array(MAX).fill(null).map((_, rowIdx) => {
+          const guess     = guesses[rowIdx];
+          const isCurrent = rowIdx === curRow && gameState === 'playing';
+          const isShake   = isCurrent && shakeRow;
+          return (
+            <div key={rowIdx} className={`flex gap-1.5 ${isShake ? 'row-shake' : ''}`}>
+              {Array(5).fill(null).map((_, colIdx) => {
+                let letter = '', status = '', revealed = false;
+                if (guess) { letter = guess.word[colIdx]; status = guess.statuses[colIdx]; revealed = true; }
+                else if (isCurrent) letter = current[colIdx] || '';
+
+                const isPopping = isCurrent && colIdx === popCol && !revealed;
+                const flipDelay  = colIdx * 200;
+                const shouldFlip = revealed && rowIdx === revealRow;
+                const tileStyle  = getTileStyle(status, revealed);
+
+                return (
+                  <div
+                    key={colIdx}
+                    className={`wtile ${shouldFlip ? 'flip-tile' : ''} ${isPopping ? 'tile-pop' : ''}`}
+                    style={{
+                      ...tileStyle,
+                      animationDelay: shouldFlip ? `${flipDelay}ms` : '0ms',
+                      transform: letter && !revealed ? 'scale(1.06)' : 'scale(1)',
+                      borderColor: letter && !revealed && !isPopping ? C_W.blue + 'AA' : tileStyle.borderColor,
+                    }}
+                  >
+                    {letter}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Keyboard */}
+      <div className="flex flex-col gap-1.5 w-full" style={{ maxWidth: 340 }}>
+        {KEYBOARD_ROWS.map((row, ri) => (
+          <div key={ri} className="flex gap-1 justify-center">
+            {row.map(key => {
+              const ks = keyStates[key];
+              const w  = (key === 'ENTER' || key === '⌫') ? 'auto' : 30;
+              const px = (key === 'ENTER' || key === '⌫') ? '10px' : '0';
+              return (
+                <button
+                  key={key}
+                  className="wkey"
+                  style={{ ...getKeyStyle(ks), minWidth: w, paddingLeft: px, paddingRight: px }}
+                  onClick={() => press(key)}
+                >
+                  {key}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Result Modal */}
+      {showResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ background: C_W.blue + '77' }} />
+          <div className="relative rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center" style={{ background: C_W.cream }}>
+            <div className="text-5xl mb-3">{gameState === 'won' ? '🎉' : '😔'}</div>
+            <h3 className="font-display text-2xl font-bold mb-1" style={{ color: C_W.blue }}>
+              {gameState === 'won' ? 'Mantap, Warga!' : 'Coba lagi besok!'}
+            </h3>
+            <p className="text-sm mb-1" style={{ color: C_W.ink + '77' }}>Kata hari ini:</p>
+            <p className="font-display text-3xl font-bold mb-4" style={{ color: C_W.coral }}>{target}</p>
+
+            <div className="rounded-xl p-4 mb-5 text-left" style={{ background: C_W.blue + '0D', border: `1px solid ${C_W.line}` }}>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: C_W.blue }}>🧠 Tahukah kamu?</p>
+              <p className="text-sm leading-relaxed" style={{ color: C_W.ink + 'CC' }}>
+                {CIVIC_FACTS[target] || DEFAULT_FACT}
+              </p>
+            </div>
+
+            {gameState === 'won' && (
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <span>🔥</span>
+                <span className="font-mono font-bold text-lg" style={{ color: C_W.coral }}>{streak}</span>
+                <span className="text-sm" style={{ color: C_W.ink + '77' }}>hari berturut-turut!</span>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-2">
+              {onOpenPage && (
+                <>
+                  <button
+                    className="btn-base w-full py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"
+                    style={{ background: C_W.blue, color: C_W.cream }}
+                    onClick={() => onOpenPage('komunitas')}
+                  >💬 Diskusi di Forum →</button>
+                  <button
+                    className="btn-base w-full py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border-2"
+                    style={{ borderColor: C_W.blue, color: C_W.blue }}
+                    onClick={() => onOpenPage('kelas')}
+                  >📚 Pelajari di Kelas →</button>
+                </>
+              )}
+              <button className="text-xs mt-1" style={{ color: C_W.ink + '55' }} onClick={resetGame}>
+                ↺ Reset (Demo)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Backward compat: keep both names exposed
+const CitizenWordle = TebakKata;
+Object.assign(window, { TebakKata, CitizenWordle });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === onboarding.jsx ===
+// ONBOARDING — 3-step flow
+
+const { useState: useOState } = React;
+const CO = window.C;
+
+const TOPICS = [
+  { id:'politik',    label:'Politik 🏛️'       },
+  { id:'lingkungan', label:'Lingkungan 🌱'     },
+  { id:'gender',     label:'Gender 💜'         },
+  { id:'mental',     label:'Mental Health 🧠'  },
+  { id:'ekonomi',    label:'Ekonomi 💸'        },
+  { id:'pendidikan', label:'Pendidikan ✏️'     },
+  { id:'budaya',     label:'Budaya Pop 🎬'     },
+  { id:'teknologi',  label:'Teknologi ⚙️'     },
+  { id:'lokal',      label:'Komunitas Lokal 🏘️'},
+];
+
+const ENTRY_OPTIONS = [
+  { id:'main',      icon:'🎮', label:'Main mini game dulu',    sub:'Mulai ringan, coba Citizen Wordle' },
+  { id:'karya',     icon:'✍️', label:'Lihat karya orang lain', sub:'Baca opini, tonton vlog, telusuri ilustrasi' },
+  { id:'komunitas', icon:'💬', label:'Buka forum',             sub:'Langsung gabung diskusi warga' },
+];
+
+function Onboarding({ onComplete, onNavigate }) {
+  const [step,       setStep]       = useOState(0);
+  const [name,       setName]       = useOState('');
+  const [kota,       setKota]       = useOState('');
+  const [age,        setAge]        = useOState(22);
+  const [topics,     setTopics]     = useOState([]);
+  const [entryPoint, setEntryPoint] = useOState(null);
+
+  const toggleTopic = id => {
+    setTopics(prev =>
+      prev.includes(id)
+        ? prev.filter(t => t !== id)
+        : prev.length < 5 ? [...prev, id] : prev
+    );
+  };
+
+  const finish = () => {
+    onComplete();
+    if (entryPoint) onNavigate(entryPoint);
+  };
+
+  const dot = (i) => (
+    <div
+      key={i}
+      className="rounded-full transition-all duration-300"
+      style={{
+        width:      step === i ? 24 : 8,
+        height:     8,
+        background: step === i ? CO.coral : CO.line,
+      }}
+    />
+  );
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: CO.blue + 'EE' }}>
+      <div className="relative rounded-2xl w-full max-w-md shadow-2xl overflow-hidden" style={{ background: CO.cream }}>
+
+        {/* Progress dots */}
+        <div className="flex items-center justify-center gap-2 pt-6 pb-0">
+          {[0, 1, 2].map(i => dot(i))}
+        </div>
+
+        <div className="p-7">
+
+          {/* ── STEP 0 ── */}
+          {step === 0 && (
+            <div>
+              <div className="text-center mb-6">
+                <div className="text-4xl mb-3">👋</div>
+                <h2 className="font-display text-2xl font-bold" style={{ color: CO.blue }}>Halo, kenalan dulu.</h2>
+                <p className="text-sm mt-2 leading-relaxed" style={{ color: CO.ink + '88' }}>
+                  Datamu cuma kita pakai untuk bikin pengalaman lebih pas, bukan untuk dijual.{' '}
+                  <span style={{ color: CO.coral }}>Janji.</span>
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-1.5" style={{ color: CO.ink }}>Nama kamu</label>
+                  <input
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="Mis: Aulia Pratiwi"
+                    className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors"
+                    style={{ borderColor: name ? CO.blue : CO.line, background: '#fff', color: CO.ink }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-1.5" style={{ color: CO.ink }}>Kota kamu</label>
+                  <input
+                    value={kota}
+                    onChange={e => setKota(e.target.value)}
+                    placeholder="Mis: Bandung"
+                    className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors"
+                    style={{ borderColor: kota ? CO.blue : CO.line, background: '#fff', color: CO.ink }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-1.5" style={{ color: CO.ink }}>
+                    Umur:{' '}
+                    <span className="font-mono" style={{ color: CO.coral }}>{age} tahun</span>
+                  </label>
+                  <input
+                    type="range" min={17} max={39} value={age}
+                    onChange={e => setAge(Number(e.target.value))}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs mt-1" style={{ color: CO.ink + '55' }}>
+                    <span>17</span><span>39</span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setStep(1)}
+                disabled={!name || !kota}
+                className="btn-base w-full mt-6 py-3 rounded-xl font-semibold text-sm"
+                style={{ background: CO.coral, color: '#fff', opacity: (!name || !kota) ? .4 : 1 }}
+              >
+                Lanjut →
+              </button>
+            </div>
+          )}
+
+          {/* ── STEP 1 ── */}
+          {step === 1 && (
+            <div>
+              <div className="text-center mb-6">
+                <div className="text-4xl mb-3">🔍</div>
+                <h2 className="font-display text-2xl font-bold" style={{ color: CO.blue }}>Apa yang kamu peduli?</h2>
+                <p className="text-sm mt-2" style={{ color: CO.ink + '88' }}>
+                  Pilih <strong>2–5 topik</strong> yang paling penting buat kamu.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 justify-center">
+                {TOPICS.map(t => {
+                  const sel = topics.includes(t.id);
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => toggleTopic(t.id)}
+                      className="px-4 py-2 rounded-xl text-sm font-medium transition-all border"
+                      style={{
+                        borderColor: sel ? CO.coral : CO.line,
+                        background:  sel ? CO.coral : '#fff',
+                        color:        sel ? '#fff'   : CO.ink,
+                      }}
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p className="text-center text-xs mt-3" style={{ color: CO.ink + '55' }}>
+                {topics.length}/5 dipilih
+              </p>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setStep(0)}
+                  className="btn-base flex-1 py-3 rounded-xl text-sm font-semibold border-2"
+                  style={{ borderColor: CO.line, color: CO.ink + '88' }}
+                >← Balik</button>
+                <button
+                  onClick={() => setStep(2)}
+                  disabled={topics.length < 2}
+                  className="btn-base flex-1 py-3 rounded-xl text-sm font-semibold"
+                  style={{ background: CO.coral, color: '#fff', opacity: topics.length < 2 ? .4 : 1 }}
+                >Lanjut →</button>
+              </div>
+            </div>
+          )}
+
+          {/* ── STEP 2 ── */}
+          {step === 2 && (
+            <div>
+              <div className="text-center mb-6">
+                <div className="text-4xl mb-3">🚪</div>
+                <h2 className="font-display text-2xl font-bold" style={{ color: CO.blue }}>Pintu masuk kamu?</h2>
+                <p className="text-sm mt-2" style={{ color: CO.ink + '88' }}>Mau mulai dari mana dulu?</p>
+              </div>
+
+              <div className="space-y-3">
+                {ENTRY_OPTIONS.map(opt => {
+                  const sel = entryPoint === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      onClick={() => setEntryPoint(opt.id)}
+                      className="w-full p-4 rounded-xl border text-left transition-all"
+                      style={{
+                        borderColor: sel ? CO.coral : CO.line,
+                        background:  sel ? CO.coral + '11' : '#fff',
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{opt.icon}</span>
+                        <div>
+                          <div className="font-semibold text-sm" style={{ color: CO.blue }}>{opt.label}</div>
+                          <div className="text-xs mt-0.5" style={{ color: CO.ink + '66' }}>{opt.sub}</div>
+                        </div>
+                        {sel && <span className="ml-auto" style={{ color: CO.coral }}>✓</span>}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setStep(1)}
+                  className="btn-base flex-1 py-3 rounded-xl text-sm font-semibold border-2"
+                  style={{ borderColor: CO.line, color: CO.ink + '88' }}
+                >← Balik</button>
+                <button
+                  onClick={finish}
+                  disabled={!entryPoint}
+                  className="btn-base flex-1 py-3 rounded-xl text-sm font-semibold"
+                  style={{ background: CO.coral, color: '#fff', opacity: !entryPoint ? .4 : 1 }}
+                >Mulai! 🎉</button>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { Onboarding });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === nala.jsx ===
+// NALA — Mascot SVG + PageNala (full destination page)
+
+const { useState: useNState } = React;
+const CN = window.C;
+const { Pill: NPill, Button: NBtn, UserAvatar: NAvatar } = window;
+
+// ── Nala Mascot SVG (claymorphism beo, 5 ekspresi) ───────
+function NalaMascot({ expression = 'curious', size = 120 }) {
+  // body palette
+  const bodyMain = '#1A2256';     // dark blue
+  const bodyHi = '#2D3A78';       // highlight (lighter)
+  const belly = '#FFFAEE';        // cream
+  const beak = '#F2B137';         // marigold
+  const beakDark = '#C8881A';
+  const crest = '#E8632B';        // coral
+  const eyeWhite = '#FFFFFF';
+  const eyeIris = '#1A2256';
+  const wing = '#0F1740';
+
+  // expressions: vary eye, beak, crest tilt
+  const ex = {
+    curious:   { eyeY: 38, eyeR: 5,   beakOpen: false, crestTilt: 0,  headTilt: 0 },
+    excited:   { eyeY: 36, eyeR: 6,   beakOpen: true,  crestTilt: 6,  headTilt: -3, sparkle: true },
+    mentor:    { eyeY: 40, eyeR: 3.5, beakOpen: false, crestTilt: 0,  headTilt: 0,  brow: true },
+    thinking:  { eyeY: 35, eyeR: 4.5, beakOpen: false, crestTilt: 0,  headTilt: -8 },
+    confident: { eyeY: 38, eyeR: 4.5, beakOpen: false, crestTilt: 4,  headTilt: 0,  smile: true },
+  }[expression] || { eyeY: 38, eyeR: 5, beakOpen: false, crestTilt: 0, headTilt: 0 };
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 120 120"
+      style={{ display: 'block' }}
+      aria-label={`Nala — ${expression}`}
+    >
+      <defs>
+        {/* Soft body gradient for claymorphism feel */}
+        <radialGradient id="nala-body-grad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stopColor={bodyHi} />
+          <stop offset="100%" stopColor={bodyMain} />
+        </radialGradient>
+        <radialGradient id="nala-head-grad" cx="40%" cy="30%" r="60%">
+          <stop offset="0%" stopColor={bodyHi} />
+          <stop offset="100%" stopColor={bodyMain} />
+        </radialGradient>
+        <radialGradient id="nala-beak-grad" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor={beak} />
+          <stop offset="100%" stopColor={beakDark} />
+        </radialGradient>
+        <filter id="nala-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="1" dy="3" stdDeviation="2" floodColor="#1A2256" floodOpacity="0.18" />
+        </filter>
+      </defs>
+
+      {/* Drop shadow under whole mascot */}
+      <ellipse cx="60" cy="108" rx="28" ry="3" fill="#1A2256" opacity="0.15" />
+
+      <g transform={`rotate(${ex.headTilt} 60 50)`} filter="url(#nala-shadow)">
+        {/* Body (lower oval) */}
+        <ellipse cx="60" cy="78" rx="28" ry="22" fill="url(#nala-body-grad)" />
+        {/* Belly (cream) */}
+        <ellipse cx="60" cy="82" rx="18" ry="15" fill={belly} opacity="0.95" />
+        {/* Wing back */}
+        <ellipse cx="36" cy="76" rx="9" ry="14" fill={wing} transform="rotate(-12 36 76)" />
+        <ellipse cx="84" cy="76" rx="9" ry="14" fill={wing} transform="rotate(12 84 76)" />
+
+        {/* Head */}
+        <ellipse cx="60" cy="42" rx="24" ry="22" fill="url(#nala-head-grad)" />
+
+        {/* Crest (jambul) */}
+        <g transform={`translate(60 18) rotate(${ex.crestTilt})`}>
+          <ellipse cx="0" cy="0" rx="5" ry="8" fill={crest} />
+          <ellipse cx="-4" cy="-2" rx="2.5" ry="5" fill={crest} opacity="0.7" />
+        </g>
+
+        {/* Eye */}
+        <ellipse cx="50" cy={ex.eyeY} rx={ex.eyeR + 1.5} ry={ex.eyeR + 1.5} fill={eyeWhite} />
+        <ellipse cx="51" cy={ex.eyeY + 0.5} rx={ex.eyeR * 0.6} ry={ex.eyeR * 0.6} fill={eyeIris} />
+        {/* Eye sparkle for excited */}
+        {ex.sparkle && (
+          <ellipse cx="49.5" cy={ex.eyeY - 1} rx="1.2" ry="1.2" fill={eyeWhite} />
+        )}
+        {/* Brow for mentor */}
+        {ex.brow && (
+          <path d={`M${50 - ex.eyeR - 2} ${ex.eyeY - ex.eyeR - 2} Q ${50} ${ex.eyeY - ex.eyeR - 5} ${50 + ex.eyeR + 2} ${ex.eyeY - ex.eyeR - 2}`}
+                stroke={bodyMain} strokeWidth="2" fill="none" strokeLinecap="round" />
+        )}
+
+        {/* Beak */}
+        {ex.beakOpen ? (
+          <g>
+            <path d="M62 46 L78 48 L74 53 Z" fill="url(#nala-beak-grad)" />
+            <path d="M62 50 L78 52 L74 56 Z" fill={beakDark} opacity="0.6" />
+          </g>
+        ) : (
+          <path d="M62 46 L78 51 L62 54 Z" fill="url(#nala-beak-grad)" />
+        )}
+
+        {/* Smile suggestion for confident */}
+        {ex.smile && (
+          <path d="M58 56 Q 62 59 66 56" stroke={bodyMain} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+        )}
+      </g>
+
+      {/* Feet */}
+      <ellipse cx="50" cy="100" rx="4" ry="2.5" fill={crest} />
+      <ellipse cx="70" cy="100" rx="4" ry="2.5" fill={crest} />
+    </svg>
+  );
+}
+
+// ── PageNala — full destination page ──────────────────────
+const NALA_MODES = [
+  {
+    id: 'tanya',
+    title: 'Tanya Nala',
+    sub: 'general explainer',
+    desc: 'Bingung soal isu, UU, mental health, kerja toxic? Tanya aja.',
+    expr: 'curious',
+  },
+  {
+    id: 'coach',
+    title: 'Coach Kelas',
+    sub: 'tutor personal',
+    desc: 'Lagi ikut kelas? Aku bantu cek pemahaman & jelaskan ulang.',
+    expr: 'mentor',
+  },
+  {
+    id: 'writing',
+    title: 'Writing Partner',
+    sub: 'editor & fact-check',
+    desc: 'Lagi nulis opini, caption, atau cerita? Aku bantu draft, edit, fact-check.',
+    expr: 'thinking',
+  },
+  {
+    id: 'advocacy',
+    title: 'Advocacy Assistant',
+    sub: 'draft surat & talking points',
+    desc: 'Mau advokasi? Aku bantu draft surat, talking points, action plan.',
+    expr: 'confident',
+  },
+];
+
+const SUGGESTED_PROMPTS = [
+  'Jelaskan Pasal 28E secara santai',
+  'Curhat dong soal kerja kantor toxic',
+  'Bantu draft caption IG buat gerakan',
+  'Apa beda DPR sama DPRD?',
+  'Ringkas thread terbaru di forum',
+  'Cek apakah opini saya kuat secara logika',
+  'Bantu pahami janji menteri kesehatan baru',
+  'Beri saya 5 fakta soal subsidi BBM 2026',
+  'Mood lagi anjlok, ada saran ringan?',
+  'Rekomendasi film/buku soal demokrasi',
+];
+
+const RECENT_CHATS = [
+  { id: 1, title: 'Soal RUU PPRT yang mandek', time: '2j', mode: 'Tanya' },
+  { id: 2, title: 'Edit opini anak muda apatis', time: '1h', mode: 'Writing' },
+  { id: 3, title: 'Draft surat ke DPRD soal parkir', time: '2h', mode: 'Advocacy' },
+];
+
+const ETIKA_PRINSIP = [
+  '"Aku bukan Tuhan. Kadang aku salah, kadang aku tidak tahu. Kalau aku tidak yakin, aku akan bilang."',
+  '"Obrolanmu tidak aku simpan kecuali kamu save eksplisit. Tidak aku pakai untuk training."',
+  '"Aku tidak partisan — tidak endorse partai/kandidat manapun. Aku akan kasih sumber kalau aku claim sesuatu."',
+];
+
+function PageNala({ onNavigate }) {
+  const [hoveredMode, setHoveredMode] = useNState('curious');
+
+  return (
+    <div>
+      {/* ── HERO ── */}
+      <section
+        className="relative overflow-hidden border-b"
+        style={{ background: `linear-gradient(135deg, ${CN.blue} 0%, #2A348A 100%)`, borderColor: CN.line }}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-14 md:py-20 grid md:grid-cols-2 gap-8 items-center">
+          {/* Left: Mascot */}
+          <div className="flex justify-center md:justify-start">
+            <div className="relative">
+              <NalaMascot expression={hoveredMode} size={280} />
+              <span
+                className="absolute -top-2 -right-4 font-hand text-2xl"
+                style={{ color: CN.marigold, transform: 'rotate(-6deg)' }}
+              >hai!</span>
+            </div>
+          </div>
+
+          {/* Right: Copy */}
+          <div>
+            <span className="font-hand text-lg" style={{ color: CN.marigold }}>AI Companion</span>
+            <h1
+              className="font-display font-bold mt-2 leading-tight"
+              style={{ color: CN.cream, fontSize: 'clamp(36px,5vw,56px)' }}
+            >
+              Halo, aku <em>Nala.</em>
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed" style={{ color: 'rgba(255,250,238,0.8)' }}>
+              Sahabat anak muda yang ngerti banyak hal. Dari Pasal 28E sampai mental health,
+              dari draft caption IG sampai talking points advokasi.
+            </p>
+            <p className="mt-3 text-base font-hand" style={{ color: CN.marigold }}>
+              Pilih salah satu mode di bawah, atau langsung mulai chat →
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4 MODE CARDS ── */}
+      <section className="py-12 border-b" style={{ borderColor: CN.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h3 className="font-display text-xl font-bold mb-6" style={{ color: CN.blue }}>
+            4 mode Nala — pilih sesuai kebutuhanmu
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {NALA_MODES.map((m) => (
+              <button
+                key={m.id}
+                onMouseEnter={() => setHoveredMode(m.expr)}
+                onMouseLeave={() => setHoveredMode('curious')}
+                onClick={() => onNavigate('nala-chat')}
+                className="text-left p-5 rounded-2xl border card-lift cursor-pointer relative"
+                style={{ borderColor: CN.line, background: '#fff', minHeight: 220 }}
+              >
+                <div className="flex justify-center mb-4">
+                  <NalaMascot expression={m.expr} size={70} />
+                </div>
+                <p className="text-xs uppercase tracking-wide font-bold" style={{ color: CN.coral }}>
+                  {m.sub}
+                </p>
+                <h4 className="font-display font-bold text-lg mt-1" style={{ color: CN.blue }}>
+                  {m.title}
+                </h4>
+                <p className="text-sm mt-2 leading-relaxed" style={{ color: CN.ink + 'AA' }}>
+                  {m.desc}
+                </p>
+                <span className="text-xs font-semibold mt-3 inline-block" style={{ color: CN.coral }}>
+                  Mulai →
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SUGGESTED PROMPTS ── */}
+      <section className="py-12 border-b" style={{ borderColor: CN.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h3 className="font-display text-xl font-bold mb-2" style={{ color: CN.blue }}>
+            Bingung mulai dari mana?
+          </h3>
+          <p className="text-sm mb-6" style={{ color: CN.ink + '99' }}>
+            Klik salah satu prompt di bawah untuk langsung mulai chat.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {SUGGESTED_PROMPTS.map((p, i) => (
+              <button
+                key={i}
+                onClick={() => onNavigate('nala-chat')}
+                className="px-4 py-2.5 rounded-full border text-sm transition-all hover:scale-[1.02]"
+                style={{
+                  borderColor: CN.line,
+                  background: '#fff',
+                  color: CN.ink,
+                }}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS KEPERCAYAAN ── */}
+      <section className="py-12 border-b" style={{ borderColor: CN.line, background: CN.blue + '05' }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h3 className="font-display text-xl font-bold mb-6" style={{ color: CN.blue }}>
+            Stats kepercayaan minggu ini
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { big: '2.340', lbl: 'percakapan minggu ini', color: CN.blue },
+              { big: '94%', lbl: 'rated helpful', color: CN.mint },
+              { big: '186', lbl: 'isu terjelaskan', color: CN.marigold },
+              { big: '<1%', lbl: 'flagged misleading', color: CN.coral },
+            ].map((s, i) => (
+              <div
+                key={i}
+                className="p-5 rounded-2xl border bg-white"
+                style={{ borderColor: CN.line }}
+              >
+                <p className="font-mono font-bold text-3xl md:text-4xl" style={{ color: s.color }}>
+                  {s.big}
+                </p>
+                <p className="text-xs mt-2 leading-tight" style={{ color: CN.ink + '99' }}>
+                  {s.lbl}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ETIKA & PRIVACY ── */}
+      <section className="py-12 border-b" style={{ borderColor: CN.line }}>
+        <div className="max-w-4xl mx-auto px-6">
+          <div
+            className="rounded-3xl p-8 md:p-10 border-2"
+            style={{ borderColor: CN.line, background: CN.cream }}
+          >
+            <div className="flex items-start gap-4 mb-6">
+              <NalaMascot expression="mentor" size={80} />
+              <div>
+                <h3 className="font-display text-2xl font-bold" style={{ color: CN.blue }}>
+                  Etika & Privacy
+                </h3>
+                <p className="text-sm mt-1" style={{ color: CN.ink + '99' }}>
+                  Janji Nala buat kamu.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {ETIKA_PRINSIP.map((p, i) => (
+                <p
+                  key={i}
+                  className="font-display italic text-base md:text-lg leading-relaxed pl-4 border-l-2"
+                  style={{ color: CN.ink, borderColor: CN.coral }}
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+            <button
+              className="mt-6 text-sm font-semibold"
+              style={{ color: CN.coral }}
+            >
+              Baca etika lengkap →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── RECENT CHATS ── */}
+      <section className="py-12 border-b" style={{ borderColor: CN.line }}>
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="font-display text-xl font-bold" style={{ color: CN.blue }}>
+              Chat terakhir kamu
+            </h3>
+            <button className="text-sm" style={{ color: CN.coral }}>Lihat semua →</button>
+          </div>
+          <div className="space-y-2">
+            {RECENT_CHATS.map((c) => (
+              <button
+                key={c.id}
+                className="w-full p-4 rounded-xl border bg-white text-left card-lift"
+                style={{ borderColor: CN.line }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-sm truncate" style={{ color: CN.blue }}>
+                      {c.title}
+                    </p>
+                    <p className="text-xs mt-1" style={{ color: CN.ink + '66' }}>
+                      Mode: {c.mode} · {c.time} lalu
+                    </p>
+                  </div>
+                  <span style={{ color: CN.coral }}>→</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="py-16" style={{ background: CN.blue }}>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <NalaMascot expression="excited" size={140} />
+          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-3" style={{ color: CN.cream }}>
+            Siap ngobrol?
+          </h2>
+          <p className="text-base mb-6" style={{ color: CN.cream + '99' }}>
+            Mulai chat baru — gratis, sampai 20 prompt/hari di tier free.
+          </p>
+          <NBtn variant="coral" size="lg" onClick={() => onNavigate('nala-chat')}>
+            Mulai chat baru →
+          </NBtn>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ── Export ────────────────────────────────────────────────
+Object.assign(window, { NalaMascot, PageNala });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-beranda.jsx ===
+// PAGE: BERANDA — Today feed
+
+const { useState: useBState } = React;
+const CB = window.C;
+const { Pill: BPill, Button: BBtn, UserAvatar: BAvatar, ProgressBar: BProgress, NavTabs: BTabs, Modal: BModal } = window;
+
+const today = new Date();
+const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][today.getDay()];
+const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][today.getMonth()];
+const TANGGAL = `${HARI}, ${today.getDate()} ${BULAN} ${today.getFullYear()}`;
+
+const THREADS = [
+  { author:'Sari Lestari',   chapter:'Jakarta',     title:'RUU PPRT, kenapa mandek terus setelah 20 tahun?', replies:42, time:'2j', tags:['Politik','Ketenagakerjaan'] },
+  { author:'Kanta Widodo',   chapter:'Malang Raya', title:'Tarif parkir naik tanpa konsultasi warga — pengalaman dari Malang', replies:28, time:'4j', tags:['Lokal','Transportasi'] },
+  { author:'Nadira Azzahra', chapter:'Bandung Raya',title:'Mental health di tempat kerja garmen Bandung: cerita yang jarang didengar', replies:67, time:'6j', tags:['Mental Health','Gender'] },
+];
+
+const KARYA = [
+  { type:'Tulisan',    author:'Reza Adipratama', title:'Lima Alasan Pemuda Masih Apatis terhadap Pemilu Lokal',            meta:'7 mnt baca',    color:'#E8F0FE' },
+  { type:'Vlog',       author:'Mei Chandra',     title:'Ngobrol sama Ibu PKL soal APBD — ternyata mereka lebih paham',     meta:'12:34',         color:'#FEE8E1' },
+  { type:'Ilustrasi',  author:'Pram Faisal',     title:'Kenapa Suara Kita Bisa Hilang — dalam 6 panel visual',             meta:'Galeri',        color:'#E1F2EC' },
+];
+
+const KELAS_CARDS = [
+  { title:'Kelas Jubir Warga: dari Resah ke Suara ke Aksi', peserta:124, progress:68, mentor:'Bilal Sukarno'       },
+  { title:'Social Marketing & Fundraising untuk Gerakan',   peserta:89,  progress:34, mentor:'Aqidatul Izza Zain' },
+];
+
+function PageBeranda({ onNavigate }) {
+  const [wordleOpen, setWordleOpen] = useBState(false);
+
+  return (
+    <div>
+
+      {/* ── HERO ── */}
+      <section className="py-12 md:py-16 border-b" style={{ borderColor: CB.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-10">
+
+            <div className="flex-1">
+              <span className="font-hand text-lg" style={{ color: CB.coral }}>{TANGGAL}</span>
+              <h1 className="font-display font-bold mt-2 leading-none" style={{ color: CB.blue, fontSize: 'clamp(44px,7vw,80px)' }}>
+                Hari ini,<br />
+                <em>kita ngomongin</em><br />
+                <span className="squiggly">Pasal 28E.</span>
+              </h1>
+              <p className="mt-4 text-base md:text-lg max-w-md leading-relaxed" style={{ color: CB.ink + '99' }}>
+                Hak berekspresi yang dijamin konstitusi — tapi seberapa jauh sudah dipraktikkan?
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <BBtn variant="coral" size="lg" onClick={() => onNavigate('komunitas')}>Ikut diskusi →</BBtn>
+                <BBtn variant="outline" size="lg" onClick={() => onNavigate('kelas')}>Baca lebih dalam</BBtn>
+              </div>
+            </div>
+
+            {/* Illustration placeholder */}
+            <div
+              className="flex-shrink-0 w-56 md:w-72 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden"
+              style={{ background: CB.blue + '0E', border: `2px dashed ${CB.line}`, aspectRatio:'4/3' }}
+            >
+              <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+                <circle cx="36" cy="24" r="14" fill={CB.blue} opacity=".14"/>
+                <rect x="16" y="42" width="40" height="24" rx="7" fill={CB.blue} opacity=".10"/>
+                <rect x="22" y="48" width="28" height="3" rx="1.5" fill={CB.blue} opacity=".35"/>
+                <rect x="22" y="54" width="20" height="3" rx="1.5" fill={CB.blue} opacity=".25"/>
+                <rect x="22" y="60" width="24" height="3" rx="1.5" fill={CB.blue} opacity=".18"/>
+              </svg>
+              <span className="font-mono text-xs mt-2 px-4 text-center" style={{ color: CB.blue + '55' }}>warga baca dokumen</span>
+              <span
+                className="font-hand text-sm absolute top-2 right-3"
+                style={{ color: CB.coral, transform: 'rotate(4deg)' }}
+              >← kamu juga bisa!</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── MINI GAME ── */}
+      <section className="py-10 border-b" style={{ borderColor: CB.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-5">
+
+            {/* Game card */}
+            <div className="md:col-span-2 rounded-2xl p-6 relative overflow-hidden" style={{ background: CB.blue }}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <span className="font-hand text-lg" style={{ color: CB.marigold }}>Game Hari Ini</span>
+                  <h3 className="font-display text-2xl font-bold text-white mt-1">Tebak Kata Hari Ini</h3>
+                  <p className="text-sm mt-1" style={{ color: 'rgba(255,250,238,.6)' }}>Tebak 5 huruf yang berhubungan dengan kewargaan. 6 percobaan.</p>
+                </div>
+                <span
+                  className="font-hand text-sm text-right"
+                  style={{ color: 'rgba(255,250,238,.45)', transform: 'rotate(1.5deg)', marginTop: 2 }}
+                >← coba dulu,<br />baru ngomong</span>
+              </div>
+
+              {/* Mini grid preview */}
+              <div className="flex gap-2 mb-5">
+                {['W','A','R','G','A'].map((l, i) => (
+                  <div
+                    key={i}
+                    className="rounded-lg flex items-center justify-center font-display font-bold text-white"
+                    style={{ width: 40, height: 40, fontSize: 20, background: CB.mint }}
+                  >{l}</div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4 flex-wrap">
+                <BBtn variant="coral" onClick={() => setWordleOpen(true)}>Main hari ini →</BBtn>
+                <div className="flex items-center gap-1.5">
+                  <span>🔥</span>
+                  <span className="font-mono font-bold" style={{ color: CB.marigold }}>5</span>
+                  <span className="text-sm" style={{ color: 'rgba(255,250,238,.55)' }}>hari streak</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Leaderboard */}
+            <div className="rounded-2xl p-5 border" style={{ borderColor: CB.line, background: '#fff' }}>
+              <h4 className="font-semibold text-sm mb-4" style={{ color: CB.blue }}>🏆 Top 3 hari ini</h4>
+              {[
+                { name:'Sari Lestari',   chapter:'Jakarta',     score:'2/6', rank:0 },
+                { name:'Kanta Widodo',   chapter:'Malang',      score:'3/6', rank:1 },
+                { name:'Aulia Pratiwi',  chapter:'Bandung',     score:'4/6', rank:2 },
+              ].map((p, i) => (
+                <div key={i} className="flex items-center gap-3 py-2 border-b last:border-0" style={{ borderColor: CB.line }}>
+                  <span className="text-base w-5 text-center">{['🥇','🥈','🥉'][i]}</span>
+                  <BAvatar name={p.name} size="sm" showLevel={false} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-semibold truncate" style={{ color: CB.blue }}>{p.name.split(' ')[0]}</div>
+                    <div className="text-[10px]" style={{ color: CB.ink + '55' }}>{p.chapter}</div>
+                  </div>
+                  <span className="font-mono text-xs font-bold" style={{ color: CB.coral }}>{p.score}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── THREE COLUMNS ── */}
+      <section className="py-10 border-b" style={{ borderColor: CB.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+
+            {/* Forum */}
+            <div>
+              <h3 className="font-display font-bold text-lg mb-4 flex items-center gap-2" style={{ color: CB.blue }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+                </svg>
+                Lagi Hangat di Forum
+              </h3>
+              <div className="space-y-3">
+                {THREADS.map((t, i) => (
+                  <button key={i} onClick={() => onNavigate('komunitas')}
+                    className="w-full text-left p-4 rounded-xl border card-lift"
+                    style={{ borderColor: CB.line, background: '#fff' }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <BAvatar name={t.author} size="sm" showLevel={false} />
+                      <span className="text-xs font-semibold" style={{ color: CB.blue }}>{t.author}</span>
+                      <span className="text-xs" style={{ color: CB.ink + '55' }}>· {t.chapter}</span>
+                    </div>
+                    <p className="font-display font-semibold text-sm leading-snug mb-2 clamp2" style={{ color: CB.ink }}>{t.title}</p>
+                    <div className="flex items-center gap-3 text-xs mb-2" style={{ color: CB.ink + '55' }}>
+                      <span>💬 {t.replies}</span><span>{t.time} lalu</span>
+                    </div>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {t.tags.map(tag => <BPill key={tag} color="grey">{tag}</BPill>)}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Karya */}
+            <div>
+              <h3 className="font-display font-bold text-lg mb-4 flex items-center gap-2" style={{ color: CB.blue }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/>
+                </svg>
+                Karya Terbaru
+              </h3>
+              <div className="space-y-3">
+                {KARYA.map((k, i) => (
+                  <button key={i} onClick={() => onNavigate('karya')}
+                    className="w-full text-left p-4 rounded-xl border card-lift"
+                    style={{ borderColor: CB.line, background: '#fff' }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <BPill color={k.type==='Vlog'?'coral':k.type==='Ilustrasi'?'mint':'blue'}>{k.type}</BPill>
+                      <span className="text-xs" style={{ color: CB.ink + '55' }}>{k.meta}</span>
+                    </div>
+                    <p className="font-display font-semibold text-sm leading-snug mb-2 clamp2" style={{ color: CB.ink }}>{k.title}</p>
+                    <span className="text-xs" style={{ color: CB.ink + '55' }}>{k.author}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Aksi */}
+            <div>
+              <h3 className="font-display font-bold text-lg mb-4 flex items-center gap-2" style={{ color: CB.blue }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                Aksi Minggu Ini
+              </h3>
+              <button onClick={() => onNavigate('aksi')}
+                className="w-full text-left p-4 rounded-xl border card-lift mb-3"
+                style={{ borderColor: CB.coral + '55', background: CB.coral + '08' }}
+              >
+                <BPill color="coral" className="mb-2">POLLING</BPill>
+                <p className="font-semibold text-sm mb-3" style={{ color: CB.ink }}>
+                  Anggaran subsidi BBM sebaiknya dialihkan ke mana?
+                </p>
+                <BBtn variant="coral" size="sm" onClick={e => { e.stopPropagation(); onNavigate('aksi'); }}>
+                  Vote sekarang →
+                </BBtn>
+              </button>
+              <button onClick={() => onNavigate('aksi')}
+                className="w-full text-left p-4 rounded-xl border card-lift"
+                style={{ borderColor: CB.line, background: '#fff' }}
+              >
+                <BPill color="mint" className="mb-2">PETISI</BPill>
+                <p className="text-sm font-semibold mb-2" style={{ color: CB.ink }}>Kembalikan jam KRL 04.00 WIB</p>
+                <BProgress percent={73} colorKey="mint" />
+                <p className="text-xs mt-1" style={{ color: CB.ink + '55' }}>7.300 / 10.000 tanda tangan</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TANYA NALA STRIP ── */}
+      <section className="py-10 border-b" style={{ borderColor: CB.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div
+            className="rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6"
+            style={{ background: CB.blue }}
+          >
+            <div className="flex-shrink-0">
+              {window.NalaMascot && <window.NalaMascot expression="excited" size={130} />}
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <span className="font-hand text-base" style={{ color: CB.marigold }}>✦ Tanya Nala</span>
+              <h3
+                className="font-display font-bold mt-1 leading-tight"
+                style={{ color: CB.cream, fontSize: 'clamp(22px,3vw,30px)' }}
+              >
+                <em>Beo curhatmu</em> — dengar kabar, ngasih tahu, sering tanya balik.
+              </h3>
+              <p className="text-sm mt-2" style={{ color: 'rgba(255,250,238,0.8)' }}>
+                Selalu pakai sumber. Bilang "aku belum tahu" kalau memang belum tahu.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <BBtn variant="coral" size="lg" onClick={() => onNavigate('nala')}>
+                Ngobrol bareng Nala →
+              </BBtn>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── KELAS ── */}
+      <section className="py-10 border-b" style={{ borderColor: CB.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h3 className="font-display font-bold text-xl mb-5 flex items-center gap-2" style={{ color: CB.blue }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            Kelas yang Sedang Seru
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {KELAS_CARDS.map((k, i) => (
+              <button key={i} onClick={() => onNavigate('kelas')}
+                className="text-left p-5 rounded-2xl border card-lift"
+                style={{ borderColor: CB.line, background: '#fff' }}
+              >
+                <div className="flex items-start justify-between mb-3 gap-3">
+                  <p className="font-display font-semibold leading-snug" style={{ color: CB.blue }}>{k.title}</p>
+                  <BPill color="mint">LIVE</BPill>
+                </div>
+                <p className="text-xs mb-3" style={{ color: CB.ink + '66' }}>👤 {k.mentor} · 👥 {k.peserta} peserta</p>
+                <BProgress percent={k.progress} colorKey="coral" />
+                <p className="text-xs mt-1" style={{ color: CB.ink + '55' }}>{k.progress}% selesai</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="py-16" style={{ background: CB.blue }}>
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-3" style={{ color: CB.cream }}>
+            Belum daftar?
+          </h2>
+          <p className="text-base mb-6" style={{ color: CB.cream + '77' }}>
+            Daftar gratis, dapat KTP Warga Digital.
+          </p>
+          <BBtn variant="coral" size="lg" onClick={() => onNavigate('profil')}>
+            Daftar gratis sekarang →
+          </BBtn>
+        </div>
+      </section>
+
+      {/* ── WORDLE MODAL ── */}
+      {wordleOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ background: CB.blue + '77' }}
+            onClick={() => setWordleOpen(false)} />
+          <div className="relative rounded-2xl shadow-2xl w-full overflow-y-auto" style={{ background: CB.cream, maxWidth: 440, maxHeight: '92vh' }}>
+            <button
+              onClick={() => setWordleOpen(false)}
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+              style={{ background: CB.line, color: CB.ink }}
+            >✕</button>
+            <CitizenWordle
+              onOpenPage={p => { setWordleOpen(false); onNavigate(p); }}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { PageBeranda });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-komunitas.jsx ===
+// PAGE: KOMUNITAS — Forum 3-tier categories + vote + sub-komunitas (REDESIGN)
+
+const { useState: useKomState } = React;
+const CK = window.C;
+const { Pill: KPill, Button: KBtn, UserAvatar: KAvatar, NavTabs: KTabs, Modal: KModal } = window;
+
+// ── Threads ──
+const THREADS = [
+  { id:1, author:'Sari Lestari',   level:4, chapter:'Jakarta',     hot:true,  upvotes:128, downvotes:4,  replies:42, time:'2j',
+    title:'RUU PPRT, kenapa mandek terus setelah 20 tahun?',
+    preview:'Udah hampir dua dekade RUU PPRT digodok, tapi sampai sekarang masih jalan di tempat. Apa yang bikin macet? Saya coba rekap dari awal...',
+    cat:'politik', loc:'jakarta', fmt:'diskusi' },
+  { id:2, author:'Kanta Widodo',   level:2, chapter:'Malang Raya', hot:false, upvotes:67,  downvotes:8,  replies:28, time:'4j',
+    title:'Tarif parkir naik tanpa konsultasi warga — cerita dari Malang',
+    preview:'Minggu lalu Pemkot Malang naikin tarif parkir hampir 2x lipat. Warga baru tau dari tempel pengumuman. Ini pengalaman teman-teman di sini.',
+    cat:'lokal', loc:'malang', fmt:'pengalaman' },
+  { id:3, author:'Nadira Azzahra', level:3, chapter:'Bandung Raya',hot:true,  upvotes:234, downvotes:6,  replies:67, time:'6j',
+    title:'Mental health di tempat kerja garmen Bandung: cerita yang jarang didengar',
+    preview:'Saya mewawancarai 12 pekerja garmen soal kondisi mental health mereka. Hasilnya mengejutkan dan menyedihkan sekaligus — perlu dibaca semua.',
+    cat:'mental', loc:'bandung', fmt:'pengalaman' },
+  { id:4, author:'Reza Adipratama',level:3, chapter:'Surabaya',    hot:false, upvotes:45,  downvotes:3,  replies:19, time:'1h',
+    title:'Festival film vs festival pemilu — mana yang lebih ramai?',
+    preview:'Perbandingan partisipasi di dua event yang hampir bersamaan di Surabaya bulan lalu. Data-datanya bikin mikir ulang soal prioritas warga kita.',
+    cat:'budaya', loc:'surabaya', fmt:'diskusi' },
+  { id:5, author:'Pram Faisal',    level:5, chapter:'Jakarta',     hot:true,  upvotes:189, downvotes:11, replies:54, time:'3h',
+    title:'Integrasi transportasi Jakarta: janji MRT vs kenyataan koneksi bus',
+    preview:'Sudah 5 tahun MRT beroperasi. Saya cek janji integrasi transportasi yang dulu digembar-gemborkan. Ini hasilnya — dengan data dan foto.',
+    cat:'transport', loc:'jakarta', fmt:'diskusi' },
+  { id:6, author:'Mei Chandra',    level:3, chapter:'Bandung Raya', hot:false, upvotes:78, downvotes:5,  replies:23, time:'5h',
+    title:'Curhat: kerja di startup yang ngomong work-life balance tapi WA jam 11 malam',
+    preview:'Sharing pengalaman sambil tanya, ini wajar atau memang toxic? Industri startup di Bandung lagi gimana ya?',
+    cat:'kerja', loc:'bandung', fmt:'pengalaman' },
+];
+
+// ── Categories (3-tier) ──
+const TOPIK_UTAMA = [
+  { id:'politik',   label:'Politik & Demokrasi'    },
+  { id:'lingkungan',label:'Lingkungan & Iklim'      },
+  { id:'gender',    label:'Gender & Kesetaraan'     },
+  { id:'mental',    label:'Mental Health'           },
+  { id:'kerja',     label:'Ekonomi & Kerja'         },
+  { id:'pendidikan',label:'Pendidikan'              },
+  { id:'budaya',    label:'Budaya Pop & Media'      },
+  { id:'transport', label:'Transportasi & Kota'     },
+];
+const LOKASI = [
+  { id:'jakarta', label:'Jakarta'      },
+  { id:'bandung', label:'Bandung Raya' },
+  { id:'malang',  label:'Malang Raya'  },
+  { id:'surabaya',label:'Surabaya'     },
+  { id:'jogja',   label:'Yogyakarta'   },
+  { id:'medan',   label:'Medan'        },
+  { id:'makassar',label:'Makassar'     },
+];
+const FORMAT = [
+  { id:'diskusi',     label:'Diskusi terbuka'   },
+  { id:'tanya',       label:'Tanya saja'        },
+  { id:'pengalaman',  label:'Berbagi pengalaman' },
+  { id:'polling',     label:'Polling cepat'     },
+  { id:'live',        label:'Live event'        },
+];
+
+// ── Chapter Regional ──
+const CHAPTERS = [
+  { name:'Jakarta',     members:342, event:'Diskusi APBD DKI · 3 Mei 2026',                active:true  },
+  { name:'Bandung Raya',members:218, event:'Nobar & Diskusi Film Dokumenter · 5 Mei 2026', active:true  },
+  { name:'Malang Raya', members:156, event:'Workshop Advokasi Lokal · 10 Mei 2026',         active:true  },
+  { name:'Surabaya',    members:0,   event:'Coming soon · Daftar antrean',                  active:false },
+  { name:'Yogyakarta',  members:0,   event:'Coming soon · Daftar antrean',                  active:false },
+  { name:'Medan',       members:0,   event:'Coming soon · Daftar antrean',                  active:false },
+  { name:'Makassar',    members:0,   event:'Coming soon · Daftar antrean',                  active:false },
+];
+
+// ── Sub-komunitas (BARU) ──
+const SUB_KOMUNITAS = [
+  { name:'Pemantau APBD',          desc:'Komunitas khusus warga yang serius pantau APBD daerahnya. Diskusi mingguan, sharing data, advokasi terkoordinasi.', anggota:127, mod:'Sari L.',    apply:'curated' },
+  { name:'Mahasiswa Jurnalisme',   desc:'Mahasiswa & alumni jurnalisme se-Indonesia. Sharing sumber, kritik tulisan, peluang kolaborasi liputan.',          anggota:243, mod:'Reza A.',    apply:'open'    },
+  { name:'Kreator Edukasi Politik',desc:'Konten kreator IG/TikTok/YouTube yang fokus edukasi politik untuk anak muda. Sharing template, brief, kurasi.',     anggota:89,  mod:'Mei C.',     apply:'curated' },
+  { name:'PRT & Perlindungan',     desc:'Komunitas advokasi pekerja rumah tangga & UU PPRT. Diskusi kebijakan, kasus konkret, kolaborasi dengan ILO.',       anggota:54,  mod:'Sari L.',    apply:'curated' },
+  { name:'Mental Health di Kerja', desc:'Curhat, sharing, dan advokasi soal kondisi mental health di tempat kerja Indonesia. Safe space, moderated heavily.', anggota:312, mod:'Nadira A.',  apply:'open'    },
+  { name:'Pemerhati Pemilu 2029',  desc:'Awalan untuk advokasi & pemantauan Pemilu 2029. Cocok yang sudah aktif di 2024 atau baru mau mulai.',               anggota:178, mod:'Erik K.',    apply:'curated' },
+];
+
+// ── Events ──
+const EVENTS = [
+  { title:'Diskusi Publik: RUU PPRT dan Masa Depan PRT Indonesia', date:'3 Mei 2026',   loc:'Jakarta + Online', type:'Hybrid'  },
+  { title:'Workshop: Nulis Opini yang Dibaca Orang Banyak',        date:'7 Mei 2026',   loc:'Bandung',          type:'Offline' },
+  { title:'Jubir Warga Live: Ngobrol Bareng Caleg Pilihan',        date:'10 Mei 2026',  loc:'Online',           type:'Online'  },
+];
+
+// ── Mitra ──
+const MITRA = ['SPD','KitaBisa','Komisi.co','Indorelawan','ceksuaramu.com','Yayasan Pulih','LBH Jakarta','Tempo Witness'];
+
+// ── Vote Arrow ──
+function VoteCol({ up, down }) {
+  const [vote, setVote] = useKomState(0); // -1 down, 0 none, 1 up
+  const score = up - down + vote;
+  return (
+    <div className="flex flex-col items-center gap-0.5 flex-shrink-0" style={{ width: 36 }}>
+      <button
+        onClick={() => setVote(vote === 1 ? 0 : 1)}
+        className="w-7 h-7 rounded-md flex items-center justify-center transition-all"
+        style={{
+          background: vote === 1 ? CK.coral + '22' : 'transparent',
+          color:      vote === 1 ? CK.coral : CK.ink + '77',
+        }}
+        aria-label="Upvote"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill={vote === 1 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="12 2 19 21 12 17 5 21 12 2" />
+        </svg>
+      </button>
+      <span className="font-mono text-xs font-bold" style={{ color: vote !== 0 ? CK.coral : CK.blue }}>{score}</span>
+      <button
+        onClick={() => setVote(vote === -1 ? 0 : -1)}
+        className="w-7 h-7 rounded-md flex items-center justify-center transition-all"
+        style={{
+          background: vote === -1 ? CK.blue + '22' : 'transparent',
+          color:      vote === -1 ? CK.blue_soft || CK.blue : CK.ink + '77',
+        }}
+        aria-label="Downvote"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill={vote === -1 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(180deg)' }}>
+          <polygon points="12 2 19 21 12 17 5 21 12 2" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
+function PageKomunitas({ onNavigate }) {
+  const [tab,         setTab]         = useKomState('forum');
+  const [filterCat,   setFilterCat]   = useKomState('semua');
+  const [filterLoc,   setFilterLoc]   = useKomState('semua');
+  const [filterFmt,   setFilterFmt]   = useKomState('semua');
+  const [sort,        setSort]        = useKomState('panas');
+  const [topikOpen,   setTopikOpen]   = useKomState(true);
+  const [lokasiOpen,  setLokasiOpen]  = useKomState(true);
+  const [fmtOpen,     setFmtOpen]     = useKomState(false);
+  const [newDiscOpen, setNewDiscOpen] = useKomState(false);
+  const [discTitle,   setDiscTitle]   = useKomState('');
+  const [discBody,    setDiscBody]    = useKomState('');
+
+  const TAB_ITEMS = [
+    {id:'forum',     label:'Forum'},
+    {id:'chapter',   label:'Chapter Regional'},
+    {id:'subkom',    label:'Sub-komunitas'},
+    {id:'event',     label:'Event'},
+    {id:'direktori', label:'Direktori Mitra'},
+  ];
+
+  const typeColor = { Hybrid:'marigold', Offline:'coral', Online:'mint' };
+
+  // Filter threads
+  const filteredThreads = THREADS.filter((t) =>
+    (filterCat === 'semua' || t.cat === filterCat) &&
+    (filterLoc === 'semua' || t.loc === filterLoc) &&
+    (filterFmt === 'semua' || t.fmt === filterFmt)
+  );
+
+  const Caret = ({ open }) => (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.15s' }}>
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="py-12 border-b" style={{ borderColor: CK.line }}>
+        <div className="max-w-6xl mx-auto px-6 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="font-display font-bold text-4xl md:text-5xl leading-tight" style={{ color: CK.blue }}>
+              Komunitas
+            </h1>
+            <p className="mt-3 text-lg max-w-xl" style={{ color: CK.ink + '88' }}>
+              Tempat warga ngumpul, ngobrol, berbagi cerita, dan saling belajar.
+            </p>
+          </div>
+          <KBtn variant="coral" size="lg" onClick={() => setNewDiscOpen(true)}>
+            + Mulai Diskusi Baru
+          </KBtn>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6">
+        <KTabs items={TAB_ITEMS} active={tab} onChange={setTab} />
+
+        {/* ── FORUM (REDESIGN) ── */}
+        {tab === 'forum' && (
+          <div className="py-8 flex flex-col md:flex-row gap-6 items-start">
+            {/* Left sidebar — 3-tier kategori */}
+            <aside className="hidden md:flex flex-col gap-1 w-56 flex-shrink-0">
+              {/* Semua */}
+              <button
+                onClick={() => { setFilterCat('semua'); setFilterLoc('semua'); setFilterFmt('semua'); }}
+                className="text-left px-3 py-2 rounded-lg text-sm font-bold transition-all mb-3"
+                style={{
+                  background: (filterCat==='semua' && filterLoc==='semua' && filterFmt==='semua') ? CK.blue : 'transparent',
+                  color:      (filterCat==='semua' && filterLoc==='semua' && filterFmt==='semua') ? CK.cream : CK.ink,
+                }}
+              >Semua thread</button>
+
+              {/* TOPIK UTAMA */}
+              <button
+                onClick={() => setTopikOpen(!topikOpen)}
+                className="flex items-center justify-between text-xs uppercase tracking-wider font-bold px-2 py-1.5 rounded"
+                style={{ color: CK.ink + '66' }}
+              >
+                <span>Topik Utama</span>
+                <Caret open={topikOpen} />
+              </button>
+              {topikOpen && (
+                <div className="ml-1 mb-3">
+                  {TOPIK_UTAMA.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setFilterCat(filterCat === t.id ? 'semua' : t.id)}
+                      className="block w-full text-left px-3 py-1.5 rounded-md text-sm transition-all"
+                      style={{
+                        background: filterCat === t.id ? CK.blue + '15' : 'transparent',
+                        color:      filterCat === t.id ? CK.blue : CK.ink + 'BB',
+                        fontWeight: filterCat === t.id ? 600 : 400,
+                      }}
+                    >{t.label}</button>
+                  ))}
+                </div>
+              )}
+
+              {/* LOKASI */}
+              <button
+                onClick={() => setLokasiOpen(!lokasiOpen)}
+                className="flex items-center justify-between text-xs uppercase tracking-wider font-bold px-2 py-1.5 rounded"
+                style={{ color: CK.ink + '66' }}
+              >
+                <span>Lokasi</span>
+                <Caret open={lokasiOpen} />
+              </button>
+              {lokasiOpen && (
+                <div className="ml-1 mb-3">
+                  {LOKASI.map(l => (
+                    <button
+                      key={l.id}
+                      onClick={() => setFilterLoc(filterLoc === l.id ? 'semua' : l.id)}
+                      className="block w-full text-left px-3 py-1.5 rounded-md text-sm transition-all"
+                      style={{
+                        background: filterLoc === l.id ? CK.coral + '15' : 'transparent',
+                        color:      filterLoc === l.id ? CK.coral : CK.ink + 'BB',
+                        fontWeight: filterLoc === l.id ? 600 : 400,
+                      }}
+                    >{l.label}</button>
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-karya.jsx ===
+// PAGE: KARYA — Creator Space
+
+const { useState: useKaryaState } = React;
+const CKR = window.C;
+const { Pill: KRPill, Button: KRBtn, UserAvatar: KRAvatar, NavTabs: KRTabs } = window;
+
+const KARYA_DATA = [
+  { type:'Tulisan',  author:'Reza Adipratama', chapter:'Jakarta',      time:'3j',  meta:'7 mnt',   featured:true,
+    title:'Lima Alasan Pemuda Masih Apatis terhadap Pemilu Lokal' },
+  { type:'Vlog',     author:'Mei Chandra',     chapter:'Bandung Raya', time:'1h',  meta:'12:34',   featured:true,
+    title:'Ngobrol sama Ibu PKL soal APBD — ternyata mereka lebih paham dari yang kita kira' },
+  { type:'Ilustrasi',author:'Pram Faisal',     chapter:'Surabaya',     time:'5j',  meta:'6 panel', featured:false,
+    title:'Kenapa Suara Kita Bisa Hilang — dalam 6 panel visual' },
+  { type:'Tulisan',  author:'Kanta Widodo',    chapter:'Malang Raya',  time:'2h',  meta:'12 mnt',  featured:false,
+    title:'Demokrasi Deliberatif: Teori yang Bisa Kita Coba di RT/RW' },
+  { type:'Podcast',  author:'Nadira Azzahra',  chapter:'Jakarta',      time:'1h',  meta:'45:22',   featured:false,
+    title:'Obrolan Pagi: Gerakan Pemuda & Pemilu 2029' },
+  { type:'Tulisan',  author:'Sari Lestari',    chapter:'Jakarta',      time:'6h',  meta:'15 mnt',  featured:false,
+    title:'Catatan dari Dapur RUU: Bagaimana Sebuah Pasal Bisa Berubah' },
+  { type:'Vlog',     author:'Bilal Sukarno',   chapter:'Jakarta',      time:'3h',  meta:'18:07',   featured:false,
+    title:'Satu Hari Jadi Pemantau Pemilu di TPS' },
+  { type:'Zine',     author:'Tim Jubir Warga', chapter:'Nasional',     time:'2h',  meta:'24 hal',  featured:false,
+    title:'Zine: "Warga Bersuara" — Koleksi Suara dari 3 Kota' },
+];
+
+const KREATOR = [
+  { name:'Bilal Sukarno',  chapter:'Jakarta',      karya:23, level:6 },
+  { name:'Erik Kurniawan', chapter:'Jakarta',      karya:31, level:7 },
+  { name:'Pram Faisal',    chapter:'Surabaya',     karya:12, level:4 },
+  { name:'Nadira Azzahra', chapter:'Jakarta',      karya:15, level:5 },
+  { name:'Mei Chandra',    chapter:'Bandung Raya', karya:8,  level:3 },
+];
+
+const TYPE_PILL = { Tulisan:'blue', Vlog:'coral', Ilustrasi:'mint', Podcast:'marigold', Zine:'grey' };
+const TYPE_ICON = { Tulisan:'📄', Vlog:'▶️', Ilustrasi:'🎨', Podcast:'🎙️', Zine:'📖' };
+const BG_HUES   = [210, 20, 160, 240, 280, 35, 185, 320];
+
+function PageKarya({ onNavigate }) {
+  const [tab, setTab] = useKaryaState('semua');
+
+  const TAB_ITEMS = [
+    {id:'semua',    label:'Semua'},
+    {id:'tulisan',  label:'Tulisan'},
+    {id:'vlog',     label:'Vlog'},
+    {id:'ilustrasi',label:'Ilustrasi'},
+    {id:'podcast',  label:'Podcast'},
+    {id:'zine',     label:'Zine'},
+  ];
+
+  const filtered = tab === 'semua'
+    ? KARYA_DATA
+    : KARYA_DATA.filter(k => k.type.toLowerCase() === tab);
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="py-12 border-b" style={{ borderColor: CKR.line }}>
+        <div className="max-w-6xl mx-auto px-6 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="font-display font-bold text-4xl md:text-5xl" style={{ color: CKR.blue }}>Karya</h1>
+            <p className="mt-3 text-lg max-w-xl" style={{ color: CKR.ink + '88' }}>
+              Panggung anak muda yang punya isi.
+            </p>
+          </div>
+          <KRBtn variant="coral" size="lg">📤 Upload Karya Kamu</KRBtn>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6">
+        <KRTabs items={TAB_ITEMS} active={tab} onChange={setTab} />
+
+        {/* Editor picks */}
+        <div className="py-6 border-b" style={{ borderColor: CKR.line }}>
+          <h3 className="font-display font-bold text-lg mb-4" style={{ color: CKR.blue }}>⭐ Pilihan Editor Minggu Ini</h3>
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+            {KARYA_DATA.slice(0, 5).map((k, i) => (
+              <div key={i}
+                className="flex-shrink-0 w-52 rounded-xl border overflow-hidden card-lift cursor-pointer"
+                style={{ borderColor: CKR.line }}>
+                <div
+                  className="h-28 flex flex-col items-center justify-center gap-1"
+                  style={{ background: `hsl(${BG_HUES[i]},22%,88%)` }}
+                >
+                  <span className="text-3xl">{TYPE_ICON[k.type]}</span>
+                </div>
+                <div className="p-3 bg-white">
+                  <KRPill color={TYPE_PILL[k.type]||'grey'} className="mb-1.5">{k.type}</KRPill>
+                  <p className="font-display font-semibold text-xs leading-snug clamp2" style={{ color: CKR.ink }}>{k.title}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Main content + sidebar */}
+        <div className="py-8 flex gap-6 items-start">
+
+          {/* Grid */}
+          <div className="flex-1 min-w-0">
+            <div className="grid md:grid-cols-2 gap-4">
+              {filtered.map((k, i) => (
+                <div key={i}
+                  className="rounded-2xl border card-lift cursor-pointer overflow-hidden"
+                  style={{ borderColor: CKR.line }}>
+                  {(k.type === 'Vlog' || k.type === 'Ilustrasi') && (
+                    <div
+                      className="h-40 flex items-center justify-center text-4xl"
+                      style={{ background: `hsl(${BG_HUES[i%8]},18%,87%)` }}
+                    >
+                      {TYPE_ICON[k.type]}
+                    </div>
+                  )}
+                  {k.type === 'Podcast' && (
+                    <div className="h-16 flex items-center gap-3 px-4"
+                      style={{ background: `hsl(${BG_HUES[i%8]},18%,93%)` }}>
+                      <span className="text-2xl">🎙️</span>
+                      {/* Waveform stylized */}
+                      <svg viewBox="0 0 120 24" width="100" height="20">
+                        {Array(30).fill(0).map((_, j) => {
+                          const h = 4 + Math.abs(Math.sin(j * 0.7 + i)) * 16;
+                          return <rect key={j} x={j*4} y={(24-h)/2} width="2.5" height={h} rx="1.2" fill={CKR.blue} opacity=".4"/>;
+                        })}
+                      </svg>
+                      <span className="text-xs font-mono" style={{ color: CKR.ink + '77' }}>{k.meta}</span>
+                    </div>
+                  )}
+                  <div className="p-4 bg-white">
+                    <div className="flex items-center gap-2 mb-2">
+                      <KRPill color={TYPE_PILL[k.type]||'grey'}>{k.type}</KRPill>
+                      {k.meta && k.type !== 'Podcast' && (
+                        <span className="text-xs" style={{ color: CKR.ink + '55' }}>
+                          {k.type === 'Vlog' ? '⏱ ' : '📖 '}{k.meta}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="font-display font-semibold text-base leading-snug mb-3 clamp2" style={{ color: CKR.ink }}>
+                      {k.title}
+                    </h4>
+                    <div className="flex items-center gap-2">
+                      <KRAvatar name={k.author} size="sm" showLevel={false} />
+                      <div>
+                        <span className="text-xs font-semibold" style={{ color: CKR.blue }}>{k.author}</span>
+                        <span className="text-xs ml-1" style={{ color: CKR.ink + '55' }}>· {k.chapter} · {k.time} lalu</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="hidden md:flex flex-col gap-4 w-56 flex-shrink-0">
+            <div className="rounded-2xl border p-4" style={{ borderColor: CKR.line, background: '#fff' }}>
+              <h4 className="font-semibold text-sm mb-3" style={{ color: CKR.blue }}>📈 Kreator lagi naik</h4>
+              {KREATOR.map((k, i) => (
+                <div key={i} className="flex items-center gap-2 py-2 border-b last:border-0" style={{ borderColor: CKR.line }}>
+                  <KRAvatar name={k.name} size="sm" level={k.level} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-semibold truncate" style={{ color: CKR.blue }}>{k.name.split(' ')[0]}</div>
+                    <div style={{ fontSize: 10, color: CKR.ink + '55' }}>{k.karya} karya</div>
+                  </div>
+                  <button
+                    className="text-xs px-2 py-0.5 rounded-full border"
+                    style={{ borderColor: CKR.blue, color: CKR.blue }}
+                  >Follow</button>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl border p-4" style={{ borderColor: CKR.line, background: '#fff' }}>
+              <h4 className="font-semibold text-sm mb-3" style={{ color: CKR.blue }}>🏷️ Topik populer</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {['Pemilu','Lingkungan','Gender','Transportasi','Ekonomi','Pendidikan','Mental Health','Lokal','Budaya'].map(t => (
+                  <KRPill key={t} color="blue">{t}</KRPill>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* Footer CTA */}
+        <div className="py-10 border-t text-center" style={{ borderColor: CKR.line }}>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <div>
+              <p className="font-display text-2xl font-bold" style={{ color: CKR.blue }}>
+                Kamu juga bisa naik panggung.
+              </p>
+              <p className="text-sm mt-1" style={{ color: CKR.ink + '77' }}>
+                Submit karyamu dan jangkau ribuan warga muda Indonesia.
+              </p>
+            </div>
+            <KRBtn variant="coral" size="lg">Submit Karya →</KRBtn>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { PageKarya });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-kelas.jsx ===
+// PAGE: KELAS — LMS
+
+const { useState: useKelasState } = React;
+const CKL = window.C;
+const { Pill: KLPill, Button: KLBtn, UserAvatar: KLAvatar, ProgressBar: KLProgress } = window;
+
+const KELAS_DATA = [
+  { title:'Youth Political Participation in the Digital Age',        mentor:'Erik Kurniawan',    dur:'4 minggu', level:'Pemula',   harga:'Rp 200.000', peserta:234 },
+  { title:'Politics and Popular Culture: Meme, Musik, dan Makna',   mentor:'Aqidatul Izza Zain',dur:'3 minggu', level:'Pemula',   harga:'Gratis',     peserta:567 },
+  { title:'Social Marketing & Fundraising untuk Gerakan Sosial',    mentor:'Bilal Sukarno',     dur:'5 minggu', level:'Menengah', harga:'Rp 250.000', peserta:189 },
+  { title:'Standup Comedy untuk Kritik Politik',                     mentor:'Putra Satria',      dur:'2 minggu', level:'Pemula',   harga:'Rp 150.000', peserta:312 },
+  { title:'Fan-based Movement & Volunteer Management',               mentor:'Nadira Azzahra',    dur:'4 minggu', level:'Menengah', harga:'Rp 200.000', peserta:145 },
+  { title:'Political Vlog Content Creation',                         mentor:'Mei Chandra',       dur:'3 minggu', level:'Pemula',   harga:'Rp 175.000', peserta:298 },
+];
+
+const MENTORS = [
+  { name:'Bilal Sukarno',     bio:'Co-founder Warga Muda, aktivis demokrasi anak muda' },
+  { name:'Erik Kurniawan',    bio:'Executive Director SPD, peneliti pemilu & demokrasi' },
+  { name:'Aqidatul Izza Zain',bio:'Political communication researcher & trainer' },
+  { name:'Putra Satria',      bio:'Komika sekaligus pemerhati kebijakan publik' },
+  { name:'Nadira Azzahra',    bio:'Community organizer & volunteer management expert' },
+  { name:'Mei Chandra',       bio:'Content creator & digital campaigner' },
+];
+
+const TESTIMONI = [
+  { name:'Aulia Pratiwi', kota:'Bandung',  level:'Aktivis Mula',
+    text:'Kelas ini bikin saya berani nulis opini pertama saya. Sekarang sudah ada 3 tulisan di platform!' },
+  { name:'Kanta Widodo',  kota:'Malang',   level:'Warga Aktif',
+    text:'Metodenya praktis banget. Minggu pertama langsung bisa dipake buat advokasi masalah parkir di kampung saya.' },
+  { name:'Reza Adipratama',kota:'Surabaya',level:'Jubir Warga',
+    text:'Mentornya oke, materinya relevan, komunitas alumni-nya masih aktif sampai sekarang.' },
+];
+
+const LEVEL_COLOR = { Pemula:'mint', Menengah:'marigold', Lanjut:'coral' };
+const BG_HUE      = [210,160,20,280,35,185];
+
+function PageKelas({ onNavigate }) {
+  const [silabusOpen, setSilabusOpen] = useKelasState(false);
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="py-12 border-b" style={{ borderColor: CKL.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h1 className="font-display font-bold text-4xl md:text-5xl" style={{ color: CKL.blue }}>Kelas</h1>
+          <p className="mt-3 text-lg max-w-xl" style={{ color: CKL.ink+'88' }}>
+            Belajar civic &amp; ekspresi yang nyata-nyata kepake.
+          </p>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* ── Featured class ── */}
+        <div className="py-8 border-b" style={{ borderColor: CKL.line }}>
+          <div className="rounded-3xl overflow-hidden" style={{ background: CKL.blue }}>
+            <div className="p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start">
+              <div className="flex-1">
+                <KLPill color="marigold" className="mb-4">⭐ KELAS UNGGULAN</KLPill>
+                <h2 className="font-display text-2xl md:text-3xl font-bold leading-snug mb-3" style={{ color: CKL.cream }}>
+                  Kelas Jubir Warga:<br /><em>dari Resah, ke Suara, ke Aksi</em>
+                </h2>
+                <p className="text-sm mb-6 leading-relaxed" style={{ color: CKL.cream+'88' }}>
+                  Program 6 minggu intensif untuk mengubah kepedulianmu jadi tindakan nyata.
+                  Dari menulis opini, membangun kampanye, sampai advokasi langsung ke pengambil kebijakan.
+                </p>
+                <div className="flex flex-wrap gap-x-5 gap-y-2 mb-6">
+                  {[['📅','6 minggu'],['📚','6 modul'],['🏅','Sertifikat'],['👤','6 mentor'],['💰','Rp 350.000']].map(([ic,tx],i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-sm" style={{ color: CKL.cream+'99' }}>
+                      <span>{ic}</span><span>{tx}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <KLBtn variant="coral" size="lg">Daftar Gelombang Berikutnya</KLBtn>
+                  <button
+                    onClick={() => setSilabusOpen(true)}
+                    className="btn-base px-5 py-3 rounded-xl text-sm font-semibold border"
+                    style={{ borderColor: CKL.cream+'55', color: CKL.cream }}
+                  >Lihat Silabus</button>
+                </div>
+                <p className="text-xs mt-3" style={{ color: CKL.cream+'44' }}>
+                  * Atau gratis dengan aplikasi beasiswa
+                </p>
+              </div>
+
+              {/* Illustration */}
+              <div
+                className="flex-shrink-0 w-44 rounded-2xl flex flex-col items-center justify-center gap-2"
+                style={{ background: CKL.cream+'14', border:`2px dashed ${CKL.cream}30`, aspectRatio:'4/3' }}
+              >
+                <span className="text-5xl">🎓</span>
+                <span className="font-mono text-xs" style={{ color: CKL.cream+'44' }}>ilustrasi kelas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Kelas lain ── */}
+        <div className="py-8 border-b" style={{ borderColor: CKL.line }}>
+          <h3 className="font-display text-xl font-bold mb-5" style={{ color: CKL.blue }}>Kelas Lainnya</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {KELAS_DATA.map((k, i) => (
+              <div key={i}
+                className="rounded-2xl border overflow-hidden card-lift cursor-pointer"
+                style={{ borderColor: CKL.line }}>
+                <div
+                  className="h-32 flex items-center justify-center text-4xl"
+                  style={{ background: `hsl(${BG_HUE[i]},18%,88%)` }}
+                >📖</div>
+                <div className="p-4 bg-white">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <KLPill color={LEVEL_COLOR[k.level]||'blue'}>{k.level}</KLPill>
+                    <span className="text-xs" style={{ color: CKL.ink+'55' }}>⏱ {k.dur}</span>
+                  </div>
+                  <h4 className="font-display font-semibold text-sm leading-snug mb-3 clamp2" style={{ color: CKL.ink }}>
+                    {k.title}
+                  </h4>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs" style={{ color: CKL.ink+'66' }}>👤 {k.mentor}</span>
+                    <span
+                      className="text-xs font-bold"
+                      style={{ color: k.harga==='Gratis' ? CKL.mint : CKL.blue }}
+                    >{k.harga}</span>
+                  </div>
+                  <p className="text-xs mt-1" style={{ color: CKL.ink+'50' }}>👥 {k.peserta} peserta</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Mentors ── */}
+        <div className="py-8 border-b" style={{ borderColor: CKL.line }}>
+          <h3 className="font-display text-xl font-bold mb-5" style={{ color: CKL.blue }}>Mentor di Jubir Warga</h3>
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+            {MENTORS.map((m, i) => (
+              <div key={i}
+                className="flex-shrink-0 w-44 text-center p-4 rounded-2xl border"
+                style={{ borderColor: CKL.line, background: '#fff' }}>
+                <KLAvatar name={m.name} size="lg" showLevel={false} className="mx-auto mb-3" />
+                <div className="font-semibold text-sm" style={{ color: CKL.blue }}>{m.name}</div>
+                <div className="text-xs mt-1 leading-snug" style={{ color: CKL.ink+'66' }}>{m.bio}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Testimoni ── */}
+        <div className="py-8">
+          <h3 className="font-display text-xl font-bold mb-5" style={{ color: CKL.blue }}>Alumni Bilang</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {TESTIMONI.map((t, i) => (
+              <div key={i}
+                className={`p-5 rounded-2xl border ${i===0?'sticky-a':i===1?'sticky-b':''}`}
+                style={{ borderColor: CKL.line, background:'#fff' }}>
+                <p className="text-sm italic leading-relaxed mb-4" style={{ color: CKL.ink+'88' }}>
+                  "{t.text}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <KLAvatar name={t.name} size="md" showLevel={false} />
+                  <div>
+                    <div className="text-sm font-semibold" style={{ color: CKL.blue }}>{t.name}</div>
+                    <div className="text-xs" style={{ color: CKL.ink+'55' }}>{t.kota} · {t.level}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Silabus modal */}
+      {silabusOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ background: CKL.blue+'88' }}
+            onClick={() => setSilabusOpen(false)} />
+          <div className="relative rounded-2xl shadow-2xl w-full max-w-md overflow-y-auto"
+            style={{ background: CKL.cream, maxHeight:'90vh' }}>
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="font-display text-xl font-bold" style={{ color: CKL.blue }}>Silabus Kelas Jubir Warga</h3>
+                <button onClick={() => setSilabusOpen(false)} className="w-8 h-8 rounded-full flex items-center justify-center text-xs"
+                  style={{ background: CKL.line }}>✕</button>
+              </div>
+              {['Modul 1: Dari Resah ke Isu — Cara Baca Masalah Sosial',
+                'Modul 2: Suara Kamu, Wajahmu — Personal Branding & Opini',
+                'Modul 3: Nulis untuk Menggerakkan — Jurnalisme Warga',
+                'Modul 4: Kampanye Digital dari Nol',
+                'Modul 5: Advokasi Langsung — Cara Ngomong ke Pembuat Kebijakan',
+                'Modul 6: Aksi Kolektif & Membangun Gerakan'].map((m, i) => (
+                <div key={i} className="flex items-start gap-3 py-3 border-b last:border-0" style={{ borderColor: CKL.line }}>
+                  <span className="font-mono font-bold text-sm w-6 flex-shrink-0" style={{ color: CKL.coral }}>
+                    {String(i+1).padStart(2,'0')}
+                  </span>
+                  <p className="text-sm" style={{ color: CKL.ink }}>{m}</p>
+                </div>
+              ))}
+              <KLBtn variant="coral" size="lg" className="w-full justify-center mt-5">
+                Daftar Sekarang →
+              </KLBtn>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { PageKelas });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-aksi.jsx ===
+// PAGE: AKSI — Polling, Candidate Watch, Petisi
+
+const { useState: useAksiState } = React;
+const CA = window.C;
+const { Pill: APill, Button: ABtn, UserAvatar: AAvatar, ProgressBar: AProgress } = window;
+
+const POLL_OPTIONS = [
+  { id:'a', label:'Transportasi publik & KRL',  emoji:'🚇' },
+  { id:'b', label:'Subsidi pangan & sembako',   emoji:'🛒' },
+  { id:'c', label:'Beasiswa pendidikan',         emoji:'📚' },
+];
+
+const JANJI = [
+  { nama:'Ridwan Suryadi',  jabatan:'Anggota DPR, Dapil DKI III',    janji:'Dorong revisi UU PPRT selesai sebelum akhir 2025',      status:'Berjalan'  },
+  { nama:'Anisa Putri',     jabatan:'Wali Kota Jakarta Utara',        janji:'Tambah 50 titik CCTV di kawasan padat hunian',           status:'Ditepati'  },
+  { nama:'Budi Santoso',    jabatan:'Anggota DPRD Bandung',           janji:'Audit transparan anggaran pembangunan jalan 2025',       status:'Belum'     },
+  { nama:'Sri Mulyati',     jabatan:'Gubernur Jawa Tengah',           janji:'Tingkatkan akses internet gratis di 100 sekolah negeri', status:'Berjalan'  },
+  { nama:'Hasan Basri',     jabatan:'Bupati Malang',                  janji:'Konsultasi publik sebelum naikkan tarif parkir',         status:'Diingkari' },
+];
+
+const STATUS_META = {
+  Ditepati:  { color:'mint',     emoji:'✅' },
+  Berjalan:  { color:'marigold', emoji:'🔄' },
+  Belum:     { color:'blue',     emoji:'⏳' },
+  Diingkari: { color:'coral',    emoji:'❌' },
+};
+
+const PETISI = [
+  { title:'Audit Transparan APBD Jakarta 2026',            target:20000, current:14230, icon:'📋' },
+  { title:'Kembalikan Jam KRL 04.00 WIB',                  target:10000, current:7340,  icon:'🚇' },
+  { title:'Akses Internet Gratis untuk Sekolah Negeri',    target:50000, current:31890, icon:'💻' },
+];
+
+const LAPORAN = [
+  { kategori: 'Jalan',   judul: 'Lubang besar di Jl. Tebet Barat dekat halte',                lokasi: 'Jakarta · Tebet',          waktu: '2j',  status: 'Diterima',       dukungan: 24  },
+  { kategori: 'Banjir',  judul: 'Banjir setiap hujan di Kel. Antapani',                       lokasi: 'Bandung · Antapani',       waktu: '5j',  status: 'Ditindaklanjuti', dukungan: 87  },
+  { kategori: 'Sampah',  judul: 'Sampah menumpuk dekat SDN 03 Sukun',                         lokasi: 'Malang · Sukun',           waktu: '1h',  status: 'Diterima',       dukungan: 12  },
+  { kategori: 'Listrik', judul: 'Lampu jalan mati 2 minggu di Tj. Duren',                     lokasi: 'Jakarta · Tj. Duren',      waktu: '2h',  status: 'Selesai',        dukungan: 45  },
+  { kategori: 'Layanan', judul: 'Pelayanan KTP lambat di Disdukcapil Surabaya Selatan',       lokasi: 'Surabaya',                 waktu: '1h',  status: 'Ditindaklanjuti', dukungan: 156 },
+  { kategori: 'Drainase',judul: 'Drainase mampet di Kel. Petisah Tengah',                     lokasi: 'Medan · Petisah',          waktu: '4h',  status: 'Diterima',       dukungan: 33  },
+];
+const STATUS_LAPORAN = {
+  Diterima:        { color: 'mint',     hex: '#7FB69E' },
+  Ditindaklanjuti: { color: 'marigold', hex: '#F2B137' },
+  Selesai:         { color: 'mint',     hex: '#2C7A5C' },
+  Ditolak:         { color: 'coral',    hex: '#C44434' },
+};
+
+const KAMPANYE = [
+  { title:'Gerakan 1000 Warga Pantau APBD', desc:'Bergabunglah memantau penggunaan anggaran daerahmu bersama komunitas.', participants:1243, icon:'🔍', featured:true  },
+  { title:'Literasi Digital Desa 2026',     desc:'Bantu warga desa pahami informasi dan cegah hoaks online.',            participants:456,  icon:'📱', featured:false },
+  { title:'Kawal Reforma Agraria',          desc:'Pantau distribusi lahan dan sengketa agraria di daerahmu.',            participants:789,  icon:'🌾', featured:false },
+];
+
+function PageAksi({ onNavigate }) {
+  const [pollVote,   setPollVote]   = useAksiState(null);
+  const [pollVotes,  setPollVotes]  = useAksiState({ a:412, b:287, c:831 });
+  const [signedPetisi, setSignedPetisi] = useAksiState({});
+
+  const totalVotes = Object.values(pollVotes).reduce((a,b) => a+b, 0);
+
+  const handleVote = (id) => {
+    if (pollVote) return;
+    setPollVote(id);
+    setPollVotes(prev => ({ ...prev, [id]: prev[id] + 1 }));
+  };
+
+  const handleSign = (idx) => {
+    setSignedPetisi(prev => ({ ...prev, [idx]: true }));
+  };
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="py-12 border-b" style={{ borderColor: CA.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <h1 className="font-display font-bold text-4xl md:text-5xl" style={{ color: CA.blue }}>Aksi</h1>
+          <p className="mt-3 text-lg" style={{ color: CA.ink+'88' }}>Bukan cuma ngomong — kita kerjain.</p>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6 py-8 space-y-12">
+
+        {/* ── POLLING ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CA.blue }}>📊 Polling Hari Ini</h3>
+          <div className="p-6 md:p-8 rounded-2xl border" style={{ borderColor: CA.coral+'44', background: CA.coral+'07' }}>
+            <p className="font-display text-lg md:text-xl font-semibold mb-1" style={{ color: CA.blue }}>
+              Kalau bisa pilih, kamu mau anggaran subsidi BBM dialihkan ke mana?
+            </p>
+            <p className="text-sm mb-5" style={{ color: CA.ink+'66' }}>
+              {pollVote ? `${totalVotes.toLocaleString('id')} warga sudah memilih` : 'Pilih untuk melihat hasil'}
+            </p>
+
+            <div className="space-y-3 mb-2">
+              {POLL_OPTIONS.map(opt => {
+                const pct    = Math.round((pollVotes[opt.id] / totalVotes) * 100);
+                const isVote = pollVote === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => handleVote(opt.id)}
+                    disabled={!!pollVote}
+                    className="w-full p-4 rounded-xl border text-left relative overflow-hidden transition-all"
+                    style={{
+                      borderColor:  isVote ? CA.coral : CA.line,
+                      background:   'white',
+                      cursor:       pollVote ? 'default' : 'pointer',
+                    }}
+                  >
+                    {/* Bar fill behind */}
+                    {pollVote && (
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-xl transition-all duration-700"
+                        style={{ width:`${pct}%`, background: isVote ? CA.coral+'22' : CA.blue+'0A' }}
+                      />
+                    )}
+                    <div className="relative flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl">{opt.emoji}</span>
+                        <span className="font-medium text-sm" style={{ color: CA.ink }}>{opt.label}</span>
+                        {isVote && <APill color="coral">Pilihanmu ✓</APill>}
+                      </div>
+                      {pollVote && (
+                        <span
+                          className="font-mono font-bold text-sm flex-shrink-0"
+                          style={{ color: isVote ? CA.coral : CA.ink+'66' }}
+                        >{pct}%</span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── CANDIDATE WATCH ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CA.blue }}>👁️ Candidate Watch</h3>
+          <div className="rounded-2xl border overflow-hidden" style={{ borderColor: CA.line }}>
+            {JANJI.map((j, i) => {
+              const sm = STATUS_META[j.status] || STATUS_META.Belum;
+              return (
+                <div key={i}
+                  className="flex items-start gap-4 p-4 border-b last:border-0 bg-white"
+                  style={{ borderColor: CA.line }}>
+                  <AAvatar name={j.nama} size="md" showLevel={false} />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-sm" style={{ color: CA.blue }}>{j.nama}</div>
+                    <div className="text-xs mb-1.5" style={{ color: CA.ink+'55' }}>{j.jabatan}</div>
+                    <p className="text-sm leading-snug" style={{ color: CA.ink+'88' }}>{j.janji}</p>
+                  </div>
+                  <APill color={sm.color} className="flex-shrink-0">{sm.emoji} {j.status}</APill>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── PETISI ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CA.blue }}>✍️ Petisi Aktif</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {PETISI.map((p, i) => {
+              const pct    = Math.round(p.current / p.target * 100);
+              const signed = signedPetisi[i];
+              return (
+                <div key={i} className="p-5 rounded-2xl border card-lift" style={{ borderColor: CA.line, background:'#fff' }}>
+                  <div className="text-3xl mb-3">{p.icon}</div>
+                  <h4 className="font-display font-semibold text-base leading-snug mb-4" style={{ color: CA.ink }}>
+                    {p.title}
+                  </h4>
+                  <AProgress percent={pct} colorKey="coral" className="mb-2" />
+                  <div className="flex justify-between text-xs mb-4" style={{ color: CA.ink+'55' }}>
+                    <span className="font-mono font-bold" style={{ color: CA.coral }}>
+                      {(p.current + (signed?1:0)).toLocaleString('id')}
+                    </span>
+                    <span>target {p.target.toLocaleString('id')}</span>
+                  </div>
+                  {signed
+                    ? <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: CA.mint }}>
+                        ✅ Sudah ditandatangani
+                      </div>
+                    : <ABtn variant="coral" size="sm" className="w-full justify-center" onClick={() => handleSign(i)}>
+                        ✍️ Tandatangani
+                      </ABtn>
+                  }
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── LAPOR WARGA ── */}
+        <div>
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <h3 className="font-display font-bold text-xl flex items-center gap-2" style={{ color: CA.blue }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              Lapor Warga
+            </h3>
+            <ABtn variant="coral" size="sm">+ Lapor Baru</ABtn>
+          </div>
+          <p className="text-sm mb-4" style={{ color: CA.ink + '99' }}>
+            Dari jalan rusak sampai banjir, dari sampah sampai pelayanan publik buruk — laporanmu ke-track ke pemerintah daerah. Mulai dari Jakarta, Bandung, Malang.
+          </p>
+          <div className="rounded-2xl border overflow-hidden" style={{ borderColor: CA.line }}>
+            {LAPORAN.map((l, i) => {
+              const sl = STATUS_LAPORAN[l.status] || STATUS_LAPORAN.Diterima;
+              return (
+                <div key={i}
+                  className="flex items-center gap-3 p-4 border-b last:border-0 bg-white"
+                  style={{ borderColor: CA.line }}>
+                  <span
+                    className="flex-shrink-0 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide"
+                    style={{ background: CA.blue + '11', color: CA.blue, border: `1px solid ${CA.blue}33` }}
+                  >{l.kategori}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm truncate" style={{ color: CA.ink }}>{l.judul}</p>
+                    <p className="text-xs mt-0.5" style={{ color: CA.ink + '66' }}>📍 {l.lokasi} · {l.waktu} lalu</p>
+                  </div>
+                  <span
+                    className="text-xs font-bold whitespace-nowrap px-2 py-1 rounded-full"
+                    style={{ color: sl.hex, background: sl.hex + '15', border: `1px solid ${sl.hex}55` }}
+                  >{l.status}</span>
+                  <button
+                    className="text-xs font-bold whitespace-nowrap px-2.5 py-1 rounded-full"
+                    style={{ color: CA.coral, border: `1.5px solid ${CA.coral}` }}
+                  >↑ {l.dukungan}</button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── KAMPANYE ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CA.blue }}>📣 Kampanye Kolektif</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {KAMPANYE.map((k, i) => (
+              <div key={i}
+                className="p-5 rounded-2xl border card-lift cursor-pointer"
+                style={{ borderColor: k.featured ? CA.blue : CA.line, background: k.featured ? CA.blue : '#fff' }}>
+                <div className="text-3xl mb-3">{k.icon}</div>
+                <h4 className="font-display font-semibold text-base leading-snug mb-2"
+                  style={{ color: k.featured ? CA.cream : CA.ink }}>{k.title}</h4>
+                <p className="text-sm mb-4" style={{ color: k.featured ? CA.cream+'80' : CA.ink+'77' }}>{k.desc}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs" style={{ color: k.featured ? CA.cream+'66' : CA.ink+'55' }}>
+                    👥 {k.participants.toLocaleString('id')} bergabung
+                  </span>
+                  <ABtn variant={k.featured ? 'coral' : 'outline'} size="sm">Ikut →</ABtn>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── ceksuaramu.com strip ── */}
+        <div className="p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+          style={{ borderColor: CA.line, background: CA.blue+'08' }}>
+          <div>
+            <p className="font-semibold text-sm" style={{ color: CA.blue }}>📊 Integrasi ceksuaramu.com</p>
+            <p className="text-xs mt-0.5" style={{ color: CA.ink+'66' }}>Data polling agregat warga Indonesia — lihat tren lebih luas</p>
+          </div>
+          <ABtn variant="outline" size="sm">Lihat data lebih dalam →</ABtn>
+        </div>
+
+        {/* ── Footer note ── */}
+        <div className="text-center py-4">
+          <p className="font-hand text-2xl" style={{ color: CA.coral }}>
+            Aksi di Jubir Warga selalu gratis. Selamanya.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { PageAksi });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-tagih.jsx ===
+// PAGE: TAGIH JANJI — Government promise tracker (5 provinsi MVP)
+
+const { useState: useTState } = React;
+const CT = window.C;
+const { Pill: TPill, Button: TBtn } = window;
+
+// ── Janji data (12 dummy realistis Indonesia 2026) ───────
+const JANJI = [
+  { id: 1, nama: 'Joko K.',         jab: 'Presiden RI',           level: 'Pusat',    topik: 'Ekonomi',         status: 'Berjalan',  janji: '"Kami akan turunkan harga BBM 30% dalam 100 hari pertama."',                  deadline: '31 Des 2026', pemantau: 1284 },
+  { id: 2, nama: 'Pramono A.',      jab: 'Gubernur DKI Jakarta', level: 'Provinsi', topik: 'Transportasi',   status: 'Berjalan',  janji: '"Tambah 50 km jalur sepeda baru sebelum akhir 2026."',                       deadline: '31 Des 2026', pemantau: 612 },
+  { id: 3, nama: 'Sri Mulyani',     jab: 'Menkeu RI',            level: 'Pusat',    topik: 'Ekonomi',         status: 'Mandek',    janji: '"Subsidi BBM dialihkan ke transportasi publik massal."',                      deadline: '30 Jun 2027', pemantau: 893 },
+  { id: 4, nama: 'Anies B.',        jab: 'Eks Gub. DKI',         level: 'Provinsi', topik: 'Lingkungan',     status: 'Mandek',    janji: '"Ruang terbuka hijau 30% di Jakarta dalam masa jabatan."',                   deadline: '31 Mar 2027', pemantau: 847 },
+  { id: 5, nama: 'Ridwan K.',       jab: 'Eks Gub. Jabar',       level: 'Provinsi', topik: 'Pendidikan',     status: 'Ditepati',  janji: '"Bangun 1.000 sekolah vokasi di Jawa Barat."',                                deadline: 'Selesai',     pemantau: 621 },
+  { id: 6, nama: 'Khofifah',        jab: 'Gubernur Jawa Timur',  level: 'Provinsi', topik: 'UMKM',           status: 'Berjalan',  janji: '"Akses kredit Rp10 juta untuk 100.000 UMKM Jatim."',                          deadline: '30 Jun 2027', pemantau: 412 },
+  { id: 7, nama: 'Bobby N.',        jab: 'Wali Kota Medan',      level: 'Kota',     topik: 'Sampah',         status: 'Diingkari', janji: '"Atasi sampah Medan dalam 1 tahun."',                                          deadline: '30 Apr 2026', pemantau: 298 },
+  { id: 8, nama: 'Danny P.',        jab: 'Wali Kota Makassar',   level: 'Kota',     topik: 'Banjir',         status: 'Belum',     janji: '"Bebas banjir di 5 titik kritis Makassar."',                                  deadline: '31 Des 2027', pemantau: 156 },
+  { id: 9, nama: 'Edy R.',          jab: 'Eks Gub. Sumut',       level: 'Provinsi', topik: 'Lingkungan',     status: 'Berjalan',  janji: '"Tanam 1 juta pohon di Sumut sebelum 2027."',                                 deadline: '31 Des 2026', pemantau: 178 },
+  { id: 10, nama: 'Andi Sudirman', jab: 'Gubernur Sulsel',      level: 'Provinsi', topik: 'Kesehatan',      status: 'Ditepati',  janji: '"Tambah 50 puskesmas di pesisir Sulsel."',                                    deadline: 'Selesai',     pemantau: 234 },
+  { id: 11, nama: 'Eri C.',         jab: 'Wali Kota Surabaya',   level: 'Kota',     topik: 'Banjir',         status: 'Mandek',    janji: '"Atasi banjir 10 titik kritis Surabaya 2026."',                                deadline: '31 Des 2026', pemantau: 567 },
+  { id: 12, nama: 'Sanusi',         jab: 'Bupati Malang',        level: 'Kota',     topik: 'Pelayanan',      status: 'Diingkari', janji: '"Konsultasi publik sebelum naikkan tarif parkir."',                          deadline: '15 Apr 2026', pemantau: 89 },
+];
+
+const STATUS_META = {
+  Ditepati:  { color: 'mint',     bgHex: '#7FB69E', textHex: '#2C7A5C', icon: '✓' },
+  Berjalan:  { color: 'marigold', bgHex: '#F2B137', textHex: '#9A6500', icon: '↻' },
+  Mandek:    { color: 'grey',     bgHex: '#8A9099', textHex: '#525860', icon: '⏸' },
+  Diingkari: { color: 'coral',    bgHex: '#E8632B', textHex: '#B84A1A', icon: '✕' },
+  Belum:     { color: 'blue',     bgHex: '#3B4A8A', textHex: '#1A2256', icon: '⌛' },
+};
+
+const PARTAI = [
+  { name: 'PDIP',     pct: 38, color: '#C44434' },
+  { name: 'Gerindra', pct: 32, color: '#1A2256' },
+  { name: 'Golkar',   pct: 28, color: '#F2B137' },
+  { name: 'NasDem',   pct: 24, color: '#7FB69E' },
+  { name: 'PKB',      pct: 18, color: '#3B4A8A' },
+  { name: 'PKS',      pct: 14, color: '#E8632B' },
+];
+
+// ── Hero illustration: orang muda + papan checklist + peta Indonesia ──
+function HeroTagihIllustration() {
+  return (
+    <svg viewBox="0 0 320 240" width="100%" style={{ maxWidth: 380 }}>
+      {/* peta Indonesia outline (faint, di belakang) */}
+      <g opacity="0.18" fill="#1A2256">
+        <ellipse cx="60" cy="140" rx="35" ry="10" />
+        <ellipse cx="115" cy="148" rx="28" ry="8" />
+        <ellipse cx="175" cy="155" rx="40" ry="10" />
+        <ellipse cx="230" cy="135" rx="22" ry="14" />
+        <ellipse cx="265" cy="160" rx="18" ry="20" />
+      </g>
+      {/* Papan checklist */}
+      <g transform="translate(180 50)">
+        <rect width="100" height="120" rx="6" fill="#FFFFFF" stroke="#1A2256" strokeWidth="2" />
+        <rect x="35" y="-6" width="30" height="10" rx="3" fill="#1A2256" />
+        {[0, 1, 2, 3].map((i) => {
+          const y = 18 + i * 22;
+          const checked = i < 2;
+          return (
+            <g key={i}>
+              <rect x="10" y={y} width="14" height="14" rx="3" fill={checked ? '#7FB69E' : 'none'} stroke="#1A2256" strokeWidth="1.5" />
+              {checked && <path d={`M13 ${y + 7} L17 ${y + 11} L21 ${y + 4}`} stroke="#FFFFFF" strokeWidth="2" fill="none" strokeLinecap="round" />}
+              <rect x="30" y={y + 4} width="55" height="3" rx="1" fill="#1A2256" opacity="0.6" />
+              <rect x="30" y={y + 9} width="40" height="3" rx="1" fill="#1A2256" opacity="0.3" />
+            </g>
+          );
+        })}
+      </g>
+      {/* Orang muda di depan */}
+      <g>
+        {/* head */}
+        <ellipse cx="80" cy="80" rx="20" ry="22" fill="#8B5A3C" />
+        {/* hair */}
+        <path d="M62 72 Q 80 58 98 72 Q 95 64 80 60 Q 65 64 62 72" fill="#1F1308" />
+        {/* body */}
+        <path d="M55 110 Q 55 100 65 100 L 95 100 Q 105 100 105 110 L 110 175 L 50 175 Z" fill="#3B4A8A" />
+        {/* batik pattern hint */}
+        <circle cx="80" cy="125" r="3" fill="#E8632B" opacity="0.7" />
+        <circle cx="70" cy="140" r="2" fill="#F2B137" opacity="0.7" />
+        <circle cx="90" cy="140" r="2" fill="#F2B137" opacity="0.7" />
+        {/* arm pointing at board */}
+        <path d="M105 110 L 145 100 Q 158 95 165 105 L 158 115 L 110 130 Z" fill="#3B4A8A" />
+        {/* hand */}
+        <ellipse cx="160" cy="106" rx="6" ry="5" fill="#8B5A3C" />
+      </g>
+    </svg>
+  );
+}
+
+// ── Peta Indonesia interaktif ──
+function PetaIndonesia({ onSelectProvince }) {
+  const provinces = [
+    { id: 'sumut',   name: 'Sumatera Utara', x: 70,  y: 130, ditepatiPct: 50, count: 4 },
+    { id: 'dki',     name: 'DKI Jakarta',     x: 165, y: 165, ditepatiPct: 40, count: 5 },
+    { id: 'jabar',   name: 'Jawa Barat',      x: 175, y: 170, ditepatiPct: 60, count: 5 },
+    { id: 'jatim',   name: 'Jawa Timur',      x: 200, y: 175, ditepatiPct: 35, count: 7 },
+    { id: 'sulsel',  name: 'Sulawesi Selatan',x: 270, y: 165, ditepatiPct: 55, count: 4 },
+  ];
+
+  function colorFor(pct) {
+    if (pct > 50) return '#7FB69E';
+    if (pct >= 25) return '#F2B137';
+    return '#E8632B';
+  }
+
+  return (
+    <div className="rounded-2xl border p-6" style={{ borderColor: CT.line, background: '#fff' }}>
+      <h4 className="font-display font-bold text-base mb-4" style={{ color: CT.blue }}>
+        Peta janji per provinsi (5 MVP)
+      </h4>
+      <svg viewBox="0 0 360 240" width="100%" style={{ maxHeight: 260 }}>
+        {/* Outline pulau Indonesia (simplified) */}
+        <g fill="#F0EBE0" stroke="#E6DECB" strokeWidth="1.5">
+          {/* Sumatera */}
+          <ellipse cx="60" cy="140" rx="40" ry="14" />
+          {/* Jawa */}
+          <ellipse cx="180" cy="175" rx="55" ry="9" />
+          {/* Kalimantan */}
+          <ellipse cx="225" cy="135" rx="32" ry="22" />
+          {/* Sulawesi */}
+          <ellipse cx="275" cy="155" rx="22" ry="28" />
+          {/* Papua */}
+          <ellipse cx="330" cy="155" rx="28" ry="18" />
+        </g>
+        {/* Highlighted provinces */}
+        {provinces.map((p) => (
+          <g key={p.id} style={{ cursor: 'pointer' }} onClick={() => onSelectProvince && onSelectProvince(p.id)}>
+            <circle cx={p.x} cy={p.y} r="14" fill={colorFor(p.ditepatiPct)} opacity="0.85" />
+            <circle cx={p.x} cy={p.y} r="14" fill="none" stroke="#1A2256" strokeWidth="1" opacity="0.5" />
+            <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
+              {p.count}
+            </text>
+            <text x={p.x} y={p.y + 26} textAnchor="middle" fontSize="9" fill="#1A2256" fontWeight="600">
+              {p.name.split(' ')[0]}
+            </text>
+          </g>
+        ))}
+      </svg>
+      <div className="flex items-center justify-center gap-4 mt-4 text-xs" style={{ color: CT.ink + 'AA' }}>
+        <span><span className="inline-block w-3 h-3 rounded-full mr-1" style={{ background: '#7FB69E' }}></span>&gt;50% ditepati</span>
+        <span><span className="inline-block w-3 h-3 rounded-full mr-1" style={{ background: '#F2B137' }}></span>25–50%</span>
+        <span><span className="inline-block w-3 h-3 rounded-full mr-1" style={{ background: '#E8632B' }}></span>&lt;25%</span>
+      </div>
+    </div>
+  );
+}
+
+// ── PageTagih ──────────────────────────────────────────────
+function PageTagih({ onNavigate }) {
+  const [filterLevel, setFilterLevel] = useTState('Semua');
+  const [filterStatus, setFilterStatus] = useTState('Semua');
+
+  const filtered = JANJI.filter((j) =>
+    (filterLevel === 'Semua' || j.level === filterLevel) &&
+    (filterStatus === 'Semua' || j.status === filterStatus)
+  );
+
+  const total = JANJI.length;
+  const counts = {
+    Ditepati:  JANJI.filter((j) => j.status === 'Ditepati').length,
+    Berjalan:  JANJI.filter((j) => j.status === 'Berjalan').length,
+    Mandek:    JANJI.filter((j) => j.status === 'Mandek').length,
+    Diingkari: JANJI.filter((j) => j.status === 'Diingkari').length,
+    Belum:     JANJI.filter((j) => j.status === 'Belum').length,
+  };
+  const pct = (n) => Math.round((n / total) * 100);
+
+  return (
+    <div>
+      {/* ── HERO ── */}
+      <section className="py-12 md:py-16 border-b" style={{ borderColor: CT.line }}>
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <span className="font-hand text-lg" style={{ color: CT.coral }}>Pilar</span>
+            <h1
+              className="font-display font-bold mt-1 leading-tight"
+              style={{ color: CT.blue, fontSize: 'clamp(36px,5vw,56px)' }}
+            >
+              Tagih Janji <em>Pemerintah.</em>
+            </h1>
+            <p className="mt-4 text-base md:text-lg max-w-md leading-relaxed" style={{ color: CT.ink + '99' }}>
+              Setiap janji yang diucapkan, kita catat. Yang ditepati, kita rayakan.
+              Yang diingkari, kita ingatkan.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <TBtn variant="coral" size="lg">Lihat semua janji</TBtn>
+              <TBtn variant="outline" size="lg">+ Submit janji baru</TBtn>
+            </div>
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <HeroTagihIllustration />
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS STRIP ── */}
+      <section className="py-10 border-b" style={{ borderColor: CT.line, background: CT.blue + '05' }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { big: total + '', lbl: 'janji terlacak', color: CT.blue },
+              { big: pct(counts.Ditepati) + '%', lbl: 'ditepati', color: CT.mint },
+              { big: pct(counts.Berjalan) + '%', lbl: 'sedang berjalan', color: CT.marigold },
+              { big: pct(counts.Mandek + counts.Diingkari) + '%', lbl: 'mandek / diingkari', color: CT.coral },
+            ].map((s, i) => (
+              <div key={i} className="p-5 rounded-2xl border bg-white" style={{ borderColor: CT.line }}>
+                <p className="font-mono font-bold text-3xl md:text-4xl" style={{ color: s.color }}>{s.big}</p>
+                <p className="text-xs mt-2" style={{ color: CT.ink + '99' }}>{s.lbl}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PETA INDONESIA ── */}
+      <section className="py-10 border-b" style={{ borderColor: CT.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <PetaIndonesia onSelectProvince={() => {}} />
+        </div>
+      </section>
+
+      {/* ── FILTER + LIST ── */}
+      <section className="py-10 border-b" style={{ borderColor: CT.line }}>
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Filter */}
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            <span className="text-xs font-bold uppercase tracking-wide mr-1" style={{ color: CT.ink + '99' }}>FILTER:</span>
+            {['Semua', 'Pusat', 'Provinsi', 'Kota'].map((lvl) => (
+              <button
+                key={lvl}
+                onClick={() => setFilterLevel(lvl)}
+                className="px-3 py-1.5 rounded-full text-xs font-medium border transition-all"
+                style={{
+                  borderColor: filterLevel === lvl ? CT.blue : CT.line,
+                  background:  filterLevel === lvl ? CT.blue : '#fff',
+                  color:        filterLevel === lvl ? CT.cream : CT.ink,
+                }}
+              >{lvl}</button>
+            ))}
+            <span className="mx-2 opacity-30">|</span>
+            {['Semua', 'Ditepati', 'Berjalan', 'Mandek', 'Diingkari', 'Belum'].map((st) => (
+              <button
+                key={st}
+                onClick={() => setFilterStatus(st)}
+                className="px-3 py-1.5 rounded-full text-xs font-medium border transition-all"
+                style={{
+                  borderColor: filterStatus === st ? CT.coral : CT.line,
+                  background:  filterStatus === st ? CT.coral + '15' : '#fff',
+                  color:        filterStatus === st ? CT.coral : CT.ink,
+                }}
+              >{st}</button>
+            ))}
+          </div>
+          {/* List */}
+          <div className="space-y-3">
+            {filtered.map((j) => {
+              const sm = STATUS_META[j.status] || STATUS_META.Belum;
+              return (
+                <div
+                  key={j.id}
+                  className="p-5 rounded-2xl border bg-white card-lift cursor-pointer flex items-start gap-4"
+                  style={{ borderColor: CT.line }}
+                >
+                  {/* Avatar circle */}
+                  <div
+                    className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-white"
+                    style={{ background: `hsl(${(j.id * 37) % 360},42%,40%)` }}
+                  >
+                    {j.nama.split(' ').map((w) => w[0]).join('').slice(0, 2)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="font-bold text-sm" style={{ color: CT.blue }}>{j.nama}</span>
+                      <span className="text-xs" style={{ color: CT.ink + '66' }}>· {j.jab}</span>
+                      <TPill color="blue">{j.level}</TPill>
+                      <TPill color="grey">{j.topik}</TPill>
+                    </div>
+                    <p
+                      className="font-display italic text-base md:text-lg leading-snug mt-2 mb-3"
+                      style={{ color: CT.ink }}
+                    >{j.janji}</p>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs" style={{ color: CT.ink + '77' }}>
+                      <span>📅 Tenggat: <strong style={{ color: CT.ink }}>{j.deadline}</strong></span>
+                      <span>👁 {j.pemantau} pemantau</span>
+                    </div>
+                  </div>
+                  {/* Status + detail */}
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                    <span
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold"
+                      style={{ background: sm.bgHex + '22', color: sm.textHex, border: `1.5px solid ${sm.bgHex}` }}
+                    >{sm.icon} {j.status}</span>
+                    <button className="text-xs font-semibold whitespace-nowrap" style={{ color: CT.coral }}>
+                      Detail →
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DASHBOARD PARTAI ── */}
+      <section className="py-12 border-b" style={{ borderColor: CT.line }}>
+        <div className="max-w-4xl mx-auto px-6">
+          <h3 className="font-display text-xl font-bold mb-2" style={{ color: CT.blue }}>
+            Track record partai politik
+          </h3>
+          <p className="text-sm mb-6" style={{ color: CT.ink + '99' }}>
+            % janji ditepati per partai, dari janji-janji yang sudah masuk database.
+            <em className="ml-1">Belum representatif keseluruhan.</em>
+          </p>
+          <div className="rounded-2xl border bg-white p-6" style={{ borderColor: CT.line }}>
+            {PARTAI.map((p, i) => (
+              <div key={i} className={`flex items-center gap-4 ${i < PARTAI.length - 1 ? 'mb-4 pb-4 border-b' : ''}`} style={{ borderColor: CT.line + '60' }}>
+                <span className="font-bold text-sm w-20" style={{ color: CT.blue }}>{p.name}</span>
+                <div className="flex-1 h-3 rounded-full overflow-hidden" style={{ background: CT.line }}>
+                  <div className="h-full rounded-full transition-all duration-700" style={{ width: `${p.pct}%`, background: p.color }}></div>
+                </div>
+                <span className="font-mono font-bold text-sm w-12 text-right" style={{ color: CT.ink }}>{p.pct}%</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs italic" style={{ color: CT.ink + '66' }}>
+            * Data dummy untuk preview. Versi live akan menggunakan data terverifikasi tim & komunitas.
+          </p>
+        </div>
+      </section>
+
+      {/* ── SUBMIT CTA ── */}
+      <section className="py-14" style={{ background: CT.cream }}>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <p className="font-hand text-2xl mb-3" style={{ color: CT.coral }}>Kamu juga bisa kontribusi</p>
+          <h3 className="font-display text-2xl md:text-3xl font-bold mb-3" style={{ color: CT.blue }}>
+            Catat janji yang kamu temui — bantu kita melengkapi data.
+          </h3>
+          <p className="text-sm md:text-base mb-6" style={{ color: CT.ink + '99' }}>
+            Submit janji caleg/pejabat yang belum ada di sini.
+            Tim kami verifikasi dalam 24–48 jam.
+          </p>
+          <TBtn variant="coral" size="lg">+ Submit janji baru →</TBtn>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+Object.assign(window, { PageTagih, PetaIndonesia });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-main.jsx ===
+// PAGE: MAIN — Games hub + Citizen Wordle
+
+const { useState: useMainState } = React;
+const CM = window.C;
+const { Pill: MPill, Button: MBtn, UserAvatar: MAvatar } = window;
+
+const GAMES = [
+  { id:'tebak',    title:'Tebak Pasal',        desc:'Cocokkan kutipan UU dengan pasalnya',    icon:'⚖️',  soon:true  },
+  { id:'janji',    title:'Janji vs Realita',    desc:'Drag & match janji politik',             icon:'🤝',  soon:true  },
+  { id:'tts',      title:'TTS Demokrasi',       desc:'Crossword 7×7 tema demokrasi',           icon:'✏️',  soon:true  },
+  { id:'pop',      title:'Pop or Politics?',    desc:'Judul lagu/film vs judul kebijakan',     icon:'🎬',  soon:true  },
+  { id:'quiz',     title:'Quiz Sejarah Pemilu', desc:'5 soal pilihan ganda sejarah pemilu',    icon:'📜',  soon:true  },
+  { id:'bingo',    title:'Bingo Komunitas',     desc:'Interactive bingo card',                 icon:'🎯',  soon:true  },
+  { id:'hoaks',    title:'Spot the Hoaks',      desc:'5 headline, mana yang hoaks?',           icon:'🔍',  soon:true  },
+];
+
+const LEADERBOARD = [
+  { name:'Sari Lestari',    chapter:'Jakarta',      score:2840, level:5 },
+  { name:'Bilal Sukarno',   chapter:'Jakarta',      score:2710, level:6 },
+  { name:'Kanta Widodo',    chapter:'Malang Raya',  score:2560, level:4 },
+  { name:'Nadira Azzahra',  chapter:'Jakarta',      score:2340, level:4 },
+  { name:'Reza Adipratama', chapter:'Surabaya',     score:2190, level:3 },
+  { name:'Aulia Pratiwi',   chapter:'Bandung Raya', score:1980, level:3 },
+  { name:'Pram Faisal',     chapter:'Surabaya',     score:1870, level:4 },
+  { name:'Mei Chandra',     chapter:'Bandung Raya', score:1720, level:3 },
+  { name:'Erik Kurniawan',  chapter:'Jakarta',      score:1640, level:7 },
+  { name:'Putra Satria',    chapter:'Jakarta',      score:1590, level:5 },
+];
+
+const BADGES = [
+  { name:'Warga Baru',     desc:'Bergabung',              icon:'🌱', on:true  },
+  { name:'Tebak 3 Hari',   desc:'3-day Wordle streak',    icon:'🔥', on:true  },
+  { name:'Aktivis Mula',   desc:'Tanda tangani 1 petisi', icon:'✍️', on:true  },
+  { name:'Penulis',        desc:'Submit 1 karya',         icon:'✏️', on:false },
+  { name:'Forum Star',     desc:'Thread 50+ balasan',     icon:'⭐', on:false },
+  { name:'Civic Scholar',  desc:'Selesaikan 1 kelas',     icon:'🎓', on:false },
+  { name:'Streak 7',       desc:'7 hari berturut',        icon:'🌟', on:false },
+  { name:'Voter',          desc:'Vote di 10 polling',     icon:'🗳️', on:false },
+  { name:'Penggerak',      desc:'Ajak 3 teman gabung',    icon:'🤝', on:false },
+  { name:'Jubir Sejati',   desc:'Lulus kelas Jubir Warga',icon:'🏆', on:false },
+  { name:'100 Aksi',       desc:'100 aksi selesai',       icon:'💯', on:false },
+  { name:'OG Warga',       desc:'Bergabung sejak 2024',   icon:'👑', on:false },
+];
+
+const RANK_ICONS = ['🥇','🥈','🥉'];
+
+function PageMain({ onNavigate }) {
+  const [streak] = useMainState(5);
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="py-10 border-b" style={{ borderColor: CM.line }}>
+        <div className="max-w-6xl mx-auto px-6 flex items-start justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="font-display font-bold text-4xl md:text-5xl" style={{ color: CM.blue }}>Main</h1>
+            <p className="mt-2 text-lg" style={{ color: CM.ink+'88' }}>Ringan, harian, tetap ada bobotnya.</p>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center gap-2">
+              <span className="text-3xl">🔥</span>
+              <span className="font-mono text-4xl font-bold" style={{ color: CM.coral }}>{streak}</span>
+            </div>
+            <p className="text-xs mt-1" style={{ color: CM.ink+'55' }}>hari berturut-turut</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6 py-8 space-y-12">
+
+        {/* ── Game of the Day — Wordle embedded ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CM.blue }}>🎮 Game Hari Ini</h3>
+          <div className="rounded-2xl overflow-hidden border" style={{ borderColor: CM.blue+'44' }}>
+            {/* Blue header strip */}
+            <div className="px-6 pt-5 pb-3 flex items-center justify-between" style={{ background: CM.blue }}>
+              <div>
+                <h4 className="font-display text-xl font-bold text-white">Citizen Wordle</h4>
+                <p className="text-sm mt-0.5" style={{ color: CM.cream+'77' }}>Kata civic 5 huruf · 6 percobaan</p>
+              </div>
+              <span
+                className="font-hand text-sm"
+                style={{ color: CM.cream+'44', transform:'rotate(1.5deg)', textAlign:'right' }}
+              >← coba dulu,<br />baru ngomong</span>
+            </div>
+            {/* Wordle game */}
+            <div style={{ background: CM.cream }}>
+              <CitizenWordle onOpenPage={onNavigate} compact={false} />
+            </div>
+          </div>
+        </div>
+
+        {/* ── Game Carousel ── */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-bold text-xl" style={{ color: CM.blue }}>🕹️ Game Lainnya</h3>
+            <MPill color="grey">Segera hadir</MPill>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {GAMES.map(g => (
+              <div key={g.id}
+                className="p-4 rounded-2xl border text-center"
+                style={{ borderColor: CM.line, background:'#fff', opacity:.6 }}>
+                <div className="text-3xl mb-2">{g.icon}</div>
+                <h4 className="font-semibold text-sm mb-1" style={{ color: CM.blue }}>{g.title}</h4>
+                <p className="text-xs mb-2" style={{ color: CM.ink+'66' }}>{g.desc}</p>
+                <MPill color="grey">Segera</MPill>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Leaderboard ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CM.blue }}>🏆 Leaderboard Minggu Ini</h3>
+          <div className="rounded-2xl border overflow-hidden" style={{ borderColor: CM.line }}>
+            {LEADERBOARD.map((p, i) => {
+              const isMe = p.name === 'Aulia Pratiwi';
+              return (
+                <div key={i}
+                  className="flex items-center gap-3 md:gap-4 px-4 py-3 border-b last:border-0"
+                  style={{ borderColor: CM.line, background: isMe ? CM.coral+'0F' : '#fff' }}>
+                  <span className="font-mono font-bold w-6 text-center text-sm flex-shrink-0"
+                    style={{ color: i < 3 ? [CM.marigold,'#ABABAB','#CD7F32'][i] : CM.ink+'44' }}>
+                    {i < 3 ? RANK_ICONS[i] : i+1}
+                  </span>
+                  <MAvatar name={p.name} size="sm" level={p.level} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-semibold" style={{ color: CM.blue }}>{p.name}</span>
+                      {isMe && <MPill color="coral">Kamu</MPill>}
+                    </div>
+                    <div className="text-xs" style={{ color: CM.ink+'55' }}>{p.chapter}</div>
+                  </div>
+                  <span className="font-mono font-bold text-sm flex-shrink-0" style={{ color: CM.ink }}>
+                    {p.score.toLocaleString('id')}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Badges ── */}
+        <div>
+          <h3 className="font-display font-bold text-xl mb-4" style={{ color: CM.blue }}>🏅 Koleksi Badge</h3>
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+            {BADGES.map((b, i) => (
+              <div key={i}
+                className="p-3 rounded-xl border text-center"
+                style={{
+                  borderColor: b.on ? CM.marigold+'66' : CM.line,
+                  background:   b.on ? '#fff'          : CM.line+'44',
+                  opacity:      b.on ? 1 : .5,
+                }}>
+                <div
+                  className={b.on ? 'badge-glow' : ''}
+                  style={{ fontSize: 28, marginBottom: 4, filter: b.on ? 'none' : 'grayscale(1)' }}
+                >{b.icon}</div>
+                <div className="font-semibold leading-tight" style={{ fontSize: 10, color: CM.blue }}>{b.name}</div>
+                <div className="leading-tight mt-0.5" style={{ fontSize: 9, color: CM.ink+'55' }}>{b.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { PageMain });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === page-profil.jsx ===
+// PAGE: PROFIL — Paspor Warga Digital (4-page flip)
+
+const { useState: useProfState } = React;
+const CP = window.C;
+const { Pill: PPill, Button: PBtn, UserAvatar: PAvatar, ProgressBar: PProgress, StatBlock: PStatBlock, NavTabs: PTabs } = window;
+
+// ── Paspor 4-page flip component ──
+function PasporFlip({ user, stamps, visa }) {
+  const [page, setPage] = useProfState(0); // 0 = cover, 1 = identitas, 2 = stempel, 3 = visa, 4 = riwayat
+
+  const pages = [
+    { id: 'cover',     label: 'Cover'     },
+    { id: 'identitas', label: 'Identitas' },
+    { id: 'stempel',   label: 'Stempel'   },
+    { id: 'visa',      label: 'Visa'      },
+  ];
+
+  return (
+    <div>
+      {/* Page tabs */}
+      <div className="flex gap-2 mb-3 justify-center">
+        {pages.map((p, i) => (
+          <button
+            key={p.id}
+            onClick={() => setPage(i)}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-all"
+            style={{
+              background: page === i ? CP.blue : 'transparent',
+              color:      page === i ? CP.cream : CP.ink + '99',
+              border: `1px solid ${page === i ? CP.blue : CP.line}`,
+            }}
+          >{p.label}</button>
+        ))}
+      </div>
+
+      {/* Paspor frame */}
+      <div
+        className="mx-auto rounded-2xl overflow-hidden relative"
+        style={{
+          maxWidth: 480,
+          aspectRatio: '5 / 7',
+          background: page === 0 ? CP.blue : CP.cream,
+          boxShadow: '0 12px 32px rgba(26,34,86,0.2)',
+          border: `2px solid ${page === 0 ? CP.blue : CP.line}`,
+          transition: 'all 0.4s ease',
+        }}
+      >
+        {/* COVER */}
+        {page === 0 && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+            <div className="text-xs uppercase tracking-[6px] font-bold mb-4" style={{ color: CP.coral }}>PASPOR WARGA</div>
+            <h2 className="font-display text-5xl font-bold italic" style={{ color: CP.cream }}>Jubir Warga</h2>
+            <svg viewBox="0 0 90 7" width="120" height="9" className="my-3">
+              <path d="M2,5 Q22,1 45,4 Q68,7 88,3" stroke={CP.coral} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            </svg>
+            {/* Crest */}
+            <div className="my-6">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="34" fill="none" stroke={CP.cream} strokeWidth="1.5" opacity="0.4" />
+                <circle cx="40" cy="40" r="26" fill="none" stroke={CP.cream} strokeWidth="1" opacity="0.3" />
+                <text x="40" y="48" textAnchor="middle" fontSize="32" fontFamily="serif" fontStyle="italic" fontWeight="700" fill={CP.cream}>JW</text>
+              </svg>
+            </div>
+            <p className="font-mono text-xs mt-4" style={{ color: CP.cream + '99' }}>JW-2026-0001</p>
+            <p className="font-display italic text-sm mt-2" style={{ color: CP.cream + '88' }}>Suara warga, rumahnya di sini.</p>
+          </div>
+        )}
+
+        {/* IDENTITAS */}
+        {page === 1 && (
+          <div className="absolute inset-0 flex flex-col items-center p-8">
+            <span className="text-xs uppercase tracking-wider font-bold mb-2" style={{ color: CP.coral }}>HAL. 1 — IDENTITAS</span>
+            <PAvatar name={user.name} size="xl" level={user.level} />
+            <h3 className="font-display text-2xl font-bold mt-3" style={{ color: CP.blue }}>{user.name}</h3>
+            <p className="text-sm italic mt-1" style={{ color: CP.ink + '88' }}>"{user.tagline}"</p>
+            <div className="mt-4 mb-4 px-3 py-1 rounded-full" style={{ background: CP.marigold + '33', color: CP.ink }}>
+              <span className="text-xs font-bold">Lv.{user.level} — {user.levelName}</span>
+            </div>
+            <div className="text-center text-xs" style={{ color: CP.ink + '77' }}>
+              <p>📍 {user.kota} · {user.chapter}</p>
+              <p>📅 Bergabung {user.joinDate}</p>
+            </div>
+            {/* QR */}
+            <div className="mt-auto rounded-xl p-2 border" style={{ borderColor: CP.line }}>
+              <svg width="60" height="60" viewBox="0 0 44 44">
+                <rect x="2"  y="2"  width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+                <rect x="5"  y="5"  width="8"  height="8"  rx="1" fill={CP.blue}/>
+                <rect x="28" y="2"  width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+                <rect x="31" y="5"  width="8"  height="8"  rx="1" fill={CP.blue}/>
+                <rect x="2"  y="28" width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+                <rect x="5"  y="31" width="8"  height="8"  rx="1" fill={CP.blue}/>
+                {[20,24,28,32,36].map(x => [20,24,28,32,36].map(y => {
+                  const v = (x * 7 + y * 11 + x * y) % 3 === 0;
+                  return v ? <rect key={`${x}-${y}`} x={x} y={y} width="3" height="3" rx="0.5" fill={CP.blue} opacity=".65"/> : null;
+                }))}
+              </svg>
+            </div>
+            <p className="text-[10px] font-mono mt-2" style={{ color: CP.ink + '55' }}>Scan untuk profil publik</p>
+          </div>
+        )}
+
+        {/* STEMPEL */}
+        {page === 2 && (
+          <div className="absolute inset-0 flex flex-col p-8">
+            <span className="text-xs uppercase tracking-wider font-bold mb-3" style={{ color: CP.coral }}>HAL. 2 — STEMPEL</span>
+            <p className="text-sm italic mb-4" style={{ color: CP.ink + '88' }}>Chapter & event yang sudah kamu kunjungi.</p>
+            <div className="grid grid-cols-2 gap-3 flex-1 content-start">
+              {stamps.map((s, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg p-3 text-center border-2"
+                  style={{
+                    borderColor: s.color,
+                    transform: `rotate(${(i * 7 - 5) % 11}deg)`,
+                    background: s.color + '10',
+                  }}
+                >
+                  <p className="font-bold text-xs uppercase tracking-wide" style={{ color: s.color }}>{s.title}</p>
+                  <p className="text-[10px] mt-1 font-mono" style={{ color: s.color + 'BB' }}>{s.date}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* VISA */}
+        {page === 3 && (
+          <div className="absolute inset-0 flex flex-col p-8">
+            <span className="text-xs uppercase tracking-wider font-bold mb-3" style={{ color: CP.coral }}>HAL. 3 — VISA PILAR</span>
+            <p className="text-sm italic mb-4" style={{ color: CP.ink + '88' }}>Pilar yang sudah kamu kuasai.</p>
+            <div className="grid grid-cols-2 gap-3 flex-1 content-start">
+              {visa.map((v, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg p-3 border-2 text-center"
+                  style={{
+                    borderColor: v.unlocked ? v.color : CP.line,
+                    opacity: v.unlocked ? 1 : 0.4,
+                    background: v.unlocked ? v.color + '10' : 'transparent',
+                  }}
+                >
+                  <div className="text-xl font-mono font-bold" style={{ color: v.unlocked ? v.color : CP.ink + '55' }}>Lv.{v.level}</div>
+                  <p className="font-bold text-xs mt-1" style={{ color: v.unlocked ? v.color : CP.ink + '55' }}>{v.title}</p>
+                  <p className="text-[9px] mt-1" style={{ color: CP.ink + '77' }}>{v.req}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { PasporFlip });
+
+const USER = {
+  name:      'Aulia Pratiwi',
+  tagline:   'Mahasiswi Bandung yang penasaran sama segala hal.',
+  kota:      'Bandung',
+  chapter:   'Bandung Raya',
+  level:     3,
+  levelName: 'Aktivis Mula',
+  joinDate:  'Oktober 2024',
+  stats: [
+    { label:'Hari\nStreak',      value:'5'  },
+    { label:'Kelas\nSelesai',    value:'2'  },
+    { label:'Karya\nDisubmit',   value:'3'  },
+    { label:'Vote\nPolling',     value:'12' },
+    { label:'Petisi\nDitanda',   value:'4'  },
+  ],
+};
+
+const MY_KARYA = [
+  { type:'Tulisan',   title:'Kenapa Saya Akhirnya Mau Datang ke TPS',                              time:'2 minggu lalu', views:234  },
+  { type:'Tulisan',   title:'Catatan dari Kelas Jubir Warga: 6 Minggu yang Mengubah Cara Pandang', time:'1 bulan lalu',  views:567  },
+  { type:'Ilustrasi', title:'Poster: Hak Pilihmu Bukan Hak Orang Lain',                            time:'2 bulan lalu',  views:890  },
+];
+
+const MY_KELAS = [
+  { title:'Kelas Jubir Warga: dari Resah ke Suara ke Aksi',   progress:100, status:'Selesai'  },
+  { title:'Social Marketing & Fundraising untuk Gerakan',      progress:65,  status:'Berjalan' },
+  { title:'Youth Political Participation in the Digital Age',  progress:30,  status:'Berjalan' },
+];
+
+const AKTIVITAS = [
+  { icon:'🗳️', desc:'Vote di polling "Alihkan Subsidi BBM ke transportasi publik"', time:'2 jam lalu'    },
+  { icon:'💬', desc:'Komentar di thread "RUU PPRT, kenapa mandek terus?"',           time:'5 jam lalu'    },
+  { icon:'✍️', desc:'Tanda tangan petisi "Kembalikan Jam KRL 04.00 WIB"',           time:'1 hari lalu'   },
+  { icon:'📚', desc:'Selesaikan modul 4 — Kelas Jubir Warga',                       time:'2 hari lalu'   },
+  { icon:'📝', desc:'Upload karya "Catatan dari Kelas Jubir Warga"',                time:'1 bulan lalu'  },
+  { icon:'🌱', desc:'Bergabung di Jubir Warga untuk pertama kalinya',               time:'Oktober 2024'  },
+];
+
+const MY_BADGES = [
+  { name:'Warga Baru',   icon:'🌱', on:true  },
+  { name:'Tebak 3 Hari', icon:'🔥', on:true  },
+  { name:'Aktivis Mula', icon:'✍️', on:true  },
+  { name:'Penulis',      icon:'✏️', on:false },
+  { name:'Forum Star',   icon:'⭐', on:false },
+  { name:'Scholar',      icon:'🎓', on:false },
+];
+
+const TAB_ITEMS = [
+  { id:'karya',     label:'Karya Saya'  },
+  { id:'kelas',     label:'Kelas Saya'  },
+  { id:'aktivitas', label:'Aktivitas'   },
+  { id:'badge',     label:'Badge'       },
+];
+
+const TYPE_PILL = { Tulisan:'blue', Ilustrasi:'mint', Vlog:'coral' };
+
+function PageProfil({ onNavigate }) {
+  const [tab, setTab] = useProfState('karya');
+
+  // Tiny QR-like SVG
+  const QR = () => (
+    <svg width="44" height="44" viewBox="0 0 44 44">
+      {/* position squares */}
+      <rect x="2"  y="2"  width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+      <rect x="5"  y="5"  width="8"  height="8"  rx="1" fill={CP.blue}/>
+      <rect x="28" y="2"  width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+      <rect x="31" y="5"  width="8"  height="8"  rx="1" fill={CP.blue}/>
+      <rect x="2"  y="28" width="14" height="14" rx="2" fill="none" stroke={CP.blue} strokeWidth="2"/>
+      <rect x="5"  y="31" width="8"  height="8"  rx="1" fill={CP.blue}/>
+      {/* data dots */}
+      {[20,24,28,32,36].map(x => [20,24,28,32,36].map(y => {
+        const v = (x * 7 + y * 11 + x * y) % 3 === 0;
+        return v ? <rect key={`${x}-${y}`} x={x} y={y} width="3" height="3" rx="0.5" fill={CP.blue} opacity=".65"/> : null;
+      }))}
+    </svg>
+  );
+
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-8 pb-24">
+
+      {/* ── PASPOR WARGA (4-page flip) ── */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <h2 className="font-display text-2xl font-bold" style={{ color: CP.blue }}>Paspor Warga Digital</h2>
+          <PBtn variant="outline" size="sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+            Bagikan paspor
+          </PBtn>
+        </div>
+        {window.PasporFlip && <window.PasporFlip
+          user={USER}
+          stamps={[
+            { title: 'Jakarta', date: '18 MAR 2026', color: CP.blue },
+            { title: 'Bandung Raya', date: '5 APR 2026', color: CP.coral },
+            { title: 'Lulus Kelas Jubir', date: '12 FEB 2026', color: CP.mint },
+            { title: 'Kampanye Literasi', date: '22 JAN 2026', color: CP.marigold },
+          ]}
+          visa={[
+            { title: 'Komunitas', level: 1, req: 'unlocked', color: CP.mint, unlocked: true },
+            { title: 'Karya', level: 2, req: '5 karya · ✓', color: CP.coral, unlocked: true },
+            { title: 'Aksi', level: 3, req: '10 aksi · ✓', color: CP.marigold, unlocked: true },
+            { title: 'Tagih Janji', level: 0, req: 'butuh 3 evidence', color: CP.blue, unlocked: false },
+          ]}
+        />}
+      </div>
+
+      {/* ── Stats ── */}
+      <div
+        className="flex flex-wrap gap-6 justify-around p-5 rounded-2xl border mb-8"
+        style={{ borderColor: CP.line, background: '#fff' }}
+      >
+        {USER.stats.map((s, i) => <PStatBlock key={i} label={s.label.replace('\n',' ')} value={s.value} />)}
+      </div>
+
+      {/* ── Tabs ── */}
+      <PTabs items={TAB_ITEMS} active={tab} onChange={setTab} className="mb-6" />
+
+      {/* ── Karya ── */}
+      {tab === 'karya' && (
+        <div className="space-y-3">
+          {MY_KARYA.map((k, i) => (
+            <div key={i}
+              className="flex items-center gap-4 p-4 rounded-2xl border bg-white"
+              style={{ borderColor: CP.line }}>
+              <PPill color={TYPE_PILL[k.type]||'blue'}>{k.type}</PPill>
+              <div className="flex-1 min-w-0">
+                <p className="font-display font-semibold text-sm clamp2" style={{ color: CP.ink }}>{k.title}</p>
+                <p className="text-xs mt-0.5" style={{ color: CP.ink+'55' }}>{k.time} · 👁 {k.views}</p>
+              </div>
+            </div>
+          ))}
+          <PBtn variant="coral" size="sm" className="mt-2">
+            + Upload Karya Baru
+          </PBtn>
+        </div>
+      )}
+
+      {/* ── Kelas ── */}
+      {tab === 'kelas' && (
+        <div className="space-y-3">
+          {MY_KELAS.map((k, i) => (
+            <div key={i} className="p-4 rounded-2xl border bg-white" style={{ borderColor: CP.line }}>
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <p className="font-display font-semibold text-sm" style={{ color: CP.ink }}>{k.title}</p>
+                <PPill color={k.status==='Selesai'?'mint':'marigold'}>{k.status}</PPill>
+              </div>
+              <PProgress
+                percent={k.progress}
+                colorKey={k.status==='Selesai'?'mint':'coral'}
+              />
+              <div className="flex justify-between items-center mt-1.5">
+                <span className="text-xs" style={{ color: CP.ink+'55' }}>{k.progress}%</span>
+                {k.status !== 'Selesai' && (
+                  <PBtn variant="ghost" size="sm" onClick={() => onNavigate('kelas')}>
+                    Lanjutkan →
+                  </PBtn>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Aktivitas ── */}
+      {tab === 'aktivitas' && (
+        <div className="relative">
+          {/* Timeline line */}
+          <div
+            className="absolute left-5 top-0 bottom-0 w-px"
+            style={{ background: CP.line }}
+          />
+          <div className="space-y-1">
+            {AKTIVITAS.map((a, i) => (
+              <div key={i} className="flex items-start gap-4 py-3 pl-2">
+                <div
+                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm z-10"
+                  style={{ background: CP.cream, border: `2px solid ${CP.line}` }}
+                >
+                  {a.icon}
+                </div>
+                <div className="flex-1 pt-0.5">
+                  <p className="text-sm leading-snug" style={{ color: CP.ink+'99' }}>{a.desc}</p>
+                  <p className="text-xs mt-0.5" style={{ color: CP.ink+'44' }}>{a.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Badge ── */}
+      {tab === 'badge' && (
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+          {MY_BADGES.map((b, i) => (
+            <div key={i}
+              className="p-3 rounded-xl border text-center"
+              style={{
+                borderColor: b.on ? CP.marigold+'66' : CP.line,
+                background:  b.on ? '#fff' : CP.line+'44',
+                opacity:     b.on ? 1 : .5,
+              }}>
+              <div
+                className={b.on ? 'badge-glow' : ''}
+                style={{ fontSize: 28, marginBottom: 4, filter: b.on ? 'none' : 'grayscale(1)' }}
+              >{b.icon}</div>
+              <div className="font-semibold" style={{ fontSize: 10, color: CP.blue }}>{b.name}</div>
+            </div>
+          ))}
+          <div
+            className="p-3 rounded-xl border text-center col-span-full text-sm mt-2"
+            style={{ borderColor: CP.line, color: CP.ink+'55' }}
+          >
+            Kumpulkan lebih banyak badge dengan berpartisipasi aktif di Jubir Warga.{' '}
+            <button style={{ color: CP.coral }} onClick={() => onNavigate('main')}>
+              Lihat semua badge →
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { PageProfil });
+
+</script>
+<script type="text/babel" data-presets="react" data-type="module">
+// === app.jsx ===
+// APP — Main router & shell
+
+const { useState: useAppState, useEffect: useAppEffect } = React;
+const CApp = window.C;
+
+// Pull in all page components + shared from window
+const {
+  Header, Footer, Onboarding,
+  PageBeranda, PageKomunitas, PageKarya, PageKelas, PageAksi, PageMain, PageProfil,
+  PageTagih, PageNala,
+} = window;
+
+function Toast({ message, onDone }) {
+  useAppEffect(() => {
+    const t = setTimeout(onDone, 3000);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div
+      className="fixed top-20 left-1/2 z-50 px-5 py-3 rounded-xl shadow-xl text-sm font-medium flex items-center gap-2"
+      style={{
+        background: CApp.blue,
+        color: CApp.cream,
+        transform: 'translateX(-50%)',
+        animation: 'none',
+      }}
+    >
+      🎉 {message}
+    </div>
+  );
+}
+
+function App() {
+  const [page,            setPage]           = useAppState('beranda');
+  const [showOnboarding,  setShowOnboarding]  = useAppState(false);
+  const [toast,           setToast]           = useAppState(null);
+
+  const navigate = (p) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const completeOnboarding = () => {
+    setShowOnboarding(false);
+    setToast('Selamat datang di Jubir Warga! KTP Wargamu sudah siap.');
+  };
+
+  const PAGES = {
+    beranda:   <PageBeranda   onNavigate={navigate} />,
+    komunitas: <PageKomunitas onNavigate={navigate} />,
+    karya:     <PageKarya     onNavigate={navigate} />,
+    kelas:     <PageKelas     onNavigate={navigate} />,
+    aksi:      <PageAksi      onNavigate={navigate} />,
+    tagih:     <PageTagih     onNavigate={navigate} />,
+    main:      <PageMain      onNavigate={navigate} />,
+    nala:      <PageNala      onNavigate={navigate} />,
+    profil:    <PageProfil    onNavigate={navigate} />,
+  };
+
+  return (
+    <div style={{ background: CApp.cream, minHeight: '100vh' }}>
+
+      {/* Onboarding overlay */}
+      {showOnboarding && (
+        <Onboarding
+          onComplete={completeOnboarding}
+          onNavigate={(p) => { completeOnboarding(); navigate(p); }}
+        />
+      )}
+
+      {/* Welcome toast */}
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+
+      {/* Header */}
+      <Header currentPage={page} onNavigate={navigate} />
+
+      {/* Page content */}
+      <main style={{ paddingBottom: 80 }}>
+        {PAGES[page] || PAGES.beranda}
+      </main>
+
+      {/* Footer */}
+      <Footer onNavigate={navigate} />
+
+      {/* Floating "baru di sini?" prompt — only on Beranda */}
+      {page === 'beranda' && !showOnboarding && (
+        <button
+          onClick={() => setShowOnboarding(true)}
+          className="fixed bottom-24 md:bottom-8 left-4 md:left-6 z-30 flex items-center gap-2 px-4 py-2.5 rounded-xl shadow-lg text-sm font-semibold transition-all hover:scale-105 active:scale-95"
+          style={{ background: CApp.blue, color: CApp.cream }}
+        >
+          👋 Baru di sini? Mulai onboarding
+        </button>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+</body>
+</html>

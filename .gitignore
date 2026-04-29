@@ -1,0 +1,39 @@
+# Build artifacts
+node_modules/
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Documents (terlalu besar untuk repo, ada di drive lain)
+*.docx
+*.pptx
+*.pdf
+
+# Pitch deck previews
+pitch-deck-preview/
+
+# Local scripts & deploys (jangan ke commit ke repo public)
+deploy/
+*.bat
+build_standalone.py
+generate_*.js
+
+# Secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Temp
+tmp/
+*.log

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Jubir Warga — Suara warga, rumahnya di sini.</title>
+  <meta name="description" content="Rumah online anak muda Indonesia 17–39 tahun: ngumpul, bersuara, berkarya, belajar." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Brand stylesheets (extracted dari inline) -->
+  <link rel="stylesheet" href="src/styles/tokens.css?v=1777453607" />
+  <link rel="stylesheet" href="src/styles/global.css?v=1777453607" />
+
+  <!-- Tailwind CDN + brand config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Mirror brand tokens — supaya Tailwind utility name pendek
+    // sinkron dengan CSS variable di src/styles/tokens.css.
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bb':       '#1A2256',
+            'bc':       '#FFFAEE',
+            'bbs':      '#3B4A8A',
+            'ig':       '#2A2D3A',
+            'ln':       '#E6DECB',
+            'coral':    '#E8632B',
+            'marigold': '#F2B137',
+            'mint':     '#7FB69E',
+          },
+          fontFamily: {
+            display: ['Vollkorn','serif'],
+            hand:    ['Caveat','cursive'],
+            mono:    ['Fira Code','monospace'],
+          },
+        },
+      },
+    };
+    // Mirror ke window untuk JS access
+    window.JW_TOKENS = {
+      blue:'#1A2256', cream:'#FFFAEE', blueSoft:'#3B4A8A', ink:'#2A2D3A',
+      line:'#E6DECB', coral:'#E8632B', marigold:'#F2B137', mint:'#7FB69E',
+    };
+  </script>
+
+  <!-- PWA manifest & meta -->
+  <link rel="manifest" href="/public/manifest.json" />
+  <meta name="theme-color" content="#1A2256" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Jubir Warga" />
+  <link rel="icon" type="image/png" sizes="32x32"  href="/public/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/public/icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/icons/apple-touch-icon-180.png" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="Jubir Warga — Suara warga, rumahnya di sini." />
+  <meta property="og:description" content="Rumah online anak muda Indonesia: ngumpul, bersuara, berkarya, belajar." />
+  <meta property="og:image" content="/public/icons/icon-512.png" />
+  <meta property="og:url" content="https://jubir.spdindonesia.org" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- React + Babel CDN (no SRI for file:// compatibility) -->
+  <!-- Lucide icons (load BEFORE React supaya tersedia di window saat component render) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- ── Foundation: lib utilities (load FIRST) ──────────────── -->
+  <script src="src/lib/store.js?v=1777453607"></script>
+  <script src="src/lib/format.js?v=1777453607"></script>
+  <script src="src/lib/nala-prompts.js?v=1777453607"></script>
+
+  <!-- ── Foundation: mock data (per-topic + index) ────────────── -->
+  <script src="src/data/users.js?v=1777453607"></script>
+  <script src="src/data/threads.js?v=1777453607"></script>
+  <script src="src/data/karya.js?v=1777453607"></script>
+  <script src="src/data/kelas.js?v=1777453607"></script>
+  <script src="src/data/janji.js?v=1777453607"></script>
+  <script src="src/data/aksi.js?v=1777453607"></script>
+  <script src="src/data/games.js?v=1777453607"></script>
+  <script src="src/data/seeds.js?v=1777453607"></script>
+
+  <!-- ── Components: shared UI ────────────────────────────────── -->
+    <script type="text/babel" src="src/components/icons/Icon.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/components/layout/main.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/main/TebakKata.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/auth/Onboarding.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/components/nala/nala-mascot-and-page.jsx?v=1777453607"></script>
+
+  <!-- ── Pages: 9 main + detail pages ─────────────────────────── -->
+  <script type="text/babel" src="src/pages/Beranda.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/komunitas/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/komunitas/ThreadDetail.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/karya/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/karya/ReadingView.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/kelas/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/kelas/LessonPlayer.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/aksi/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/aksi/PetisiDetail.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/tagih/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/tagih/JanjiDetail.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/main/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/profil/Index.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/profil/PasporPublic.jsx?v=1777453607"></script>
+
+  <!-- ── Detail pages baru ────────────────────────────────────── -->
+  <script type="text/babel" src="src/pages/kelas/KelasDetail.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/aksi/LaporDetail.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/aksi/LaporBaru.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/tagih/PejabatProfile.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/tagih/SubmitJanji.jsx?v=1777453607"></script>
+
+  <!-- ── Auth ─────────────────────────────────────────────────── -->
+  <script type="text/babel" src="src/pages/auth/Login.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/auth/Daftar.jsx?v=1777453607"></script>
+
+  <!-- ── Halaman statis ───────────────────────────────────────── -->
+  <script type="text/babel" src="src/pages/statis/Tentang.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/statis/Privasi.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/statis/Syarat.jsx?v=1777453607"></script>
+
+  <!-- ── Mini games baru ──────────────────────────────────────── -->
+  <script type="text/babel" src="src/pages/main/games/SpotHoaks.jsx?v=1777453607"></script>
+  <script type="text/babel" src="src/pages/main/games/TebakPasal.jsx?v=1777453607"></script>
+
+  <!-- ── App router (load LAST) ───────────────────────────────── -->
+  <script type="text/babel" src="src/App.jsx?v=1777453607"></script>
+
+  <!-- ── PWA registration ─────────────────────────────────────── -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/public/service-worker.js')
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

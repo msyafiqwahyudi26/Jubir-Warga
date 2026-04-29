@@ -1,0 +1,94 @@
+/* ─────────────────────────────────────────────────────────
+   Jubir Warga — Brand Design Tokens
+   Source of truth untuk semua brand variables.
+   Diakses dari Tailwind config (window.JW_TOKENS) + plain CSS.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  /* === Brand Colors ============================================ */
+  --jw-blue:        #1A2256;   /* primary brand: headline, CTA, footer */
+  --jw-cream:       #FFFAEE;   /* main background */
+  --jw-blue-soft:   #3B4A8A;   /* hover state untuk biru */
+  --jw-ink:         #2A2D3A;   /* body text */
+  --jw-line:        #E6DECB;   /* divider, border subtle */
+  --jw-coral:       #E8632B;   /* CTA secondary, accent, anotasi */
+  --jw-marigold:    #F2B137;   /* level badge, "berjalan" status */
+  --jw-mint:        #7FB69E;   /* "ditepati" status, success */
+
+  /* === Pill / Tag Color Variants =============================== */
+  --jw-pill-blue-bg:        #E8ECF7;
+  --jw-pill-blue-text:      #1A2256;
+  --jw-pill-blue-border:    #C4CCEB;
+
+  --jw-pill-coral-bg:       #FCE9E1;
+  --jw-pill-coral-text:     #B84A1A;
+  --jw-pill-coral-border:   #E8632B;
+
+  --jw-pill-marigold-bg:    #FEF3D9;
+  --jw-pill-marigold-text:  #9A6500;
+  --jw-pill-marigold-border:#F2B137;
+
+  --jw-pill-mint-bg:        #E1F2EC;
+  --jw-pill-mint-text:      #2C7A5C;
+  --jw-pill-mint-border:    #7FB69E;
+
+  --jw-pill-grey-bg:        #F0EDE8;
+  --jw-pill-grey-text:      #6B6860;
+  --jw-pill-grey-border:    #E6DECB;
+
+  /* === Typography ============================================== */
+  --jw-font-ui:       'Inter', system-ui, -apple-system, sans-serif;
+  --jw-font-display:  'Vollkorn', 'Times New Roman', serif;
+  --jw-font-hand:     'Caveat', cursive;
+  --jw-font-mono:     'Fira Code', 'SF Mono', monospace;
+
+  /* === Spacing scale (4px base) =============================== */
+  --jw-space-1:  4px;
+  --jw-space-2:  8px;
+  --jw-space-3:  12px;
+  --jw-space-4:  16px;
+  --jw-space-6:  24px;
+  --jw-space-8:  32px;
+  --jw-space-12: 48px;
+  --jw-space-16: 64px;
+
+  /* === Radius ================================================= */
+  --jw-radius-sm:  6px;
+  --jw-radius-md:  8px;
+  --jw-radius-lg:  12px;
+  --jw-radius-xl:  16px;
+  --jw-radius-full: 9999px;
+
+  /* === Shadows ================================================ */
+  --jw-shadow-sm:  0 2px 8px rgba(26,34,86,.06);
+  --jw-shadow-md:  0 6px 20px rgba(26,34,86,.08);
+  --jw-shadow-lg:  0 10px 28px rgba(26,34,86,.10);
+
+  /* === Transitions ============================================ */
+  --jw-ease:        cubic-bezier(0.22, 1, 0.36, 1);
+  --jw-dur-fast:    .12s;
+  --jw-dur-base:    .18s;
+  --jw-dur-slow:    .35s;
+
+  /* === Z-index layers ========================================= */
+  --jw-z-toast:     50;
+  --jw-z-modal:     40;
+  --jw-z-overlay:   30;
+  --jw-z-nav:       20;
+}
+
+/* ── Dark-mode placeholder (TODO Phase 2) ──────────────────────
+@media (prefers-color-scheme: dark) {
+  :root {
+    --jw-blue:   #C4CCEB;
+    --jw-cream:  #16162E;
+    --jw-ink:    #E8ECF7;
+    --jw-line:   #2A2D3A;
+  }
+}
+*/
+
+/* ── Mirror brand tokens ke window agar JS bisa baca ───────────
+   Pakai di JS: const TOKENS = window.JW_TOKENS;
+   (Diset oleh inline <script> di index.html setelah CSS load.)
+   ─────────────────────────────────────────────────────────── */

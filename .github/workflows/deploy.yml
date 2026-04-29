@@ -1,0 +1,43 @@
+# Auto-deploy ke VPS jubir.spdindonesia.org saat push ke main
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Bisa trigger manual dari GitHub Actions UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Add VPS to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 76.13.196.172 >> ~/.ssh/known_hosts
+          ssh-keyscan -H jubir.spdindonesia.org >> ~/.ssh/known_hosts || true
+
+      - name: Sync repo ke VPS via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='AUDIT_*.md' \
+            --exclude='PROGRESS_*.md' \
+            ./ root@76.13.196.172:/var/www/jubirwarga/
+
+      - name: Reload nginx
+        run: |
+          ssh root@76.13.196.172 'nginx -t && systemctl reload nginx'
+
+      - name: Notify success
+        if: success()
+        run: echo "✅ Deploy ke jubir.spdindonesia.org berhasil"
