@@ -209,8 +209,10 @@ function PageBeranda({ onNavigate }) {
                 </svg>
                 Aksi Minggu Ini
               </h3>
-              <button onClick={() => onNavigate('aksi')}
-                className="w-full text-left p-4 rounded-xl border card-lift mb-3"
+              <div role="button" tabIndex={0}
+                onClick={() => onNavigate('aksi')}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onNavigate('aksi')}
+                className="w-full text-left p-4 rounded-xl border card-lift mb-3 cursor-pointer"
                 style={{ borderColor: CB.coral + '55', background: CB.coral + '08' }}
               >
                 <BPill color="coral" className="mb-2">POLLING</BPill>
@@ -220,16 +222,18 @@ function PageBeranda({ onNavigate }) {
                 <BBtn variant="coral" size="sm" onClick={e => { e.stopPropagation(); onNavigate('aksi'); }}>
                   Vote sekarang →
                 </BBtn>
-              </button>
-              <button onClick={() => onNavigate('aksi')}
-                className="w-full text-left p-4 rounded-xl border card-lift"
+              </div>
+              <div role="button" tabIndex={0}
+                onClick={() => onNavigate('aksi')}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onNavigate('aksi')}
+                className="w-full text-left p-4 rounded-xl border card-lift cursor-pointer"
                 style={{ borderColor: CB.line, background: '#fff' }}
               >
                 <BPill color="mint" className="mb-2">PETISI</BPill>
                 <p className="text-sm font-semibold mb-2" style={{ color: CB.ink }}>Kembalikan jam KRL 04.00 WIB</p>
                 <BProgress percent={73} colorKey="mint" />
                 <p className="text-xs mt-1" style={{ color: CB.ink + '55' }}>7.300 / 10.000 tanda tangan</p>
-              </button>
+              </div>
             </div>
           </div>
         </div>

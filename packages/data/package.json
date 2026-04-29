@@ -1,0 +1,29 @@
+{
+  "name": "@jubirwarga/data",
+  "version": "0.1.0",
+  "description": "Type-safe data layer untuk Jubir Warga — Supabase client + queries + hooks",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".":          "./src/index.ts",
+    "./client":   "./src/client.ts",
+    "./types":    "./src/types.ts",
+    "./queries":  "./src/queries.ts",
+    "./hooks":    "./src/hooks.ts",
+    "./schemas":  "./src/schemas.ts",
+    "./mock":     "./src/mock.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "generate-types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/database.types.ts"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "@tanstack/react-query": "^5.50.0",
+    "react": "^18 || ^19",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
