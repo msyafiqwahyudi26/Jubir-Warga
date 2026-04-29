@@ -1,9 +1,15 @@
 # Auto-deploy ke VPS jubir.spdindonesia.org saat push ke main
-name: Deploy to VPS
+# Phase 1: deploys apps/legacy/ ke jubir.spdindonesia.org (vanilla site)
+# Phase 2 (Next.js) akan punya workflow terpisah ke domain berbeda
+name: Deploy Legacy to VPS
 
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'apps/legacy/**'
+      - '.github/workflows/deploy.yml'
+      - 'deploy/nginx-jubirwarga.conf'
   workflow_dispatch:  # Bisa trigger manual dari GitHub Actions UI
 
 jobs:
@@ -24,15 +30,11 @@ jobs:
           ssh-keyscan -H 76.13.196.172 >> ~/.ssh/known_hosts
           ssh-keyscan -H jubir.spdindonesia.org >> ~/.ssh/known_hosts || true
 
-      - name: Sync repo ke VPS via rsync
+      - name: Sync apps/legacy/ ke VPS
         run: |
           rsync -avz --delete \
-            --exclude='.git' \
-            --exclude='.github' \
             --exclude='node_modules' \
-            --exclude='AUDIT_*.md' \
-            --exclude='PROGRESS_*.md' \
-            ./ root@76.13.196.172:/var/www/jubirwarga/
+            apps/legacy/ root@76.13.196.172:/var/www/jubirwarga/
 
       - name: Reload nginx
         run: |
@@ -40,4 +42,4 @@ jobs:
 
       - name: Notify success
         if: success()
-        run: echo "✅ Deploy ke jubir.spdindonesia.org berhasil"
+        run: echo "✅ Phase 1 (legacy) ke jubir.spdindonesia.org berhasil"

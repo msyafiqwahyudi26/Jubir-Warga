@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk -F= '{print $1, \"\\(value_len=\" length\\($2\\) \"\\)\"}' .env.local)",
+      "Bash(awk -F= '{print $1, \"\\(value_len=\" length\\($2\\) \"\\)\"}' apps/web/.env.local)",
+      "Bash(pnpm install *)",
+      "Bash(grep -iE \"^tsx$\")",
+      "Bash(node_modules/.bin/tsx --tsconfig=apps/web/tsconfig.json --no-cache -e \"void 0\")",
+      "Bash(node_modules/.bin/tsx --version)",
+      "Bash(node_modules/.bin/tsc --noEmit --target es2022 --module nodenext --moduleResolution nodenext --strict --skipLibCheck --esModuleInterop --resolveJsonModule scripts/lib/faker-id.ts scripts/lib/distributions.ts scripts/lib/content-templates.ts scripts/generate-demo-seed.ts scripts/cleanup-demo-seed.ts)",
+      "Bash(pnpm tsx *)",
+      "Bash(curl -sf -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/api/healthcheck)",
+      "Bash(curl -s http://localhost:3000 -o /tmp/jw-home.html)",
+      "Read(//tmp/**)",
+      "Bash(grep -oE '<article[^>]*>\\(.{0,500}\\)' /tmp/jw-home.html)",
+      "Bash(grep -oE '\"[^\"]{20,100}\\\\?\"|class=\"[^\"]*line-clamp[^\"]*\"[^>]*>[^<]{15,150}' /tmp/jw-home.html)",
+      "Bash(node_modules/.bin/tsc --noEmit --target es2022 --module nodenext --moduleResolution nodenext --strict --skipLibCheck --esModuleInterop --resolveJsonModule scripts/lib/faker-id.ts scripts/lib/distributions.ts scripts/lib/content-templates.ts scripts/generate-demo-seed.ts scripts/cleanup-demo-seed.ts scripts/refresh-demo-bodies.ts scripts/verify-demo-seed.ts)",
+      "Bash(node_modules/.bin/tsx -e ' *)"
+    ]
+  }
+}

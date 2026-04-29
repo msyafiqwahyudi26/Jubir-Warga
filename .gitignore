@@ -1,34 +1,18 @@
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Backup & temp files
-*.bak
-*.tmp
-*.orig
-
-# Internal docs (not for public repo)
-AUDIT_*.md
-PROGRESS_*.md
-SYSTEM_AUDIT_*.md
-
-# Build output
-dist/
-build/
-.next/
-out/
-
 # Dependencies
 node_modules/
 .pnpm-store/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
 
 # Logs
 *.log
@@ -36,14 +20,21 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
-# Env / secrets
-.env
-.env.local
-.env.*.local
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
 
-# OS-specific
-$RECYCLE.BIN/
+# OS
+Thumbs.db
+
+# Internal/temp
 *.bak
 *.tmp
 AUDIT_*.md
 PROGRESS_*.md
+.turbo/
+
+# Sandbox artifact
+inject_migration.js

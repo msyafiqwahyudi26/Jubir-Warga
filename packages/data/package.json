@@ -1,5 +1,5 @@
 {
-  "name": "@jubirwarga/data",
+  "name": "@jw/data",
   "version": "0.1.0",
   "description": "Type-safe data layer untuk Jubir Warga — Supabase client + queries + hooks",
   "type": "module",

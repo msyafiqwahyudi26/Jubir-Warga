@@ -1,0 +1,27 @@
+{
+  "name": "jubir-warga",
+  "version": "0.2.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @jw/web dev",
+    "build": "pnpm --filter @jw/web build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "data:typegen": "pnpm --filter @jw/data typegen",
+    "seed:demo": "tsx scripts/generate-demo-seed.ts",
+    "seed:demo:cleanup": "tsx scripts/cleanup-demo-seed.ts",
+    "seed:demo:refresh-bodies": "tsx scripts/refresh-demo-bodies.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "@supabase/supabase-js": "^2.46.1",
+    "@types/node": "^22.9.0",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
+    "typescript": "5.6.3"
+  }
+}
