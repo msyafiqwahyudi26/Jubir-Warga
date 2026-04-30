@@ -90,11 +90,15 @@ jubir-warga/
 
 ## 4. Brand voice (CRITICAL — pelanggaran = revisi paksa)
 
-### 4.1 Naming AI
+### 4.1 Naming brand & AI
 
-**Mascot dan AI bernama "Nala"** — beo claymorphism dengan 5 ekspresi (curious, excited, mentor, thinking, confident). Bukan "Jubir" walaupun design doc lama menyebut "Jubir". Decision Mas (owner): pertahankan nama Nala karena implementasi Phase 1 sudah established dengan karakter visual yang berkembang.
+**Brand utama: "Jubir Warga"** — DIPISAH (dua kata), tidak pernah "Jubirwarga" walaupun pitch deck lama menyebut digabung. Decision Mas (owner): standardize "Jubir Warga" konsisten di semua dokumen, copy, branding.
 
-Component path: `apps/web/src/components/nala/*` (akan di-port di Spec #4).
+**Sub-brand untuk segmen 12-18 (SMP/SMA): "Warga Muda"** — bukan "Jubir Warga Muda" yang terlalu panjang. Akses lewat program Muda Berdampak (offline camp + workshop sekolah). Section di app khusus alumni Warga Muda akan di-spec di Sprint 4+.
+
+**Mascot dan AI bernama "Nala"** — beo claymorphism dengan 5 ekspresi (curious, excited, mentor, thinking, confident). Bukan "Jubir" walaupun design doc lama menyebut "Jubir". Decision Mas (owner): pertahankan nama Nala karena implementasi Phase 1 sudah established dengan karakter visual yang berkembang. Origin story: beo = simbol bahwa **suara itu penting**, dan Nala bantu warga bersuara.
+
+Component path: `apps/web/src/components/nala/*`.
 
 ### 4.2 Vocabulary — yang HARUS
 
@@ -186,16 +190,31 @@ BATASAN:
 - **Caveat** (400, 600, 700) — anotasi tangan kecil, tagline informal. **TIDAK untuk logo**
 - **Fira Code** (400, 500) — angka, data, statistik
 
-### 5.3 Logo (bukan font Caveat)
+### 5.3 Logo (hand-drawn feel, BUKAN font Caveat)
 
-Logo wordmark "Jubir Warga" wajib **inline SVG hand-drawn**:
+Logo wordmark "Jubir Warga" wajib hand-drawn feel:
 - Huruf bulat (rounded), seperti tulisan spidol
 - Sedikit irregular — tidak presisi seperti font geometrik
 - Warna `--color-jw-blue`
 - Underline squiggly coral di bawah wordmark
 - Total ukuran header 28–32px tinggi
 
-Source SVG existing: `apps/legacy/src/components/layout/main.jsx` (komponen Header). Port ke `apps/web/src/components/jw-logo.tsx` di Spec #4.
+**Implementasi yang diizinkan:**
+
+| Tier | Approach | Status |
+|---|---|---|
+| Goal jangka panjang | Custom hand-crafted SVG `<path>` letterforms by professional designer | TBD post-funding (Sprint 5+) |
+| Acceptable interim | Font hand-drawn yang BUKAN Caveat — Patrick Hand, Reenie Beanie, atau Kalam (Google Fonts) | ✅ Sekarang |
+| TIDAK acceptable | Font Caveat (sudah dipakai untuk anotasi, akan jadi confusing kalau dipakai juga untuk logo) | ❌ Hindari |
+| TIDAK acceptable | Font geometrik (Inter, Roboto, Vollkorn-non-italic, dll) | ❌ Hindari |
+
+Komponen `apps/web/src/components/jw-logo.tsx` wajib include comment:
+```ts
+// TODO(post-funding): replace with custom hand-crafted SVG letterforms by
+// professional designer. Patrick Hand (or similar) is interim implementation.
+```
+
+Source reference: `apps/legacy/src/components/layout/main.jsx` (Phase 1 pakai font-hand Caveat — itu pre-CLAUDE.md decision yang akan di-superseded saat port ke Phase 2).
 
 ### 5.4 Iconography
 

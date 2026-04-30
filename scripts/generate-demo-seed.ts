@@ -22,7 +22,7 @@ import {
 } from './lib/distributions';
 import {
   THREAD_TEMPLATES, KOTA_LIST, KARYA_TITLES, LAPORAN_BANK, INDONESIAN_FILLER,
-  buildThreadBody, buildReplyBody, pickReplyKind,
+  buildThreadBody, buildThreadTitle, buildReplyBody, pickReplyKind,
   buildKaryaBody, pickKaryaType, buildKaryaMeta, fillPlaceholders,
   chapterToKota,
   type LaporanCategory, type KaryaType,
@@ -197,8 +197,7 @@ function pickThreadFormat(): string {
 function buildThreadRow(authorId: string, chapterId: string) {
   const tpl = pickRandom(THREAD_TEMPLATES);
   const anchorKota = chapterToKota(chapterId);
-  const anchor = { kota: anchorKota };
-  const title = fillPlaceholders(pickRandom(tpl.titles), anchor);
+  const title = buildThreadTitle(tpl.topic, anchorKota);
   const body = buildThreadBody(tpl.topic, anchorKota);
   const topic_id = TOPIC_IDS_DB.includes(tpl.topic) ? tpl.topic : pickRandom(TOPIC_IDS_DB);
   return {

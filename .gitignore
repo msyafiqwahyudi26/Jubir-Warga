@@ -38,3 +38,10 @@ PROGRESS_*.md
 
 # Sandbox artifact
 inject_migration.js
+
+# Internal SPD materials — modul, pitch deck, grant application, brand guideline (PDF/DOCX/PPTX)
+# Tidak di-commit ke GitHub (proprietary, akan punya repo terpisah kalau perlu sharing)
+Project Syafiq*/
+*.pdf
+*.docx
+*.pptx

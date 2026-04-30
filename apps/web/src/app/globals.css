@@ -31,6 +31,7 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Vollkorn', 'Times New Roman', serif;
   --font-hand: 'Caveat', cursive;
+  --font-handlogo: 'Patrick Hand', cursive;
   --font-mono: 'Fira Code', 'SF Mono', monospace;
 
   /* === Radius =================================================== */

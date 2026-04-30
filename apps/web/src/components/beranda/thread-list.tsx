@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { MessageCircle, ArrowUp, MapPin } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { formatRelative } from '@/lib/format';
+import { EmptyForum } from '@/components/illustrations/empty-forum';
 
 export async function ThreadList() {
   const supabase = await createClient();
@@ -24,8 +25,9 @@ export async function ThreadList() {
 
   if (!threads || threads.length === 0) {
     return (
-      <div className="rounded-jw-lg border border-dashed border-jw-line p-8 text-center">
-        <p className="font-hand text-xl text-jw-coral">— belum ada thread di Phase 2</p>
+      <div className="rounded-jw-lg border border-dashed border-jw-line p-8 text-center flex flex-col items-center">
+        <EmptyForum size={220} />
+        <p className="font-hand text-xl text-jw-coral mt-2">— belum ada thread di Phase 2</p>
         <p className="text-sm text-jw-ink/70 mt-1">
           Database baru, belum ada user yang post. Jadi yang pertama!
         </p>

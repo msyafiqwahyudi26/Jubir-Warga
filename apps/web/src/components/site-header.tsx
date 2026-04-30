@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import type { User } from '@supabase/supabase-js';
 import { signOut } from '@/app/(auth)/masuk/actions';
+import { JwLogo } from './jw-logo';
 
 export function SiteHeader({ user }: { user: User | null }) {
   return (
     <header className="border-b border-jw-line bg-jw-cream/80 backdrop-blur sticky top-0 z-20">
       <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="font-display text-2xl font-bold text-jw-blue">
-          Jubir Warga
+        <Link href="/" aria-label="Jubir Warga — beranda" className="flex-shrink-0">
+          <JwLogo size={28} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link href="/komunitas" className="text-jw-ink hover:text-jw-coral transition">

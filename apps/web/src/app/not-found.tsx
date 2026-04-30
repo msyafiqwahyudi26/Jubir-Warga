@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import { Error404 } from '@/components/illustrations/error-404';
 
 export default function NotFound() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-      <p className="font-hand text-4xl text-jw-coral">404</p>
+      <Error404 size={300} />
+      <p className="font-hand text-4xl text-jw-coral mt-4">404</p>
       <h1 className="font-display text-3xl font-bold text-jw-blue mt-2">
         Halaman tidak ditemukan
       </h1>

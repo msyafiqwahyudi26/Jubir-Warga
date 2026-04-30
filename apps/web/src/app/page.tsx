@@ -6,6 +6,10 @@ import { ThreadList, ThreadListSkeleton } from '@/components/beranda/thread-list
 import { PetisiPreview, PetisiSkeleton } from '@/components/beranda/petisi-preview';
 import { JanjiTracker, JanjiSkeleton } from '@/components/beranda/janji-tracker';
 import { HelloUser } from '@/components/beranda/hello-user';
+import { HeroBacaDokumen } from '@/components/illustrations/hero-baca-dokumen';
+import { SquigglyUnderline } from '@/components/decor/squiggly-underline';
+import { AnnotationTag } from '@/components/decor/annotation-tag';
+import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
 
 export const revalidate = 60; // ISR — re-render setiap 60 detik
 
@@ -38,7 +42,12 @@ export default async function HomePage() {
               <h1 className="font-display font-bold mt-2 leading-tight text-jw-blue text-5xl md:text-7xl">
                 Hari ini,<br />
                 <em>kita ngomongin</em><br />
-                <span className="text-jw-coral">Pasal 28E.</span>
+                <span className="relative inline-block text-jw-coral">
+                  Pasal 28E.
+                  <span className="absolute left-0 right-0 -bottom-2">
+                    <SquigglyUnderline width={280} thickness={4} />
+                  </span>
+                </span>
               </h1>
               <p className="mt-4 text-base md:text-lg max-w-md leading-relaxed text-jw-ink/80">
                 Hak berekspresi yang dijamin konstitusi — tapi seberapa jauh sudah dipraktikkan?
@@ -61,17 +70,13 @@ export default async function HomePage() {
             </div>
 
             {/* Illustration */}
-            <div className="hidden md:flex w-72 aspect-[4/3] rounded-3xl flex-col items-center justify-center relative overflow-hidden border-2 border-dashed border-jw-line bg-jw-blue/[0.04]">
-              <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-                <circle cx="36" cy="24" r="14" fill="#1A2256" opacity=".14" />
-                <rect x="16" y="42" width="40" height="24" rx="7" fill="#1A2256" opacity=".10" />
-                <rect x="22" y="48" width="28" height="3" rx="1.5" fill="#1A2256" opacity=".35" />
-                <rect x="22" y="54" width="20" height="3" rx="1.5" fill="#1A2256" opacity=".25" />
-                <rect x="22" y="60" width="24" height="3" rx="1.5" fill="#1A2256" opacity=".18" />
-              </svg>
-              <span className="font-mono text-xs mt-2 text-jw-blue/30">warga baca dokumen</span>
-              <span className="font-hand text-sm absolute top-2 right-3 text-jw-coral rotate-[4deg]">
-                ← kamu juga bisa!
+            <div className="hidden md:block relative w-80">
+              <HeroBacaDokumen size={320} />
+              <span className="absolute -top-1 right-2">
+                <AnnotationTag text="baca!" rotation={-6} arrowDirection="left" />
+              </span>
+              <span className="absolute -bottom-2 left-2">
+                <AnnotationTag text="kamu juga bisa" rotation={4} color="marigold" arrowDirection="none" />
               </span>
             </div>
           </div>
@@ -113,6 +118,9 @@ export default async function HomePage() {
           </Link>
         </div>
       </footer>
+
+      {/* Floating Nala trigger — Spec #5 wires the global panel */}
+      <NalaTriggerButton context="tentang halaman ini" />
     </main>
   );
 }

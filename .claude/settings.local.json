@@ -15,7 +15,13 @@
       "Bash(grep -oE '<article[^>]*>\\(.{0,500}\\)' /tmp/jw-home.html)",
       "Bash(grep -oE '\"[^\"]{20,100}\\\\?\"|class=\"[^\"]*line-clamp[^\"]*\"[^>]*>[^<]{15,150}' /tmp/jw-home.html)",
       "Bash(node_modules/.bin/tsc --noEmit --target es2022 --module nodenext --moduleResolution nodenext --strict --skipLibCheck --esModuleInterop --resolveJsonModule scripts/lib/faker-id.ts scripts/lib/distributions.ts scripts/lib/content-templates.ts scripts/generate-demo-seed.ts scripts/cleanup-demo-seed.ts scripts/refresh-demo-bodies.ts scripts/verify-demo-seed.ts)",
-      "Bash(node_modules/.bin/tsx -e ' *)"
+      "Bash(node_modules/.bin/tsx -e ' *)",
+      "Bash(npx --no-install tsc --noEmit --skipLibCheck --target es2022 --module nodenext --moduleResolution nodenext --allowImportingTsExtensions false --esModuleInterop scripts/refresh-demo-bodies.ts)",
+      "Bash(pnpm --filter @jw/web typecheck)",
+      "Bash(pnpm *)",
+      "Bash(curl *)",
+      "Bash(awk '{print $5\"  \"$NF}')",
+      "Bash(git add *)"
     ]
   }
 }

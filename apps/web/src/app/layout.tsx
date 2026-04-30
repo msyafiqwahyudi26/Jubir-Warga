@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Vollkorn, Caveat, Fira_Code } from 'next/font/google';
+import { Inter, Vollkorn, Caveat, Fira_Code, Patrick_Hand } from 'next/font/google';
 import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
 
@@ -20,6 +20,16 @@ const caveat = Caveat({
   subsets: ['latin'],
   variable: '--font-hand',
   weight: ['400', '600', '700'],
+  display: 'swap',
+});
+
+// Logo-only font. NOT for body / annotations — those use Caveat via --font-hand.
+// TODO(post-funding): replace JwLogo with custom hand-crafted SVG letterforms by
+// professional designer. Patrick Hand is the interim while CLAUDE.md 5.3 is relaxed.
+const patrickHand = Patrick_Hand({
+  subsets: ['latin'],
+  variable: '--font-handlogo',
+  weight: ['400'],
   display: 'swap',
 });
 
@@ -77,7 +87,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${vollkorn.variable} ${caveat.variable} ${firaCode.variable}`}
+      className={`${inter.variable} ${vollkorn.variable} ${caveat.variable} ${patrickHand.variable} ${firaCode.variable}`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>

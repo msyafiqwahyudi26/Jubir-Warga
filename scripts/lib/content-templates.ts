@@ -526,6 +526,21 @@ export function fillPlaceholders(tpl: string, anchor: PlaceholderAnchor = {}): s
 }
 
 /**
+ * Build a thread title from a topic-matched template, locked to anchorKota.
+ *
+ * If the chosen title template doesn't contain a {kota} placeholder, the
+ * resulting title simply has no kota mention — we never force-insert one.
+ * Used by both the initial seeder and the refresh script so title/body
+ * always derive their kota from the same chapter_id.
+ */
+export function buildThreadTitle(topic: TopicId, anchorKota: string): string {
+  const tpl =
+    THREAD_TEMPLATES.find((t) => t.topic === topic) ??
+    pickRandom(THREAD_TEMPLATES);
+  return fillPlaceholders(pickRandom(tpl.titles), { kota: anchorKota });
+}
+
+/**
  * Build a thread body: 2-4 paragraphs, fully Indonesian, single anchorKota
  * across the whole body (no Semarang→Medan→Jakarta jumps).
  *
