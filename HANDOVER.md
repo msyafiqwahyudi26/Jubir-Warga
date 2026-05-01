@@ -78,8 +78,9 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 |---|---|
 | #6 — Supabase typegen untuk views | ✅ DONE 2026-05-01, commit `dff5a80` (root cause: dep drift, fix via ssr 0.5→0.10 bump + tilde pin) |
 | #6.5 — Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01, commit `94ce4d0` (23 test pass, baseline cov 32%/35%, CI green 40s) |
-| #7 — Komunitas page (Index + ThreadDetail) | 📋 Spec written 2026-05-01 (3 decisions approved). **NEXT untuk Claude Code** |
-| #8-#15 — Karya, Kelas, Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #7 confirm |
+| #7 — Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01, commit `60c9597` (15 file baru, 16 test baru, 39 total pass, smoke test live OK) |
+| #8 — Karya page (Index + ReadingView) | 📋 Listed, **NEXT untuk planner write spec** |
+| #9-#15 — Kelas, Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #8 |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
 

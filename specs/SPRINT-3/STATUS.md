@@ -10,8 +10,8 @@
 |---|---|---|---|
 | #6 | Supabase typegen untuk views | ✅ DONE 2026-05-01 (root cause: dep drift, fix via ssr bump) | dff5a80 |
 | #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01 (23 test pass, baseline cov 32%/35%, CI green 40s) | 94ce4d0 |
-| #7 | Komunitas page (Index + ThreadDetail) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (3 decisions Mas approved: Server+Client split, login required, hard-code sub-komunitas) | — |
-| #8 | Karya page (Index + ReadingView) | 📋 Listed di overview, spec belum ditulis | — |
+| #7 | Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01 (15 file baru, 16 test baru, 39/39 pass, smoke test live OK) | 60c9597 |
+| #8 | Karya page (Index + ReadingView) | 📋 Listed, **NEXT untuk planner write spec** | — |
 | #9 | Kelas page (Index + LessonPlayer) | 📋 Listed | — |
 | #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Listed | — |
 | #11 | Tagih page (Index + JanjiDetail) | 📋 Listed | — |
@@ -41,6 +41,38 @@ Mas approve via reply singkat di chat planner ("approve semua" atau "1 setuju, 2
 - ✅ Pre-existing typecheck errors di `beranda/petisi-preview.tsx` + `thread-list.tsx` + `janji-tracker.tsx` udah auto-resolve setelah Spec #6 (dep bump + types re-export).
 - Lesson learned dep drift sudah tercatat di BACKLOG.md "Supabase typegen" section.
 - CLAUDE.md tech stack table updated: ssr `~0.10.2`, supabase-js `~2.105.1` (tilde-pin).
+
+## Spec #7 commit summary
+
+**Commit `60c9597`** — feat(komunitas): port Index + ThreadDetail with sidebar filter, vote, reply
+
+Files baru (15):
+- `lib/komunitas/`: constants.ts (TOPIK 8, LOKASI 7, FORMAT 5, SUBCOMMUNITIES 3), filters.ts (parse/build/toggle helpers)
+- `app/komunitas/`: actions.ts (Server Actions Zod-validated, auth via redirect), page.tsx (Index Server Component, view query + range pagination), komunitas-sidebar.tsx (Client useRouter), thread-row.tsx (Server, defensive null check), vote-arrows.tsx (Client, useTransition optimistic + revert), sub-komunitas-section.tsx (Server, 3 hard-code), chapter-regional-section.tsx (Server, query chapters table)
+- `app/komunitas/[id]/`: page.tsx (Promise.all parallel query, notFound on missing), thread-body.tsx (markdown bold inline render), reply-tree.tsx (flat list), reply-row.tsx, reply-form.tsx (useActionState + useFormStatus), ringkas-nala-button.tsx (open Nala panel + auto-add user message)
+
+Files modified (0): site-header.tsx + thread-list.tsx already point to `/komunitas` (verified via grep, no change needed)
+
+Quality gates:
+- typecheck: 0 errors
+- lint: 0 new warnings (1 pre-existing redirect unused)
+- test: 39/39 pass (was 23, +16 baru: 12 di komunitas-filters, 3 di vote-arrows, 2 di reply-form, +overall improvements)
+
+Smoke test (live di localhost:3000 dengan demo seed data):
+- `/komunitas` 225 thread render ✓
+- `/komunitas?topic=politik` 35 thread filtered, sidebar highlight ✓
+- `/komunitas?hot=true` empty state render ✓
+- `/komunitas/<uuid>` ThreadDetail full body + reply tree + Ringkas via Nala ✓
+- Browser title via `generateMetadata` ✓
+- Sub-komunitas + chapter sections rendered di Index ✓
+
+Verified via Chrome MCP:
+- Index page render dengan real Supabase data
+- Filter URL pattern shareable (browser back jalan)
+- ThreadDetail UUID route 200, body markdown rendered
+
+Known limitation:
+- "+ Mulai thread" link → `/komunitas/baru` belum ada (Spec #7c defer per spec out-of-scope)
 
 ## Spec #6.5 commit summary
 
