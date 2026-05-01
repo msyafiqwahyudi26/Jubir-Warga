@@ -76,8 +76,8 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 
 | Spec | Status |
 |---|---|
-| #6 — Supabase typegen untuk views | 📋 Spec written (`06-supabase-typegen.md`), **NEXT untuk Claude Code** |
-| #7 — Komunitas page (Index + ThreadDetail) | ⏳ Blocked by 3 decisions Mas (Server/Client split, vote auth, sub-komunitas storage) |
+| #6 — Supabase typegen untuk views | ✅ DONE 2026-05-01, commit `dff5a80` (root cause: dep drift, fix via ssr 0.5→0.10 bump + tilde pin) |
+| #7 — Komunitas page (Index + ThreadDetail) | ⏳ **NEXT** — Blocked by 3 decisions Mas (Server/Client split, vote auth, sub-komunitas storage) |
 | #8-#15 — Karya, Kelas, Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #7 confirm |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**

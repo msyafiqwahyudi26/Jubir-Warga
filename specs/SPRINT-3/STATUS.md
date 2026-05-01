@@ -8,7 +8,7 @@
 
 | Spec | Title | Status | Commit |
 |---|---|---|---|
-| #6 | Supabase typegen untuk views | 📋 Spec written, ready untuk Claude Code | — |
+| #6 | Supabase typegen untuk views | ✅ DONE 2026-05-01 (root cause: dep drift, fix via ssr bump) | dff5a80 |
 | #7 | Komunitas page (Index + ThreadDetail) | ⏳ Blocked — 3 decisions Mas pending | — |
 | #8 | Karya page (Index + ReadingView) | 📋 Listed di overview, spec belum ditulis | — |
 | #9 | Kelas page (Index + LessonPlayer) | 📋 Listed | — |
@@ -37,8 +37,28 @@ Mas approve via reply singkat di chat planner ("approve semua" atau "1 setuju, 2
 ## Notes
 
 - Data layer `@jw/data` udah lengkap (Sprint 1-2). Spec #7-12 cuma consume hooks, tidak re-build queries.
-- Pre-existing typecheck errors di `beranda/petisi-preview.tsx` akan auto-resolve setelah Spec #6 selesai.
+- ✅ Pre-existing typecheck errors di `beranda/petisi-preview.tsx` + `thread-list.tsx` + `janji-tracker.tsx` udah auto-resolve setelah Spec #6 (dep bump + types re-export).
+- Lesson learned dep drift sudah tercatat di BACKLOG.md "Supabase typegen" section.
+- CLAUDE.md tech stack table updated: ssr `~0.10.2`, supabase-js `~2.105.1` (tilde-pin).
+
+## Spec #6 commit summary
+
+**Commit `dff5a80`** — chore(deps): bump @supabase/ssr to fix supabase-js Database type drift
+
+Files touched:
+- `package.json` — ssr `^0.5.2` → `~0.10.2`, supabase-js `^2.46.1` → `~2.105.1`
+- `pnpm-lock.yaml` — auto regen
+- `packages/data/src/database.types.ts` — NEW (84 KB auto-generated)
+- `packages/data/src/types.ts` — hand-written Database deleted, re-export added
+- `packages/data/README.md` — "Regenerate Database type" section + UTF-16/UTF-8 PowerShell pitfall note
+- `apps/web/src/app/(auth)/masuk/login-form.tsx` — narrow ActionState
+- `apps/web/src/components/beranda/janji-tracker.tsx` — LucideIcon typing
+
+Verifikasi:
+- typecheck: 0 errors
+- lint: 0 new warnings (1 pre-existing redirect unused di daftar/actions.ts — out of scope)
+- smoke test: `/`, `/masuk`, `/daftar` semua HTTP 200
 
 ---
 
-_Last updated: 2026-05-01 by planner._
+_Last updated: 2026-05-01 by planner (Spec #6 closed)._

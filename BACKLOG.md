@@ -100,17 +100,28 @@
 
 ### Supabase typegen untuk views
 
-**Status:** 📋 **SCHEDULED** — `specs/SPRINT-3/06-supabase-typegen.md` (spec written 2026-05-01, ready untuk Claude Code).
+**Status:** ✅ **DONE 2026-05-01** — commit `dff5a80`. Spec di `specs/SPRINT-3/06-supabase-typegen.md`.
 
-**Konteks:** Pre-existing typecheck error di `apps/web/src/components/beranda/petisi-preview.tsx` — `Property 'current_count' does not exist on type 'never'`. Penyebab confirmed planner audit 2026-05-01: hand-written `Database` interface di `packages/data/src/types.ts` Views section format-nya `{ Row: ... }` saja (tanpa `Insert/Update/Relationships`), tidak match expected shape Supabase JS v2.46+.
+**Lesson learned (penting untuk Sprint berikutnya):**
 
-**Yang perlu:**
-```bash
-supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts
-```
-Lalu update `packages/data/src/types.ts` untuk re-export Database dari `database.types.ts`.
+Diagnostic Spec #6 awal asumsi root cause adalah hand-written `Database` interface di `packages/data/src/types.ts` Views section yang tidak match Supabase JS v2.46+ shape. **Faktanya bukan itu.**
 
-**Timing:** Sprint 3 awal — Spec #6.
+Real root cause yang ke-discover Claude Code saat eksekusi:
+- `package.json` declare `@supabase/supabase-js@^2.46.1` + `@supabase/ssr@^0.5.2`
+- `pnpm install` resolve supabase-js ke 2.105.1 (latest matching `^2.46.1`)
+- supabase-js 2.105+ tambah generic constraint `SchemaName extends Exclude<keyof Database, "__InternalSupabase">`
+- `@supabase/ssr@0.5.2` masih pakai signature lama `SchemaName extends string & keyof Database` (TIDAK exclude `__InternalSupabase`)
+- Type constraint violated → schema infer ke `any` → `from()` infer ke `never` → semua field property error
+
+**Fix:** Bump `@supabase/ssr` 0.5.2 → 0.10.2 + pin **tilde** (`~`) untuk both ssr & supabase-js supaya gak nge-drift lagi.
+
+**Pattern untuk diingat:**
+1. `^x.y.z` di package.json bisa nge-drift ke major-compatible latest (mis. `^2.46.1` → `2.105.x`)
+2. Kalau ada peer-dep antara 2 package (mis. supabase-js + ssr), salah satunya nge-drift bisa break compat
+3. Generated types dari Supabase CLI menambahkan field internal (`__InternalSupabase`) yang require updated peer
+4. Pakai `~` tilde untuk lock minor version, atau pin exact version untuk peer-tightly-coupled deps
+
+**Tracking action:** kalau ada migration baru di Supabase, re-run `supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts` (lihat packages/data/README.md "Regenerate Database type" section).
 
 ---
 
@@ -181,4 +192,4 @@ TAM 70 juta dengan funnel proven (offline → online → multiplikasi via chapte
 
 ---
 
-Last updated: 2026-05-01 (Sprint 2 closed → Sprint 3 plan grounded; added Nala mock + mode selector + react-markdown items)
+Last updated: 2026-05-01 (Spec #6 done — supabase typegen + dep version pin lesson learned added)
