@@ -9,6 +9,7 @@
 | Spec | Title | Status | Commit |
 |---|---|---|---|
 | #6 | Supabase typegen untuk views | ✅ DONE 2026-05-01 (root cause: dep drift, fix via ssr bump) | dff5a80 |
+| #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | 📋 Spec written, **NEXT untuk Claude Code** (no decisions needed) | — |
 | #7 | Komunitas page (Index + ThreadDetail) | ⏳ Blocked — 3 decisions Mas pending | — |
 | #8 | Karya page (Index + ReadingView) | 📋 Listed di overview, spec belum ditulis | — |
 | #9 | Kelas page (Index + LessonPlayer) | 📋 Listed | — |
