@@ -10,7 +10,7 @@
 |---|---|---|---|
 | #6 | Supabase typegen untuk views | ✅ DONE 2026-05-01 (root cause: dep drift, fix via ssr bump) | dff5a80 |
 | #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01 (23 test pass, baseline cov 32%/35%, CI green 40s) | 94ce4d0 |
-| #7 | Komunitas page (Index + ThreadDetail) | ⏳ Blocked — 3 decisions Mas pending | — |
+| #7 | Komunitas page (Index + ThreadDetail) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (3 decisions Mas approved: Server+Client split, login required, hard-code sub-komunitas) | — |
 | #8 | Karya page (Index + ReadingView) | 📋 Listed di overview, spec belum ditulis | — |
 | #9 | Kelas page (Index + LessonPlayer) | 📋 Listed | — |
 | #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Listed | — |
