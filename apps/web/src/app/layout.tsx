@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Vollkorn, Caveat, Fira_Code, Patrick_Hand } from 'next/font/google';
 import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
+import { NalaPanel } from '@/components/nala/nala-panel';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -91,7 +92,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          {children}
+          <NalaPanel />
+        </QueryProvider>
       </body>
     </html>
   );

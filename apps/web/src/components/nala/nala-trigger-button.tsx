@@ -1,6 +1,7 @@
 'use client';
 
 import { Sparkles } from 'lucide-react';
+import { useNalaStore } from '@/lib/nala/store';
 
 type Props = {
   context?: string;
@@ -13,9 +14,8 @@ export function NalaTriggerButton({
   position = 'bottom-right',
   className,
 }: Props) {
-  // Spec #5 wires this to the global Nala panel (Zustand store + Drawer).
-  // For now: visible CTA only. No-op onClick keeps the focus ring + hover state
-  // alive so the FAB can be visually audited in Beranda screenshots.
+  const openPanel = useNalaStore((s) => s.openPanel);
+
   const positionCls =
     position === 'bottom-center'
       ? 'left-1/2 -translate-x-1/2 bottom-6'
@@ -24,6 +24,7 @@ export function NalaTriggerButton({
   return (
     <button
       type="button"
+      onClick={() => openPanel(context)}
       aria-label={`Tanya Nala${context ? ` ${context}` : ''}`}
       className={[
         'fixed z-30 inline-flex items-center gap-2',

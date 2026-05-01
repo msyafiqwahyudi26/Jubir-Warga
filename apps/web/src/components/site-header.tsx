@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { User } from '@supabase/supabase-js';
 import { signOut } from '@/app/(auth)/masuk/actions';
 import { JwLogo } from './jw-logo';
+import { NalaPanelTrigger } from './nala/nala-panel-trigger';
 
 export function SiteHeader({ user }: { user: User | null }) {
   return (
@@ -29,6 +30,7 @@ export function SiteHeader({ user }: { user: User | null }) {
         </nav>
         {user ? (
           <div className="flex items-center gap-3">
+            <NalaPanelTrigger />
             <Link
               href="/profil"
               className="hidden sm:block text-sm font-medium text-jw-blue hover:underline"
@@ -46,6 +48,7 @@ export function SiteHeader({ user }: { user: User | null }) {
           </div>
         ) : (
           <div className="flex items-center gap-2">
+            <NalaPanelTrigger />
             <Link
               href="/masuk"
               className="rounded-jw-md px-3 py-2 text-sm text-jw-blue hover:bg-jw-pill-blue-bg transition"
