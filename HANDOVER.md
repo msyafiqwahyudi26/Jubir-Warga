@@ -185,12 +185,13 @@ Sebelum aku (planner) mulai bantu di chat baru, aku akan baca **WAJIB**:
 1. `CLAUDE.md` — operating manual
 2. `HANDOVER.md` — file ini
 3. `BACKLOG.md` — backlog item dengan timing eksplisit (Sprint 3/4/5 priority)
-4. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
-5. `apps/web/QUICKSTART.md` — setup runbook
-6. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
-7. `specs/SPRINT-2/STATUS.md` — apa yang sudah selesai
-8. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
-9. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
+4. `docs/AUDIT_PRE_BETA_2026-05-01.md` — pre-beta launch checklist & audit per dimensi (skor, gap, sequence)
+5. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
+6. `apps/web/QUICKSTART.md` — setup runbook
+7. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
+8. `specs/SPRINT-2/STATUS.md` — apa yang sudah selesai
+9. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
+10. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
 
 Kalau aku belum baca, ingatkan aku.
 

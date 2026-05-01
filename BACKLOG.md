@@ -1,6 +1,8 @@
 # BACKLOG — Items untuk Sprint 5+ atau pasca-launch
 
 > Ide bagus yang TIDAK urgent untuk current sprint. Catat di sini biar tidak lupa, tapi tidak ganggu fokus eksekusi.
+>
+> **Pre-beta launch checklist (Tier 1/2/3 actionable):** lihat `docs/AUDIT_PRE_BETA_2026-05-01.md`
 
 ---
 
