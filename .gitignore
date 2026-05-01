@@ -8,6 +8,12 @@ dist/
 build/
 out/
 
+# Test coverage
+coverage/
+
+# Supabase CLI temp
+supabase/.temp/
+
 # Environment files
 .env
 .env.local

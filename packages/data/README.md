@@ -181,3 +181,26 @@ Lalu di file lain pakai `import { Database } from './database.types'`.
 - `mockClient` adalah escape hatch untuk dev offline / testing tanpa Supabase.
 - `initJWClient` MUST dipanggil sebelum query function/hook digunakan.
 - Auth-required functions (sign, vote, submit) auto-throw `'Auth required'` kalau user belum login.
+
+## Testing
+
+Test dijalankan dengan **Vitest** dari `apps/web/`. Path alias `@jw/data` sudah di-wire
+di `apps/web/vitest.config.ts`, jadi schema/types/queries bisa di-import langsung:
+
+```ts
+import { submitThreadSchema } from '@jw/data/schemas';
+import type { Database } from '@jw/data/types';
+```
+
+Run dari root repo:
+
+```bash
+pnpm --filter @jw/web test         # CI mode, jalan sekali
+pnpm --filter @jw/web test:watch   # watch mode untuk dev
+pnpm --filter @jw/web test:ui      # browser dashboard
+pnpm --filter @jw/web test:cov     # coverage report (HTML + lcov di apps/web/coverage)
+```
+
+Spec #6.5 baseline: 8 test file (~23 test) — schemas, format util, Nala store + mock
+responses, NalaPanel + NalaMessageBubble, healthcheck route, JwLogo. Sprint 3+ wajib
+tambah minimum 1 test per komponen baru yang punya logic non-trivial.
