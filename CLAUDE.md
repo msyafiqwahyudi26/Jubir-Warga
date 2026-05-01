@@ -54,6 +54,7 @@ Kalau task bersinggungan dengan visual / copy / brand, **WAJIB cross-check** ke 
 | Backend | @supabase/supabase-js | ~2.105.1 | Postgres + Auth + Realtime + Storage. **Pin tilde** (`~`) untuk patch-only updates — `^` nge-drift jadi 2.105 yang require `__InternalSupabase` di Database type, breaking compat dengan ssr lama (lihat lesson learned di BACKLOG.md) |
 | Auth client | @supabase/ssr | ~0.10.2 | Cookie-based, BUKAN @supabase/auth-helpers (deprecated). **Pin tilde** — harus match supabase-js generic constraint (Exclude `__InternalSupabase`) |
 | Icons | lucide-react | 0.460 | Pin major version, jangan auto-update |
+| Testing | Vitest | 4.x | Vite-powered, jsdom env, with @vitest/coverage-v8 + @testing-library/react 16+ |
 | Deploy (Phase 1) | Hostinger VPS | — | Auto via GitHub Actions saat push ke `apps/legacy/**` |
 | Deploy (Phase 2) | TBD | — | Vercel atau VPS — keputusan di Sprint 3 |
 
