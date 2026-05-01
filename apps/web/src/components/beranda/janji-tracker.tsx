@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Clock, AlertTriangle, XCircle, HelpCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Clock, AlertTriangle, XCircle, HelpCircle, type LucideIcon } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
-const STATUS_CONFIG: Record<string, { color: string; icon: React.ComponentType<{ size?: number }>; label: string }> = {
+const STATUS_CONFIG: Record<string, { color: string; icon: LucideIcon; label: string }> = {
   Belum: { color: 'text-jw-pill-grey-text', icon: HelpCircle, label: 'Belum' },
   Berjalan: { color: 'text-jw-pill-marigold-text', icon: Clock, label: 'Berjalan' },
   Mandek: { color: 'text-jw-pill-coral-text', icon: AlertTriangle, label: 'Mandek' },

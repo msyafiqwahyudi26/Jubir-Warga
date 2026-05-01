@@ -278,37 +278,9 @@ export interface GameScore {
   played_at: string;
 }
 
-// Database type for Supabase client (will replace with auto-gen)
-export interface Database {
-  public: {
-    Tables: {
-      chapters:           { Row: Chapter; Insert: Partial<Chapter>; Update: Partial<Chapter> };
-      topics:             { Row: Topic; Insert: Topic; Update: Partial<Topic> };
-      profiles:           { Row: Profile; Insert: Partial<Profile> & { id: string }; Update: Partial<Profile> };
-      threads:            { Row: Thread; Insert: Partial<Thread> & { title: string }; Update: Partial<Thread> };
-      thread_replies:     { Row: ThreadReply; Insert: Partial<ThreadReply> & { thread_id: string; body: string }; Update: Partial<ThreadReply> };
-      thread_votes:       { Row: ThreadVote; Insert: ThreadVote; Update: Partial<ThreadVote> };
-      karya:              { Row: Karya; Insert: Partial<Karya> & { type: KaryaType; title: string }; Update: Partial<Karya> };
-      kelas:              { Row: Kelas; Insert: Partial<Kelas> & { title: string }; Update: Partial<Kelas> };
-      kelas_modul:        { Row: KelasModul; Insert: Partial<KelasModul> & { kelas_id: string; ord: number; title: string }; Update: Partial<KelasModul> };
-      kelas_enrollment:   { Row: KelasEnrollment; Insert: Partial<KelasEnrollment> & { kelas_id: string; user_id: string }; Update: Partial<KelasEnrollment> };
-      pejabat:            { Row: Pejabat; Insert: Partial<Pejabat> & { nama: string }; Update: Partial<Pejabat> };
-      janji:              { Row: Janji; Insert: Partial<Janji> & { pejabat_id: string; janji_text: string }; Update: Partial<Janji> };
-      janji_evidence:     { Row: JanjiEvidence; Insert: Partial<JanjiEvidence> & { janji_id: string; type: EvidenceType }; Update: Partial<JanjiEvidence> };
-      janji_pemantau:     { Row: { janji_id: string; user_id: string; followed_at: string }; Insert: { janji_id: string; user_id: string }; Update: never };
-      petisi:             { Row: Petisi; Insert: Partial<Petisi> & { title: string }; Update: Partial<Petisi> };
-      petisi_signatures:  { Row: PetisiSignature; Insert: { petisi_id: string; user_id: string }; Update: never };
-      laporan:            { Row: Laporan; Insert: Partial<Laporan> & { category: LaporanCategory; title: string }; Update: Partial<Laporan> };
-      polling:            { Row: Polling; Insert: Partial<Polling> & { question: string; options: PollingOption[] }; Update: Partial<Polling> };
-      kampanye:           { Row: Kampanye; Insert: Partial<Kampanye> & { title: string }; Update: Partial<Kampanye> };
-      badges:             { Row: Badge; Insert: Badge; Update: Partial<Badge> };
-      user_badges:        { Row: UserBadge; Insert: { user_id: string; badge_id: string }; Update: never };
-      game_scores:        { Row: GameScore; Insert: Partial<GameScore> & { user_id: string; game: GameType }; Update: Partial<GameScore> };
-    };
-    Views: {
-      threads_with_author:   { Row: ThreadWithAuthor };
-      petisi_with_progress:  { Row: PetisiWithProgress };
-      janji_with_pejabat:    { Row: JanjiWithPejabat };
-    };
-  };
-}
+// ─────────────────────────────────────────────────────────
+// Database type — auto-generated dari Supabase CLI.
+// Re-run: supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts
+// Domain types di atas tetap dipakai sebagai TypeScript-friendly aliases di app code.
+// ─────────────────────────────────────────────────────────
+export type { Database } from './database.types';

@@ -20,6 +20,22 @@ packages/data/
     └── mock.ts         # Fallback ke window.JWData (untuk beta lama)
 ```
 
+## Regenerate Database type
+
+`packages/data/src/database.types.ts` adalah auto-generated. Re-run setelah ada
+migration baru:
+
+```bash
+supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts
+```
+
+Domain types di `types.ts` boleh di-extend manual untuk TypeScript-friendly
+aliases (mis. `Thread`, `PetisiWithProgress`).
+
+> Catatan: PowerShell `>` default-nya UTF-16 LE. Kalau hasil generate baca
+> "garbled / interleaved nulls" di TypeScript, convert dengan:
+> `[System.IO.File]::WriteAllText($path, [IO.File]::ReadAllText($path), [System.Text.UTF8Encoding]::new($false))`
+
 ## Quick start (Phase 2 Next.js)
 
 ### 1. Install peer deps

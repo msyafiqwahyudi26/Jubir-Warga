@@ -178,7 +178,7 @@ function WhatsAppForm() {
   if (phoneFromRequest) {
     return (
       <form action={verifyAction} className="space-y-4">
-        <SuccessBanner>{requestState!.message}</SuccessBanner>
+        <SuccessBanner>{requestState?.ok ? requestState.message : null}</SuccessBanner>
         <input type="hidden" name="phone" value={phoneFromRequest} />
         <Field
           label="Kode OTP (6 digit)"
