@@ -127,6 +127,19 @@ Real root cause yang ke-discover Claude Code saat eksekusi:
 
 ---
 
+### Planner audit hygiene: verify file actually committed
+
+**Lesson learned 2026-05-01:** `.gitignore` punya pattern `AUDIT_*.md` (untuk ignore audit draft). Saat aku push `docs/AUDIT_PRE_BETA_2026-05-01.md`, file ke-ignore — tapi `git push` tetap success (push commit lain). Aku salah verify "push success" sebagai "file pushed" tanpa cek `git show --stat <hash>`.
+
+**Pattern correct ke depan:** untuk doc-only commit, planner WAJIB:
+1. Setelah user paste `git push` output, minta `git show --stat <commit>` untuk verify file count
+2. Atau `git ls-files | grep <filename>` untuk confirm tracked
+3. Kalau ada file yang harus tracked tapi di-ignore .gitignore, tambah exception (`!path/pattern`)
+
+Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PROGRESS_*.md` di `.gitignore`.
+
+---
+
 ### Mock responses Nala (8 baru untuk match prompt chips)
 
 **Konteks:** Sprint 2 Spec #5 deliver Nala panel dengan 3 curated mock response (Pasal 28E, kelas online, opini editorial) + fallback. Tapi 4 prompt chips di empty state (`NALA_SUGGESTIONS` di `nala-prompts.ts`) gak match keyword 3 rules itu — semua chip click → fallback response.

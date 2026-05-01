@@ -41,6 +41,9 @@ Thumbs.db
 AUDIT_*.md
 PROGRESS_*.md
 .turbo/
+# Exception: tracked audit & progress docs di docs/ folder
+!docs/AUDIT_*.md
+!docs/PROGRESS_*.md
 
 # Sandbox artifact
 inject_migration.js
