@@ -2,7 +2,7 @@
 
 > **Untuk Mas (owner):** Paste isi file ini sebagai pesan PERTAMA di chat Cowork baru saat pindah device (e.g., dari komputer kantor ke laptop di rumah). Planner Claude akan onboard dengan konteks penuh.
 >
-> Last updated: 2026-04-29
+> Last updated: 2026-05-01 (post Sprint 2 completion + Sprint 3 plan grounded)
 
 ---
 
@@ -55,20 +55,30 @@ D:\Website-Jubir Warga\
 
 ---
 
-## Status sekarang (2026-04-29)
+## Status sekarang (2026-05-01)
 
 **Sprint 1 (DONE):** Phase 2 Next.js init, Supabase wired, auth (4 provider: email/password/magic-link/Google/WA OTP), Beranda live data.
 
-**Sprint 2 (in progress):**
+**Sprint 2 (DONE — closed 2026-05-01):**
 
 | Spec | Status |
 |---|---|
-| #1 — Schema migration `is_demo` flag | ✅ Applied to Supabase |
-| #2 — Demo seed generator (300 user fictional) | ✅ Applied (data live) |
-| #2.5 — Lorem fix (Indonesian sentence bank) | 🔧 In progress (Claude Code di kantor) |
-| #3 — Landing page + preview gate | 📋 Spec written, not executed |
-| #4 — Design heritage port (Nala + logo + illustrations) | 📋 Spec written, **NEXT** |
-| #5 — Nala AI global slide-over panel | 📋 Spec written, after #4 |
+| #1 — Schema migration `is_demo` flag | ✅ DONE |
+| #2 — Demo seed generator (300 user fictional) | ✅ DONE |
+| #2.5 — Lorem fix (Indonesian sentence bank) | ✅ DONE (kantor) |
+| #3 — Landing page + preview gate | ✅ DONE (kantor) |
+| #4 — Design heritage port (Nala + logo + illustrations) | ✅ DONE (kantor, commit d0a3db6) |
+| #5 — Nala AI global slide-over panel | ✅ DONE (laptop 2026-05-01, commit 386abf7) |
+
+**Sprint 3 (in progress — started 2026-05-01):**
+
+Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-driven + page port continuation.
+
+| Spec | Status |
+|---|---|
+| #6 — Supabase typegen untuk views | 📋 Spec written (`06-supabase-typegen.md`), **NEXT untuk Claude Code** |
+| #7 — Komunitas page (Index + ThreadDetail) | ⏳ Blocked by 3 decisions Mas (Server/Client split, vote auth, sub-komunitas storage) |
+| #8-#15 — Karya, Kelas, Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #7 confirm |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
 
@@ -127,10 +137,27 @@ D:\Website-Jubir Warga\
 
 ## Decisions yang masih open
 
-1. **Lorem fix sebelum atau sesudah Spec #4?** Saat ini Claude Code lagi fix lorem-Latin di body thread/karya. Setelah selesai → next: Spec #4 (design heritage port).
-2. **Domain final saat launch**: `jubirwarga.id` (kalau dibeli sebelum Juni) atau ikut investor preference? Belum ditentukan.
-3. **Twilio Verify untuk WhatsApp OTP**: Mas belum setup. Code sudah jalan, tapi flow WA OTP akan error sampai Twilio configured.
-4. **Google OAuth client**: belum setup di Google Cloud Console. Code jalan, tapi tombol Google OAuth akan error sampai client_id ditambahkan ke Supabase.
+**Sprint 3 Spec #7 Komunitas (BLOCKING — perlu jawaban Mas sebelum Spec #7 bisa ditulis):**
+
+1. **Server vs Client Component split di Komunitas?**
+   - Vote arrow + sub-komunitas filter butuh interactivity
+   - Rekomendasi planner: **Server Component (data fetch via @jw/data direct query helpers) + nested Client Components untuk vote/filter/reply submit**
+2. **Vote auth requirement?**
+   - Login required atau anonymous-allowed (1 vote per IP via cookie)?
+   - Rekomendasi planner: **Login required** (anti-spam, leverage existing auth)
+3. **Sub-komunitas data source (Politik Lokal, Mental Health Kantor, dll)?**
+   - Hard-code constant atau pull dari DB table baru?
+   - Rekomendasi planner: **Hard-code constant Sprint 3, migrate ke DB di Sprint 5**
+
+**Sprint 3 Spec #13 Game #2 di Main:**
+
+4. Saran planner: **Tebak Pejabat** (foto + clue, leverage 14 pejabat real seed). Alternatif: Janji Trivia, Pasal Match.
+
+**Operasional (carry-over dari sebelumnya):**
+
+5. **Domain final saat launch**: `jubirwarga.id` (kalau dibeli sebelum Juni) atau ikut investor preference? Belum ditentukan.
+6. **Twilio Verify untuk WhatsApp OTP**: Mas belum setup. Code sudah jalan, tapi flow WA OTP akan error sampai Twilio configured.
+7. **Google OAuth client**: belum setup di Google Cloud Console. Code jalan, tapi tombol Google OAuth akan error sampai client_id ditambahkan ke Supabase.
 
 ---
 
@@ -154,11 +181,16 @@ D:\Website-Jubir Warga\
 
 ## Required reading dari planner sebelum bantu Mas
 
-Sebelum aku (planner) mulai bantu di chat baru, aku akan baca:
+Sebelum aku (planner) mulai bantu di chat baru, aku akan baca **WAJIB**:
 1. `CLAUDE.md` — operating manual
-2. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
-3. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
-4. `specs/SPRINT-2/*.md` — spec aktif
+2. `HANDOVER.md` — file ini
+3. `BACKLOG.md` — backlog item dengan timing eksplisit (Sprint 3/4/5 priority)
+4. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
+5. `apps/web/QUICKSTART.md` — setup runbook
+6. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
+7. `specs/SPRINT-2/STATUS.md` — apa yang sudah selesai
+8. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
+9. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
 
 Kalau aku belum baca, ingatkan aku.
 

@@ -100,15 +100,62 @@
 
 ### Supabase typegen untuk views
 
-**Konteks:** Pre-existing typecheck error di `apps/web/src/components/beranda/petisi-preview.tsx` — `Property 'current_count' does not exist on type 'never'`. Penyebab: Database type tidak ke-generate untuk view `petisi_with_progress`, `threads_with_author`, `janji_with_pejabat`.
+**Status:** 📋 **SCHEDULED** — `specs/SPRINT-3/06-supabase-typegen.md` (spec written 2026-05-01, ready untuk Claude Code).
+
+**Konteks:** Pre-existing typecheck error di `apps/web/src/components/beranda/petisi-preview.tsx` — `Property 'current_count' does not exist on type 'never'`. Penyebab confirmed planner audit 2026-05-01: hand-written `Database` interface di `packages/data/src/types.ts` Views section format-nya `{ Row: ... }` saja (tanpa `Insert/Update/Relationships`), tidak match expected shape Supabase JS v2.46+.
 
 **Yang perlu:**
 ```bash
 supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts
 ```
-Lalu update `packages/data/src/types.ts` untuk import dari `database.types.ts`.
+Lalu update `packages/data/src/types.ts` untuk re-export Database dari `database.types.ts`.
 
-**Timing:** Sprint 3 awal (sebelum port halaman tambahan yang query views).
+**Timing:** Sprint 3 awal — Spec #6.
+
+---
+
+### Mock responses Nala (8 baru untuk match prompt chips)
+
+**Konteks:** Sprint 2 Spec #5 deliver Nala panel dengan 3 curated mock response (Pasal 28E, kelas online, opini editorial) + fallback. Tapi 4 prompt chips di empty state (`NALA_SUGGESTIONS` di `nala-prompts.ts`) gak match keyword 3 rules itu — semua chip click → fallback response.
+
+**Yang perlu:** planner draft 8 mock response baru yang match keyword chip:
+
+| Topik | Sample chip yang harus match |
+|---|---|
+| DPR vs DPD | "Apa bedanya DPR dan DPD?" |
+| KUHP pasal karet | "Kenapa ada pasal karet di KUHP baru?" |
+| BPJS Kesehatan online | "Bagaimana cara cek saldo BPJS Kesehatan online?" |
+| Hak warga vs polisi | "Apa hak warga ketika diberhentikan polisi?" |
+| Putusan MK terkini | "Putusan MK soal X — apa artinya buat aku?" |
+| Cara baca APBD | "Gimana baca APBD dengan jujur?" |
+| Cara lapor pungli | "Aku kena pungli, lapor ke mana?" |
+| Pemilu lokal | "Apa beda pilkada vs pemilu legislatif?" |
+
+**Tambah ke:** `apps/web/src/lib/nala/mock-responses.ts` (append ke `MOCK_RESPONSES` array).
+
+**Timing:** Sprint 3 Spec #15 (polish pass).
+
+**Owner:** planner draft → Mas review → Claude Code append.
+
+---
+
+### Mode selector UI di Nala panel
+
+**Konteks:** Spec #5 Zustand store punya `mode: 'tanya' | 'coach' | 'writing' | 'advocacy'` tapi UI selector belum ada — semua chip default ke mode 'tanya'.
+
+**Yang perlu:** Tab selector kecil di header panel Nala atau di atas composer. 4 tab: Tanya / Coach / Writing / Advocacy. Setiap tab filter `NALA_SUGGESTIONS` per mode (sudah ready di `nala-prompts.ts`).
+
+**Timing:** Sprint 3 Spec #15 polish.
+
+---
+
+### React-markdown integration di Nala message bubble
+
+**Konteks:** `nala-message-bubble.tsx` saat ini render markdown bullet sebagai literal `-`. Pakai `react-markdown` untuk proper rendering bullet, bold, link.
+
+**Pertimbangan:** add deps + bundle size +30KB. Trade-off OK karena Nala adalah core UX surface.
+
+**Timing:** Sprint 3 Spec #15 polish.
 
 ---
 
@@ -134,4 +181,4 @@ TAM 70 juta dengan funnel proven (offline → online → multiplikasi via chapte
 
 ---
 
-Last updated: 2026-04-30 (Sprint 2 — post brand & strategy clarification dengan Mas)
+Last updated: 2026-05-01 (Sprint 2 closed → Sprint 3 plan grounded; added Nala mock + mode selector + react-markdown items)
