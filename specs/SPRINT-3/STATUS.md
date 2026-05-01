@@ -11,8 +11,8 @@
 | #6 | Supabase typegen untuk views | ✅ DONE 2026-05-01 (root cause: dep drift, fix via ssr bump) | dff5a80 |
 | #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01 (23 test pass, baseline cov 32%/35%, CI green 40s) | 94ce4d0 |
 | #7 | Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01 (15 file baru, 16 test baru, 39/39 pass, smoke test live OK) | 60c9597 |
-| #8 | Karya page (Index + ReadingView) | 📋 Listed, **NEXT untuk planner write spec** | — |
-| #9 | Kelas page (Index + LessonPlayer) | 📋 Listed | — |
+| #8 | Karya page (Index + ReadingView) | ✅ DONE 2026-05-01 (12 file baru, 19 test baru, 58/58 pass, smoke test live OK, defensive type guard + Tailwind JIT lookup table) | 9019720 |
+| #9 | Kelas page (Index + LessonPlayer) | 📋 Listed, **NEXT untuk planner write spec** | — |
 | #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Listed | — |
 | #11 | Tagih page (Index + JanjiDetail) | 📋 Listed | — |
 | #12 | Profil + KTP Warga (PasporPublic) | 📋 Listed | — |

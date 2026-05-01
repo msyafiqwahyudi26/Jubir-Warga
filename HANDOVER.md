@@ -2,7 +2,7 @@
 
 > **Untuk Mas (owner):** Paste isi file ini sebagai pesan PERTAMA di chat Cowork baru saat pindah device (e.g., dari komputer kantor ke laptop di rumah). Planner Claude akan onboard dengan konteks penuh.
 >
-> Last updated: 2026-05-01 (post Sprint 2 completion + Sprint 3 plan grounded)
+> Last updated: 2026-05-01 (post Spec #8 Karya + new evaluation report + Sprint 4/5 gap identified)
 
 ---
 
@@ -79,8 +79,9 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #6 — Supabase typegen untuk views | ✅ DONE 2026-05-01, commit `dff5a80` (root cause: dep drift, fix via ssr 0.5→0.10 bump + tilde pin) |
 | #6.5 — Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01, commit `94ce4d0` (23 test pass, baseline cov 32%/35%, CI green 40s) |
 | #7 — Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01, commit `60c9597` (15 file baru, 16 test baru, 39 total pass, smoke test live OK) |
-| #8 — Karya page (Index + ReadingView) | 📋 Listed, **NEXT untuk planner write spec** |
-| #9-#15 — Kelas, Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #8 |
+| #8 — Karya page (Index + ReadingView) | ✅ DONE 2026-05-01, commit `9019720` (12 file baru, 19 test baru, 58 total pass) |
+| #9 — Kelas page (Index + LessonPlayer) | 📋 Listed, **NEXT untuk planner write spec** |
+| #10-#15 — Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #9 |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
 
@@ -161,6 +162,14 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 6. **Twilio Verify untuk WhatsApp OTP**: Mas belum setup. Code sudah jalan, tapi flow WA OTP akan error sampai Twilio configured.
 7. **Google OAuth client**: belum setup di Google Cloud Console. Code jalan, tapi tombol Google OAuth akan error sampai client_id ditambahkan ke Supabase.
 
+**Sprint 4-5 scope (per evaluation report 2026-05-01):**
+
+8. **Onboarding wizard** (BLOCKING beta retention) — wizard 3-5 step pertama login. Lihat `docs/EVALUATION_PHASE1_VS_PHASE2_2026-05-01.md` Section F.
+9. **Notification system minimum** (BLOCKING beta engagement) — bell + drawer + per-event triggers. DB table baru.
+10. **Lapor Warga page** — `/lapor`, butuh form + camera + geolocation. Sprint 4.
+11. **Profile public page + Follow system** — `/profil/[username]`. Sprint 4.
+12. **Search global** — Postgres ts_vector. Sprint 4.
+
 ---
 
 ## Reference info (operational)
@@ -188,6 +197,7 @@ Sebelum aku (planner) mulai bantu di chat baru, aku akan baca **WAJIB**:
 2. `HANDOVER.md` — file ini
 3. `BACKLOG.md` — backlog item dengan timing eksplisit (Sprint 3/4/5 priority)
 4. `docs/AUDIT_PRE_BETA_2026-05-01.md` — pre-beta launch checklist & audit per dimensi (skor, gap, sequence)
+5. `docs/EVALUATION_PHASE1_VS_PHASE2_2026-05-01.md` — side-by-side comparison Phase 1 vs Phase 2, gap analysis super web/app, list 28 fitur kritis untuk Sprint 4-5
 5. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
 6. `apps/web/QUICKSTART.md` — setup runbook
 7. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
