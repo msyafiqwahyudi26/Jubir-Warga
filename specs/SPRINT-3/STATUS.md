@@ -12,7 +12,7 @@
 | #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01 (23 test pass, baseline cov 32%/35%, CI green 40s) | 94ce4d0 |
 | #7 | Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01 (15 file baru, 16 test baru, 39/39 pass, smoke test live OK) | 60c9597 |
 | #8 | Karya page (Index + ReadingView) | ✅ DONE 2026-05-01 (12 file baru, 19 test baru, 58/58 pass, smoke test live OK, defensive type guard + Tailwind JIT lookup table) | 9019720 |
-| #9 | Kelas page (Index + LessonPlayer) | 📋 Listed, **NEXT untuk planner write spec** | — |
+| #9 | Kelas page (Index + Detail + LessonPlayer MVP) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (decisions: FREE beta, simple enroll, MVP markdown — quiz/video/games/videocall defer Sprint 4-5) | — |
 | #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Listed | — |
 | #11 | Tagih page (Index + JanjiDetail) | 📋 Listed | — |
 | #12 | Profil + KTP Warga (PasporPublic) | 📋 Listed | — |

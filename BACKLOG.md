@@ -185,6 +185,65 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Discord-like realtime chat di Komunitas
+
+**Konteks (2026-05-01 dari Mas):** Komunitas saat ini pakai forum thread pattern (async, post + reply tree). Mas pengen tambah ruang bincang realtime kayak Discord — channel-based synchronous chat dengan presence + typing indicator + emoji reactions.
+
+**Use case:**
+- Chapter regional weekly hangout (sync conversation antar member chapter Jakarta misal)
+- Sub-komunitas live discussion (Pemantau APBD diskusi APBD baru rilis)
+- Nala AI room — channel khusus tanya-jawab Nala bareng-bareng
+- Live reaction saat event/petisi launch
+
+**Tech stack:**
+- Supabase Realtime channel (broadcast + presence)
+- Schema: `chat_channels`, `chat_messages`, `chat_reactions`
+- UI: 3-panel layout (channels left + messages center + members right) sesuai Discord pattern
+- Typing indicator via Realtime presence
+- Emoji picker (lib `emoji-mart` atau native unicode)
+
+**Timing:** Sprint 5/6 — gabung dengan live videocall infrastructure (sama-sama realtime stack). Atau standalone Sprint 6 kalau live videocall geser.
+
+**Pertimbangan:**
+- Forum thread tetap diutamakan untuk async + searchable knowledge base
+- Realtime chat = supplement untuk active community engagement
+- Moderation overhead lebih tinggi (tone bisa eskalasi cepat di realtime)
+- Privacy: channel public vs private (invitation-only sub-komunitas)
+
+---
+
+### Kelas interactive — extended vision
+
+**Konteks (2026-05-01 dari Mas):** Vision Kelas Jubir Warga: se-interaktif mungkin, online + dalam jaringan, dengan pre-test/post-test + video pembelajaran + games + live videocall.
+
+**Sprint roadmap (per planner breakdown):**
+
+**Sprint 3 (MVP, Spec #9):**
+- Catalog + Detail + LessonPlayer markdown + simple enrollment
+- Foundation: component slot pattern di lesson untuk extend
+
+**Sprint 4:**
+- Pre-test + Post-test quiz system (DB `kelas_quiz`, `kelas_quiz_attempt`, scoring, retry)
+- Video player embed (YouTube/Vimeo, atau Bunny.net untuk self-host) dengan progress save
+- Module-level games infrastructure (component slot)
+- Certificate generation (PDF setelah complete + score min 70%)
+
+**Sprint 5:**
+- Live videocall — rekomendasi: **Daily.co** ($0.05/peserta-menit, 200 menit gratis/bulan, JS SDK ringan, white-label OK) atau Jitsi self-host
+- Use case: live session 1-on-1 mentor, kelas kelompok max 25 orang
+- Recording archive ke Supabase Storage
+- Games infrastructure deeper — leverage TebakKata pattern + new game types per topik (drag-match, fill-blank, ordering)
+
+**Sprint 6+:**
+- Pricing tier (Free + Pro + Enterprise)
+- Payment integration (Midtrans untuk Indonesia)
+- Coupon/promo codes
+- Affiliate program
+
+**Status pricing sekarang:** ~~Rp 350.000~~ → "FREE selama beta & alpha + pengguna awal" badge.
+
+---
+
 ## Discussion Notes (untuk continuity)
 
 ### Nala lore (origin story)

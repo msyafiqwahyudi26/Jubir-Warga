@@ -80,7 +80,7 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #6.5 — Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01, commit `94ce4d0` (23 test pass, baseline cov 32%/35%, CI green 40s) |
 | #7 — Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01, commit `60c9597` (15 file baru, 16 test baru, 39 total pass, smoke test live OK) |
 | #8 — Karya page (Index + ReadingView) | ✅ DONE 2026-05-01, commit `9019720` (12 file baru, 19 test baru, 58 total pass) |
-| #9 — Kelas page (Index + LessonPlayer) | 📋 Listed, **NEXT untuk planner write spec** |
+| #9 — Kelas page (Index + Detail + LessonPlayer MVP) | 📋 Spec written 2026-05-01 (decisions: FREE beta, simple enroll, MVP markdown). **NEXT untuk Claude Code** |
 | #10-#15 — Aksi, Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #9 |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
