@@ -212,6 +212,76 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Custom SVG emoji set + custom icon set (brand-aligned)
+
+**Konteks (2026-05-01 dari Mas):** Native unicode emoji (Apple/Google/Windows berbeda style) banned sebagai brand decor. Tapi **custom SVG emoji + custom icon set** yang di-design dengan brand identity Jubir Warga **diizinkan dan encouraged**.
+
+**Detail di CLAUDE.md Section 5.4 + 5.4b:**
+- Tier 1 (sekarang): Lucide icon stroke 1.5-2px sebagai placeholder
+- Tier 2 (Sprint 4-5): Custom SVG icon + emoji set, hand-drawn feel mirror Nala mascot, palette 11 brand color
+
+**Set awal yang harus dibikin:**
+
+**Custom SVG emoji (~30-50 buah):**
+- Kategori isu: Transport, Pangan, Pendidikan, Kesehatan, Lingkungan, Politik, Mental Health, Kerja, Budaya, Teknologi
+- Reaksi user: love, like, insight (lampu), pertanyaan, capek, marah, sedih, bangga
+- Status janji: ditepati (check coral), berjalan (loader marigold), mandek (clock), diingkari (X coral), belum (dash grey)
+- Action: vote, share, bookmark, lapor, kontribusi
+- Aksesoris: badge, level, trofi, sparkle (ala Nala)
+
+**Custom SVG icon (~30-40 buah):**
+- Replace Lucide bertahap dengan icon brand-aligned
+- Stroke konsisten 1.5px hand-drawn feel (mirror logo)
+- Set awal: home, message, edit, book, zap, target, gamepad, bell, search, user, settings
+
+**Implementation:**
+- Component path: `apps/web/src/components/jw-emoji/` + `apps/web/src/components/jw-icon/`
+- Format: SVG sprite sheet (1 file `<symbol>` map) atau React component per ikon
+- Lazy loaded per page yang butuh (gak global bundle)
+
+**Owner:**
+- **Designer task** (kalau ada di team) — desain SVG dengan Figma/Illustrator
+- Atau **freelancer** (Sprint 4 budget) — brief dengan Brand Guideline + Nala mascot reference
+- Atau **Mas + planner brainstorm** kalau perlu interim AI-generated SVG (low quality, tapi cepat untuk testing)
+
+**Timing:** Sprint 4-5 — dimulai paralel dengan page port. Spec #15 polish (pre-beta) wajib swap minimal kategori isu + status janji emoji ke custom SVG.
+
+**Reference inspirasi:**
+- Notion emoji set (consistent style across categories)
+- Apple Memoji (custom face/expression set)
+- Discord emoji marketplace (kategori-based organization)
+
+---
+
+### Sprint 4 prep: kelas_modul_completion table refactor
+
+**Konteks (2026-05-01):** Spec #9 LessonPlayer pakai idempotency via target-progress comparison (current >= target → no-op). Sederhana untuk MVP, tapi gak granular per-modul.
+
+**Sprint 4 quiz integration butuh per-modul tracking:**
+- Score per modul (untuk certificate calculation)
+- Completion timestamp per modul (untuk analytics)
+- Quiz attempt history per modul (retry policy)
+- Resume-from-where-left-off lebih akurat
+
+**Migration baru (Sprint 4 awal, sebelum quiz spec):**
+```sql
+CREATE TABLE kelas_modul_completion (
+  user_id uuid REFERENCES auth.users,
+  modul_id uuid REFERENCES kelas_modul,
+  kelas_id uuid REFERENCES kelas,
+  completed_at timestamptz NOT NULL DEFAULT now(),
+  score numeric(5,2),  -- nullable, untuk modul tanpa quiz
+  attempts integer DEFAULT 1,
+  PRIMARY KEY (user_id, modul_id)
+);
+```
+
+**Refactor Spec #9 actions.ts:** replace target-progress logic dengan insert ke `kelas_modul_completion`, recalc `kelas_enrollment.progress` dari count completion.
+
+**Timing:** Sprint 4 awal — sebelum quiz spec. Mark sebagai dependency.
+
+---
+
 ### Kelas interactive — extended vision
 
 **Konteks (2026-05-01 dari Mas):** Vision Kelas Jubir Warga: se-interaktif mungkin, online + dalam jaringan, dengan pre-test/post-test + video pembelajaran + games + live videocall.

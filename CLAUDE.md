@@ -219,9 +219,26 @@ Source reference: `apps/legacy/src/components/layout/main.jsx` (Phase 1 pakai fo
 
 ### 5.4 Iconography
 
-Pakai **Lucide React** stroke 1.5–2px rounded. Warna `--color-jw-ink` atau `--color-jw-blue`. Set ikon yang sering dipakai:
+**Tier 1 (interim — sekarang):** Pakai **Lucide React** stroke 1.5–2px rounded. Warna `--color-jw-ink` atau `--color-jw-blue`. Set ikon yang sering dipakai:
 
 `home, message-circle, edit-3, book-open, zap, target, gamepad-2, bell, search, user, settings, log-in, plus, check, x, alert-triangle, map-pin, calendar, clock, eye, share-2, bookmark, heart, thumbs-up, flag, link, image, mic, video, file-text, layers, trending-up, chevron-down, chevron-right, more-horizontal, paperclip, sparkles` (untuk AI Nala).
+
+**Tier 2 (goal jangka panjang — Sprint 4-5):** Custom **SVG icon set** yang di-design dengan brand identity Jubir Warga — palette 11 brand color, hand-drawn feel sedikit irregular (mirror logo treatment), stroke konsisten. Replace Lucide secara bertahap.
+
+Source reference untuk Tier 2: `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` Section 2 (Brand Identity).
+
+### 5.4b Custom emoji set (brand-aligned)
+
+**Decision Mas (2026-05-01):** Native unicode emoji (Apple/Google/Windows yang style-nya inkonsisten antar OS) **dilarang sebagai dekorasi UI** — tapi **custom SVG emoji yang di-design dengan brand identity** Jubir Warga **diizinkan dan encouraged**.
+
+| Tier | Approach | Status |
+|---|---|---|
+| Tier 1 (interim — Sprint 3) | Pakai Lucide icon proper sebagai placeholder untuk slot yang Phase 1 dulu pakai emoji native | ✅ Sekarang (sementara) |
+| Tier 2 (goal — Sprint 4-5) | Custom SVG emoji set, brand-aligned (palette 11 token, hand-drawn feel, mirror Nala mascot treatment). Set awal: kategori (Transport/Pangan/Pendidikan/Kesehatan/Lingkungan), reaksi (love/like/insight/pertanyaan), status (selesai/jalan/mandek/diingkari) | 📋 BACKLOG Sprint 4-5 |
+| TIDAK acceptable | Native unicode emoji 🚇📚✅❌ as decor (inkonsisten antar OS) | ❌ Hindari |
+| Acceptable | Native unicode emoji INSIDE quoted user content (UGC) — gak di-render sebagai brand decor | ✅ OK |
+
+Component path target Tier 2: `apps/web/src/components/jw-emoji/` — SVG sprite sheet atau React component per emoji.
 
 ### 5.5 Ilustrasi SVG kustom (15 wajib — port bertahap)
 
@@ -240,7 +257,7 @@ Sisanya (10) port di Sprint 3 sesuai page yang di-port.
 
 ### 5.6 Anti-pattern (zero tolerance)
 
-1. ❌ Emoji sebagai dekorasi UI ("📊 Polling Hari Ini") — pakai Lucide icon + teks plain
+1. ❌ **Native unicode emoji sebagai dekorasi UI** ("📊 Polling Hari Ini", "🚇 Transport") — inkonsisten antar OS. Pakai Lucide icon (Sprint 3 interim) atau custom SVG emoji brand-aligned (Sprint 4-5 goal, lihat 5.4b). Native emoji INSIDE quoted user content (UGC) OK karena bukan brand decor.
 2. ❌ Placeholder kotak warna polos dengan teks "ilustrasi X"
 3. ❌ Stock-style colorful icon set (rainbow icons)
 4. ❌ Halaman shallow — setiap halaman utama wajib minimal 3 section, setiap detail page wajib 5+ section

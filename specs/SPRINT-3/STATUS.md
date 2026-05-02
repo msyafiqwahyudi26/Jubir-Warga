@@ -12,8 +12,8 @@
 | #6.5 | Test Foundation (Vitest + RTL + 8 tests + CI gate) | ✅ DONE 2026-05-01 (23 test pass, baseline cov 32%/35%, CI green 40s) | 94ce4d0 |
 | #7 | Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01 (15 file baru, 16 test baru, 39/39 pass, smoke test live OK) | 60c9597 |
 | #8 | Karya page (Index + ReadingView) | ✅ DONE 2026-05-01 (12 file baru, 19 test baru, 58/58 pass, smoke test live OK, defensive type guard + Tailwind JIT lookup table) | 9019720 |
-| #9 | Kelas page (Index + Detail + LessonPlayer MVP) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (decisions: FREE beta, simple enroll, MVP markdown — quiz/video/games/videocall defer Sprint 4-5) | — |
-| #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Listed | — |
+| #9 | Kelas page (Index + Detail + LessonPlayer MVP) | ✅ DONE 2026-05-01 (14 file baru, 20 test baru, 78/78 pass, civic→fixed, idempotent target-progress, smoke test live OK) | 3e16238 |
+| #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (decisions: Lucide icon NO emoji, login required, basic counter Sprint 3) | — |
 | #11 | Tagih page (Index + JanjiDetail) | 📋 Listed | — |
 | #12 | Profil + KTP Warga (PasporPublic) | 📋 Listed | — |
 | #13 | Main games (Tebak Kata + game #2) | 📋 Listed (game #2 TBD: saran Tebak Pejabat) | — |
@@ -41,6 +41,35 @@ Mas approve via reply singkat di chat planner ("approve semua" atau "1 setuju, 2
 - ✅ Pre-existing typecheck errors di `beranda/petisi-preview.tsx` + `thread-list.tsx` + `janji-tracker.tsx` udah auto-resolve setelah Spec #6 (dep bump + types re-export).
 - Lesson learned dep drift sudah tercatat di BACKLOG.md "Supabase typegen" section.
 - CLAUDE.md tech stack table updated: ssr `~0.10.2`, supabase-js `~2.105.1` (tilde-pin).
+
+## Spec #9 commit summary
+
+**Commit `3e16238`** — feat(kelas): port Index + Detail + LessonPlayer MVP with enroll + progress
+
+Files baru (14):
+- `lib/kelas/`: constants.ts (LEVEL_OPTIONS + LEVEL_PILL_CLASS lookup + MODUL_TYPE_LABEL + BETA_PRICING_NOTE + **calcTargetProgress** pure function), filters.ts (parse/build/toggle)
+- `app/kelas/`: actions.ts (enrollKelasAction idempotent + markModulCompleteAction idempotent via target-progress comparison), page.tsx (Index Server), kelas-filters.tsx (Client), kelas-card.tsx (pricing strikethrough + FREE badge), featured-hero.tsx (KELAS UNGGULAN marigold), mentor-section.tsx (is_admin proxy + Sprint 5 TODO)
+- `app/kelas/[id]/`: page.tsx (Detail Promise.all parallel), enroll-button.tsx (Client, enrolled state shows "Lanjutkan ({progress}%)"), silabus-list.tsx (Lock/Check/ArrowRight icons per state)
+- `app/kelas/[id]/modul/[modulId]/`: page.tsx (LessonPlayer + auth + enrollment gate), module-body.tsx (video_url placeholder + transcript markdown), module-progress-button.tsx (idempotent UI), module-nav.tsx (prev/next)
+
+Quality gates:
+- typecheck: 0 errors
+- lint: 0 new warnings (1 pre-existing redirect unused)
+- test: 78/78 pass (was 58, +20 baru: 9 filters, 4 kelas-card pricing, 7 module-progress with edge cases — 0/4, 1/4, 4/4, 5/4 clamp, 1/0 div-by-zero defense)
+
+Smoke test (live di localhost:3001):
+- /kelas: 114 KB, semua marker present (FREE, civic-fixed)
+- /kelas?level=Pemula: 102 KB, filter applied
+- /kelas/[id]: 75 KB, hero + silabus
+- /kelas/[id]/modul/[modulId] (logged out): HTTP 307 redirect → /masuk?redirect=...
+- "civic" word check: 0 occurrences di rendered HTML (anti-pattern fix verified)
+
+Engineering wins:
+- **calcTargetProgress** extracted as pure function (testable + reusable) — di constants.ts
+- **Idempotency via target-progress comparison** instead of new completion table — gak butuh schema change, robust terhadap double-click + race condition
+- **firstModulHref** UX bonus: "Lanjutkan" button link langsung ke modul pertama, bukan #silabus anchor
+
+Stale lock note: detected `.git/index.lock` 5 jam lama, safely removed (Claude Code disiplin pattern recognition).
 
 ## Spec #7 commit summary
 
