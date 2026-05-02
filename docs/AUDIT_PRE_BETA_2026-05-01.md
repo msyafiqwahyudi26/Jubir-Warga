@@ -107,8 +107,7 @@ Project dalam kondisi **sangat sehat untuk fase MVP dan pitch demo (8.5/10)**, t
 - [x] **OPS-4: Test foundation** — ✅ DONE 2026-05-01, commit `94ce4d0`. Vitest 4.1.5 + RTL 16.3 + 8 file 23 test, baseline cov 32%/35%, CI workflow green 40s. Spec di `specs/SPRINT-3/06.5-test-foundation.md`.
 - [ ] **OPS-5: Phase 2 deployment target** — decide Vercel atau VPS, setup CICD, staging URL public (mis. `beta.jubirwarga.id`). _(M decide, C execute, ~1 hari)_
 - [ ] **OPS-6: Global error boundary** — `app/error.tsx` + `app/global-error.tsx` Next.js convention dengan brand-consistent fallback UI. _(C, ~1h)_
-- [ ] **PAGE-1: Page port complete** — Spec #7-12 selesai (Komunitas, Karya, Kelas, Aksi, Tagih, Profil). _(C, 13-18h)_  
-  **Progress: 5/6** — ✅ #7 Komunitas (`60c9597`), ✅ #8 Karya (`9019720`), ✅ #9 Kelas (`3e16238`), ✅ #10 Aksi (`76a5784`), ✅ #11 Tagih (`ec347ab`). Sisa: #12 Profil.
+- [x] **PAGE-1: Page port complete** — ✅ **6/6 DONE 2026-05-01**. Spec #7-12 semua selesai: ✅ #7 Komunitas (`60c9597`), ✅ #8 Karya (`9019720`), ✅ #9 Kelas (`3e16238`), ✅ #10 Aksi (`76a5784`), ✅ #11 Tagih (`ec347ab`), ✅ #12 Profil (`6db285b`).
 - [ ] **AUTH-1: Google OAuth config** — Google Cloud Console OAuth client + Supabase Provider config. Verify login flow end-to-end. _(M, ~30m)_
 - [ ] **AUTH-2: WhatsApp OTP config** — Twilio Verify Service + Supabase Provider config. Verify OTP delivery. _(M, ~30m)_
 - [ ] **CONTENT-1: Mock responses Nala 8 baru** — match 4 chip default + 4 topic relevan. Brand voice consistency. _(P draft, M review, C append, ~3h)_

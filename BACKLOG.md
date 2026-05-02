@@ -315,6 +315,62 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Sprint 4 prep: jw_passport_numbers serial table (real uniqueness)
+
+**Konteks (2026-05-01 dari Spec #12 audit):** `generateJWNumber(userId, year)` Sprint 3 pakai djb2-style hash deterministic dari userId — fast + no DB call, tapi **collision possible** kalau user count > 9999 (4-digit modulo). Sprint 4 saat user growth real, perlu DB-tracked serial.
+
+**Sprint 4 migration:**
+
+```sql
+CREATE TABLE jw_passport_numbers (
+  user_id uuid PRIMARY KEY REFERENCES auth.users,
+  year integer NOT NULL,
+  serial integer NOT NULL,
+  issued_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (year, serial)  -- enforce real uniqueness per year
+);
+
+-- Sequence per year (increment atomic)
+CREATE OR REPLACE FUNCTION issue_jw_number(uid uuid)
+RETURNS text
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  current_year int := EXTRACT(YEAR FROM now())::int;
+  next_serial int;
+  jw_num text;
+BEGIN
+  -- Idempotent: kalau user udah punya, return existing
+  SELECT 'JW-' || year || '-' || lpad(serial::text, 4, '0')
+  INTO jw_num
+  FROM jw_passport_numbers
+  WHERE user_id = uid;
+  IF FOUND THEN RETURN jw_num; END IF;
+  
+  -- Atomic increment + insert
+  SELECT COALESCE(MAX(serial), 0) + 1
+  INTO next_serial
+  FROM jw_passport_numbers
+  WHERE year = current_year;
+  
+  INSERT INTO jw_passport_numbers (user_id, year, serial)
+  VALUES (uid, current_year, next_serial);
+  
+  RETURN 'JW-' || current_year || '-' || lpad(next_serial::text, 4, '0');
+END;
+$$;
+```
+
+**Refactor Spec #12:**
+- `lib/profil/nomor-jw.ts` — replace `generateJWNumber` deterministic hash dengan `supabase.rpc('issue_jw_number', { uid: userId })`
+- Migration: backfill existing user JW number (loop semua profile, call RPC)
+- Test: assertion JW number unique across users
+
+**Timing:** Sprint 4 awal — sebelum traction beta. User count <100 = collision risk masih low, tapi proper DB-tracked = best practice scaling.
+
+---
+
 ### Sprint 4 prep: janji_per_partai aggregate view + pejabat_level column
 
 **Konteks (2026-05-01 dari Spec #11 audit):** PartaiDashboard pakai mock % hard-coded fallback karena belum ada aggregate view. Plus level filter di Tagih Index pakai workaround (pre-select pejabat ids → `.in()`) karena `janji_with_pejabat` view tidak expose `pejabat_level` column.
