@@ -185,6 +185,46 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Strategy: hybrid bridge → in-app upgrade (group chat + live videocall)
+
+**Decision Mas (2026-05-01):** Hybrid approach untuk 2 fitur infra-heavy — leverage external service dulu (cheap + fast), upgrade ke in-app integration saat traction proven.
+
+**Group chat:**
+- **Sprint 3-4 BRIDGE: WhatsApp Group external**
+  - Setiap chapter regional = 1 WA Group (Jakarta, Bandung, Malang, dll)
+  - Setiap sub-komunitas = 1 WA Group (Pemantau APBD, Mahasiswa Jurnalisme, dll)
+  - Komunitas page tampil "Gabung WhatsApp [Chapter] untuk chat realtime" + link
+  - Cap 1024 anggota per group (Meta limit 2024)
+- **Sprint 5+ UPGRADE: In-app Discord-like realtime chat**
+  - Build saat traction proven (50+ active user per chapter)
+  - Lihat detail di "Discord-like realtime chat di Komunitas" item below
+  - Migrate gradual, WA Group jadi backup untuk older user
+
+**Live videocall (Kelas + Event):**
+- **Sprint 3-4 BRIDGE: Zoom / Google Meet external**
+  - Mentor schedule live session manual
+  - Kelas detail page: "Live session [tanggal] [jam] WIB. Join via [Zoom/Meet] →" link
+  - Recording post-session upload ke YouTube/Drive, link di Kelas modul
+  - Cost: Google Meet unlimited free, Zoom Pro $14.99/host/bulan kalau butuh rekam langsung
+- **Sprint 5+ UPGRADE: Daily.co in-app integration**
+  - Build saat 50+ kelas active dengan live session reguler
+  - Mentor klik "Start live session" → in-app videocall (white-label brand)
+  - Recording auto-archive Supabase Storage
+  - Replay button per modul Kelas
+  - Cost: $0.05/peserta-menit + 200 menit gratis/bulan, transparent pricing
+  - Alternative: Jitsi (FREE self-host tapi maintenance), Whereby ($9.99/host/bulan)
+
+**Action items Sprint 3-4 (bridge implementation):**
+- Spec #11 atau patch: Komunitas page tampil WA Group link per chapter (admin Mas setup WA Group + paste link)
+- Spec #9 patch: Kelas detail page "Schedule live session" widget (mentor manual entry tanggal+jam+link external)
+
+**Action items Sprint 5+ (in-app upgrade):**
+- Discord-like chat infra (Supabase Realtime channel + presence)
+- Daily.co integration (account setup + JS SDK embed + recording webhook)
+- Migration plan dari WA Group / Zoom external ke in-app
+
+---
+
 ### Discord-like realtime chat di Komunitas
 
 **Konteks (2026-05-01 dari Mas):** Komunitas saat ini pakai forum thread pattern (async, post + reply tree). Mas pengen tambah ruang bincang realtime kayak Discord — channel-based synchronous chat dengan presence + typing indicator + emoji reactions.
