@@ -293,6 +293,52 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Sprint 4 prep: janji_per_partai aggregate view + pejabat_level column
+
+**Konteks (2026-05-01 dari Spec #11 audit):** PartaiDashboard pakai mock % hard-coded fallback karena belum ada aggregate view. Plus level filter di Tagih Index pakai workaround (pre-select pejabat ids → `.in()`) karena `janji_with_pejabat` view tidak expose `pejabat_level` column.
+
+**Sprint 4 cleanup migration:**
+
+```sql
+-- 1. Tambah pejabat_level ke janji_with_pejabat view
+DROP VIEW janji_with_pejabat;
+CREATE VIEW janji_with_pejabat AS
+SELECT
+  j.*,
+  p.nama AS pejabat_name,
+  p.jabatan AS pejabat_jabatan,
+  p.level AS pejabat_level,  -- NEW column
+  p.partai AS pejabat_partai,
+  p.foto_url AS pejabat_foto
+FROM janji j
+LEFT JOIN pejabat p ON p.id = j.pejabat_id;
+
+-- 2. Bikin aggregate view per partai
+CREATE VIEW janji_per_partai AS
+SELECT
+  p.partai,
+  COUNT(*) AS total,
+  COUNT(*) FILTER (WHERE j.status = 'Ditepati')  AS ditepati,
+  COUNT(*) FILTER (WHERE j.status = 'Berjalan')  AS berjalan,
+  COUNT(*) FILTER (WHERE j.status = 'Mandek')    AS mandek,
+  COUNT(*) FILTER (WHERE j.status = 'Diingkari') AS diingkari,
+  COUNT(*) FILTER (WHERE j.status = 'Belum')     AS belum,
+  ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS percent_total
+FROM janji j
+LEFT JOIN pejabat p ON p.id = j.pejabat_id
+WHERE p.partai IS NOT NULL
+GROUP BY p.partai
+ORDER BY total DESC;
+```
+
+**Refactor Spec #11:**
+- `partai-dashboard.tsx` — replace mock `partaiStats.map((p, idx) => ({...p, percent: 38 - idx*4}))` dengan `supabase.from('janji_per_partai').select('*')`
+- `app/tagih/page.tsx` — drop level filter workaround, langsung `q.eq('pejabat_level', filter.level)`
+
+**Timing:** Sprint 4 awal — natural cleanup yang Spec #11 audit expose.
+
+---
+
 ### Sprint 4 prep: vote_polling Postgres RPC (atomic increment)
 
 **Konteks (2026-05-01 dari Spec #10 audit):** votePollingAction Sprint 3 pakai fallback pattern: insert ke `polling_votes` (PK enforce one-vote-per-user), kalau success increment `polling.options[].votes` jsonb manually + bump `total_votes`. **TOCTOU race possible**: 2 user vote bersamaan → kedua read state lama, kedua tulis → 1 vote hilang.

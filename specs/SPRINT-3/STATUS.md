@@ -14,8 +14,9 @@
 | #8 | Karya page (Index + ReadingView) | ✅ DONE 2026-05-01 (12 file baru, 19 test baru, 58/58 pass, smoke test live OK, defensive type guard + Tailwind JIT lookup table) | 9019720 |
 | #9 | Kelas page (Index + Detail + LessonPlayer MVP) | ✅ DONE 2026-05-01 (14 file baru, 20 test baru, 78/78 pass, civic→fixed, idempotent target-progress, smoke test live OK) | 3e16238 |
 | #10 | Aksi page (Index + PetisiDetail + PollingDetail) | ✅ DONE 2026-05-01 (16 file baru, 18 test baru, 96/96 pass, idempotency via PG unique-violation, emoji audit 0 visible DOM) | 76a5784 |
-| #11 | Tagih page (Index + JanjiDetail + Submit) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (decisions: SVG static peta NO react-leaflet, partai widget basic, submit defer admin moderation Sprint 4) | — |
-| #12 | Profil + KTP Warga (PasporPublic) | 📋 Listed | — |
+| #11 | Tagih page (Index + JanjiDetail + Submit) | ✅ DONE 2026-05-01 (19 file baru, 24 test baru, 120/120 pass, level filter workaround clever, race-safe unfollow) | ec347ab |
+| #12 | Profil + KTP Warga (PasporPublic) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code #1** (decisions: paspor 4-tab, profil own + public, follow Sprint 4) | — |
+| #X1 | Custom SVG icon + emoji foundation (Tier 2 prep, paralel) | 📋 Spec written 2026-05-01, **untuk Claude Code #2 paralel** (zero overlap dengan #12, strict file ownership /jw-icon + /jw-emoji) | — |
 | #13 | Main games (Tebak Kata + game #2) | 📋 Listed (game #2 TBD: saran Tebak Pejabat) | — |
 | #14 | Brand consistency cleanup PPTX/DOCX | 📋 Listed | — |
 | #15 | Polish + audit (mock 8 baru, mode selector Nala, react-markdown) | 📋 Listed | — |
