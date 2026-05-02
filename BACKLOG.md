@@ -127,6 +127,28 @@ Real root cause yang ke-discover Claude Code saat eksekusi:
 
 ---
 
+### Operational note: Windows git OOM saat push besar
+
+**Konteks (2026-05-01 dari Spec #X1 push):** Push pertama OOM dengan error Windows git malloc 500MB pack (saat repo size + delta compression peak). Workaround:
+
+```powershell
+git -c pack.windowMemory=128m -c pack.threads=1 push origin main
+```
+
+**Permanent config (recommended):**
+```powershell
+git config --global pack.windowMemory 128m
+git config --global pack.threads 1
+```
+
+Trade-off: push sedikit lebih lambat (single-thread + window memory cap), tapi gak OOM crash.
+
+**Affects:** Mas's local Git on Windows. Linux/Mac (kantor mungkin pakai WSL/Mac) gak kena.
+
+**Catat di runbook:** kalau push gagal dengan "fatal: malloc, out of memory" atau "fatal: Out of memory", retry dengan flag di atas.
+
+---
+
 ### Planner audit hygiene: verify file actually committed
 
 **Lesson learned 2026-05-01:** `.gitignore` punya pattern `AUDIT_*.md` (untuk ignore audit draft). Saat aku push `docs/AUDIT_PRE_BETA_2026-05-01.md`, file ke-ignore — tapi `git push` tetap success (push commit lain). Aku salah verify "push success" sebagai "file pushed" tanpa cek `git show --stat <hash>`.

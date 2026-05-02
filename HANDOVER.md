@@ -83,7 +83,8 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #9 — Kelas page (Index + Detail + LessonPlayer MVP) | ✅ DONE 2026-05-01, commit `3e16238` (14 file baru, 20 test baru, 78 total pass, civic→fixed) |
 | #10 — Aksi page (Index + PetisiDetail + PollingDetail) | ✅ DONE 2026-05-01, commit `76a5784` (16 file baru, 18 test baru, 96 total pass, idempotency via PG unique-violation 23505) |
 | #11 — Tagih page (Index + JanjiDetail + Submit) | ✅ DONE 2026-05-01, commit `ec347ab` (19 file baru, 24 test baru, 120 total pass) |
-| #12 — Profil + KTP Warga (PasporPublic) | 📋 Listed, **NEXT untuk planner write spec (paralel cycle)** |
+| #12 — Profil + KTP Warga (PasporPublic) | 📋 Spec written 2026-05-01, **IN PROGRESS Claude Code #1 (paralel cycle)** |
+| #X1 — Custom SVG icon + emoji foundation (Tier 2 prep) | ✅ DONE 2026-05-01, commit `b4b7656` (12 file baru, 18 test, 142 total, brand-palette guard test) |
 | #13-#15 — Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #12 |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
