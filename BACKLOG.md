@@ -185,6 +185,8 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 **Owner:** planner draft → Mas review → Claude Code append.
 
+Status: ✅ DONE 2026-05-01 — 8 curated mock response baru (DPR/DPD, KUHP pasal karet, BPJS Kesehatan, hak warga vs polisi, putusan MK, baca APBD, lapor pungli, pilkada vs pemilu) ditambahkan ke `MOCK_RESPONSES`. Total 11 rule. Brand voice on-tone (kamu/aku, follow-up tanya), citation placeholder URL, +10 test. Catatan: chip empty state masih `.slice(0, 4)` per `nala-prompt-chips.tsx:17`, jadi 4 chip tanya yang visible (DPR/DPD, KUHP, BPJS, polisi) sekarang fully covered. 4 topic sisanya (MK, APBD, pungli, pilkada) trigger via free-text query — belum ditambah sebagai chip karena slice(0,4) bakal cut. Kalau Mas mau expose, reorder NALA_SUGGESTIONS atau naikin slice limit.
+
 ---
 
 ### Mode selector UI di Nala panel
