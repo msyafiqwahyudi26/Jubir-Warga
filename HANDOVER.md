@@ -81,8 +81,9 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #7 — Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01, commit `60c9597` (15 file baru, 16 test baru, 39 total pass, smoke test live OK) |
 | #8 — Karya page (Index + ReadingView) | ✅ DONE 2026-05-01, commit `9019720` (12 file baru, 19 test baru, 58 total pass) |
 | #9 — Kelas page (Index + Detail + LessonPlayer MVP) | ✅ DONE 2026-05-01, commit `3e16238` (14 file baru, 20 test baru, 78 total pass, civic→fixed) |
-| #10 — Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Spec written 2026-05-01 (decisions: Lucide NO emoji, login required, basic counter). **NEXT untuk Claude Code** |
-| #11-#15 — Tagih, Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #10 |
+| #10 — Aksi page (Index + PetisiDetail + PollingDetail) | ✅ DONE 2026-05-01, commit `76a5784` (16 file baru, 18 test baru, 96 total pass, idempotency via PG unique-violation 23505) |
+| #11 — Tagih page (Index + JanjiDetail) | 📋 Listed, **NEXT untuk planner write spec** |
+| #12-#15 — Profil, Main games, Brand cleanup, Polish | 📋 Listed di overview, specs to be written setelah #11 |
 
 **Database state Supabase (project `ifrautpvbhdbhieystxk`):**
 

@@ -13,8 +13,8 @@
 | #7 | Komunitas page (Index + ThreadDetail) | ✅ DONE 2026-05-01 (15 file baru, 16 test baru, 39/39 pass, smoke test live OK) | 60c9597 |
 | #8 | Karya page (Index + ReadingView) | ✅ DONE 2026-05-01 (12 file baru, 19 test baru, 58/58 pass, smoke test live OK, defensive type guard + Tailwind JIT lookup table) | 9019720 |
 | #9 | Kelas page (Index + Detail + LessonPlayer MVP) | ✅ DONE 2026-05-01 (14 file baru, 20 test baru, 78/78 pass, civic→fixed, idempotent target-progress, smoke test live OK) | 3e16238 |
-| #10 | Aksi page (Index + PetisiDetail + PollingDetail) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code** (decisions: Lucide icon NO emoji, login required, basic counter Sprint 3) | — |
-| #11 | Tagih page (Index + JanjiDetail) | 📋 Listed | — |
+| #10 | Aksi page (Index + PetisiDetail + PollingDetail) | ✅ DONE 2026-05-01 (16 file baru, 18 test baru, 96/96 pass, idempotency via PG unique-violation, emoji audit 0 visible DOM) | 76a5784 |
+| #11 | Tagih page (Index + JanjiDetail) | 📋 Listed, **NEXT untuk planner write spec** | — |
 | #12 | Profil + KTP Warga (PasporPublic) | 📋 Listed | — |
 | #13 | Main games (Tebak Kata + game #2) | 📋 Listed (game #2 TBD: saran Tebak Pejabat) | — |
 | #14 | Brand consistency cleanup PPTX/DOCX | 📋 Listed | — |

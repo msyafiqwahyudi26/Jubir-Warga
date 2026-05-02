@@ -253,6 +253,58 @@ Status: ✅ FIXED 2026-05-01 dengan add exception `!docs/AUDIT_*.md` + `!docs/PR
 
 ---
 
+### Sprint 4 prep: vote_polling Postgres RPC (atomic increment)
+
+**Konteks (2026-05-01 dari Spec #10 audit):** votePollingAction Sprint 3 pakai fallback pattern: insert ke `polling_votes` (PK enforce one-vote-per-user), kalau success increment `polling.options[].votes` jsonb manually + bump `total_votes`. **TOCTOU race possible**: 2 user vote bersamaan → kedua read state lama, kedua tulis → 1 vote hilang.
+
+**Sprint 4 fix sebelum Realtime subscriptions:**
+
+```sql
+CREATE OR REPLACE FUNCTION vote_polling(
+  polling_id uuid,
+  option_id text,
+  voter_id uuid
+) RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  -- Atomic insert (PK enforce one-vote)
+  INSERT INTO polling_votes (polling_id, user_id, option_id, voted_at)
+  VALUES (polling_id, voter_id, option_id, now());
+  
+  -- Atomic jsonb update via SQL function (no read-modify-write race)
+  UPDATE polling
+  SET options = jsonb_set(
+        options,
+        '{' || (
+          SELECT idx - 1 
+          FROM jsonb_array_elements(options) WITH ORDINALITY AS arr(elem, idx)
+          WHERE elem->>'id' = option_id
+        ) || ',votes}',
+        to_jsonb((
+          (SELECT (elem->>'votes')::int 
+           FROM jsonb_array_elements(options) AS elem 
+           WHERE elem->>'id' = option_id) + 1
+        ))
+      ),
+      total_votes = total_votes + 1
+  WHERE id = polling_id;
+END;
+$$;
+```
+
+**Refactor Spec #10 actions.ts:** replace fallback pattern dengan single RPC call:
+```ts
+const { error } = await supabase.rpc('vote_polling', {
+  polling_id: ..., option_id: ..., voter_id: user.id
+});
+```
+
+**Timing:** Sprint 4 awal — sebelum Realtime vote subscription (race condition more critical saat live update).
+
+---
+
 ### Sprint 4 prep: kelas_modul_completion table refactor
 
 **Konteks (2026-05-01):** Spec #9 LessonPlayer pakai idempotency via target-progress comparison (current >= target → no-op). Sederhana untuk MVP, tapi gak granular per-modul.

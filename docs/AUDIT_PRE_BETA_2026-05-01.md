@@ -108,7 +108,7 @@ Project dalam kondisi **sangat sehat untuk fase MVP dan pitch demo (8.5/10)**, t
 - [ ] **OPS-5: Phase 2 deployment target** — decide Vercel atau VPS, setup CICD, staging URL public (mis. `beta.jubirwarga.id`). _(M decide, C execute, ~1 hari)_
 - [ ] **OPS-6: Global error boundary** — `app/error.tsx` + `app/global-error.tsx` Next.js convention dengan brand-consistent fallback UI. _(C, ~1h)_
 - [ ] **PAGE-1: Page port complete** — Spec #7-12 selesai (Komunitas, Karya, Kelas, Aksi, Tagih, Profil). _(C, 13-18h)_  
-  **Progress: 3/6** — ✅ #7 Komunitas (`60c9597`), ✅ #8 Karya (`9019720`), ✅ #9 Kelas (`3e16238`). Sisa: #10 Aksi, #11 Tagih, #12 Profil.
+  **Progress: 4/6** — ✅ #7 Komunitas (`60c9597`), ✅ #8 Karya (`9019720`), ✅ #9 Kelas (`3e16238`), ✅ #10 Aksi (`76a5784`). Sisa: #11 Tagih, #12 Profil.
 - [ ] **AUTH-1: Google OAuth config** — Google Cloud Console OAuth client + Supabase Provider config. Verify login flow end-to-end. _(M, ~30m)_
 - [ ] **AUTH-2: WhatsApp OTP config** — Twilio Verify Service + Supabase Provider config. Verify OTP delivery. _(M, ~30m)_
 - [ ] **CONTENT-1: Mock responses Nala 8 baru** — match 4 chip default + 4 topic relevan. Brand voice consistency. _(P draft, M review, C append, ~3h)_
