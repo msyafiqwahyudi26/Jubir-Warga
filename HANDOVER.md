@@ -86,7 +86,7 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #12 — Profil + KTP Warga (PasporPublic) | ✅ DONE 2026-05-01, commit `6db285b` (16 file baru, 35 test baru, 155 total pass, privacy by design — public visa filter action-privat) |
 | #X1 — Custom SVG icon + emoji foundation (Tier 2 prep) | ✅ DONE 2026-05-01, commit `b4b7656` (12 file baru, 18 test, brand-palette guard test) |
 | #X2 — Mock responses Nala 8 baru (paralel, tunggu Claude Code #2) | ⏳ IN PROGRESS Claude Code #2 |
-| #13 — Main games (Tebak Kata + Tebak Pejabat) | 📋 Listed, **NEXT untuk planner write spec** |
+| #13 — Main games (Tebak Kata + Tebak Pejabat) | 📋 Spec written 2026-05-01 (decisions: Wordle-clone civic-fixed + Tebak Pejabat 14 seed). **NEXT untuk Claude Code #1** |
 | #14 — Brand consistency cleanup PPTX/DOCX | 📋 Listed |
 | #15 — Polish + audit | 📋 Listed |
 

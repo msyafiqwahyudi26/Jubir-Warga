@@ -1,0 +1,42 @@
+# .github/workflows/deploy.yml — auto-deploy on push to main
+# Setup: GitHub repo Settings → Secrets → New: SSH_KEY (paste private key)
+
+name: Deploy to VPS Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # manual trigger from Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build standalone HTML
+        run: python3 build_standalone.py
+
+      - name: Deploy to VPS via rsync
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete --exclude='.git' --exclude='node_modules' --exclude='deploy/' --exclude='*.docx' --exclude='*.pptx'
+          path: ./
+          remote_path: /var/www/jubirwarga/
+          remote_host: 76.13.196.172
+          remote_user: root
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: Reload Nginx
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 76.13.196.172
+          username: root
+          key: ${{ secrets.SSH_KEY }}
+          script: systemctl reload nginx

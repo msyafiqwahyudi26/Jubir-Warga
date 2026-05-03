@@ -21,7 +21,8 @@
       "Bash(pnpm *)",
       "Bash(curl *)",
       "Bash(awk '{print $5\"  \"$NF}')",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "PowerShell(pnpm --filter @jw/web typecheck)"
     ]
   }
 }

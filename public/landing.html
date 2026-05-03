@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jubir Warga — Suara warga, rumahnya di sini.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#1A2256" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{background:#FFFAEE;color:#2A2D3A;font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px;width:100%;flex:1;display:flex;flex-direction:column;justify-content:center;position:relative}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:48px}
+  .brand-logo{width:36px;height:36px;background:#1A2256;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#FFFAEE;font-family:'Vollkorn',serif;font-weight:700;font-size:20px}
+  .brand-name{font-family:'Vollkorn',serif;font-weight:700;font-size:18px;color:#1A2256}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:#E8632B;color:#FFFAEE;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:24px;width:fit-content}
+  .badge-dot{width:8px;height:8px;background:#FFFAEE;border-radius:50%;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  h1{font-family:'Vollkorn',serif;font-size:clamp(32px,5.5vw,56px);font-weight:700;color:#1A2256;line-height:1.1;margin-bottom:20px;letter-spacing:-0.02em}
+  h1 em{font-style:italic;color:#E8632B}
+  .lead{font-size:clamp(16px,2vw,19px);color:#2A2D3A;opacity:0.85;line-height:1.6;max-width:640px;margin-bottom:36px}
+  .hand{font-family:'Caveat',cursive;font-size:22px;color:#E8632B;display:inline-block;transform:rotate(-1.5deg)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
+  .card{background:#fff;border:1px solid #E6DECB;border-radius:16px;padding:20px;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(26,34,86,.08)}
+  .card-icon{font-size:24px;margin-bottom:8px}
+  .card-title{font-family:'Vollkorn',serif;font-weight:600;font-size:16px;color:#1A2256;margin-bottom:6px}
+  .card-desc{font-size:13px;color:#2A2D3A;opacity:0.7;line-height:1.5}
+  .cta-block{background:#1A2256;color:#FFFAEE;border-radius:24px;padding:36px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+  @media (min-width:680px){.cta-block{flex-direction:row;align-items:center;justify-content:space-between;padding:40px}}
+  .cta-text{flex:1}
+  .cta-text h3{font-family:'Vollkorn',serif;font-size:22px;font-weight:700;margin-bottom:6px}
+  .cta-text p{font-size:14px;opacity:0.8;line-height:1.5}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:#E8632B;color:#FFFAEE;padding:14px 24px;border-radius:12px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .12s,filter .12s;border:none;cursor:pointer;font-family:inherit}
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:scale(.97)}
+  .footer{padding:32px 24px;border-top:1px solid #E6DECB;text-align:center;font-size:13px;color:#2A2D3A;opacity:0.6}
+  .footer a{color:#1A2256;text-decoration:none;font-weight:500}
+  .nala-wrap{position:absolute;top:8px;right:0;width:120px;height:120px;display:none}
+  @media (min-width:900px){.nala-wrap{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nala-wrap">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <defs>
+        <radialGradient id="bg" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#2D3A78"/><stop offset="100%" stop-color="#1A2256"/></radialGradient>
+        <radialGradient id="hg" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#2D3A78"/><stop offset="100%" stop-color="#1A2256"/></radialGradient>
+        <radialGradient id="bk" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#F2B137"/><stop offset="100%" stop-color="#C8881A"/></radialGradient>
+        <filter id="ds"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#1A2256" flood-opacity="0.18"/></filter>
+      </defs>
+      <ellipse cx="60" cy="108" rx="28" ry="3" fill="#1A2256" opacity="0.15"/>
+      <g transform="rotate(-3 60 50)" filter="url(#ds)">
+        <ellipse cx="60" cy="78" rx="28" ry="22" fill="url(#bg)"/>
+        <ellipse cx="60" cy="82" rx="18" ry="15" fill="#FFFAEE" opacity="0.95"/>
+        <ellipse cx="36" cy="76" rx="9" ry="14" fill="#0F1740" transform="rotate(-12 36 76)"/>
+        <ellipse cx="84" cy="76" rx="9" ry="14" fill="#0F1740" transform="rotate(12 84 76)"/>
+        <ellipse cx="60" cy="42" rx="24" ry="22" fill="url(#hg)"/>
+        <g transform="translate(60 18) rotate(6)"><ellipse cx="0" cy="0" rx="5" ry="8" fill="#E8632B"/><ellipse cx="-4" cy="-2" rx="2.5" ry="5" fill="#E8632B" opacity="0.7"/></g>
+        <ellipse cx="50" cy="36" rx="7.5" ry="7.5" fill="#fff"/>
+        <ellipse cx="51" cy="36.5" rx="3.6" ry="3.6" fill="#1A2256"/>
+        <circle cx="52.5" cy="35" r="1.4" fill="#fff"/>
+        <ellipse cx="70" cy="36" rx="7.5" ry="7.5" fill="#fff"/>
+        <ellipse cx="71" cy="36.5" rx="3.6" ry="3.6" fill="#1A2256"/>
+        <circle cx="72.5" cy="35" r="1.4" fill="#fff"/>
+        <path d="M52 50 Q60 56 68 50 Q60 62 52 50 Z" fill="url(#bk)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="brand">
+    <div class="brand-logo">JW</div>
+    <div class="brand-name">Jubir Warga</div>
+  </div>
+
+  <span class="badge"><span class="badge-dot"></span>Beta · Build in public</span>
+
+  <h1>Suara warga, <em>rumahnya di sini</em>.</h1>
+
+  <p class="lead">
+    Tempat ngumpul anak muda 17–39 yang masih percaya suara kita penting — buat ngobrol, belajar, bikin karya, ikut petisi, sampai nagih janji pemerintah. Sambil ditemani <strong>Nala</strong>, beo curhat yang dengar kabar dan ngasih tahu.
+  </p>
+
+  <p style="margin-bottom:36px"><span class="hand">↓ yang lagi disiapkan</span></p>
+
+  <div class="grid">
+    <div class="card"><div class="card-icon">🏘️</div><div class="card-title">Komunitas</div><div class="card-desc">Forum sub-komunitas: politik, kerja, kreatif, sampai mental health.</div></div>
+    <div class="card"><div class="card-icon">📚</div><div class="card-title">Kelas &amp; Karya</div><div class="card-desc">Belajar dari sesama, terbitkan tulisan/vlog/ilustrasi.</div></div>
+    <div class="card"><div class="card-icon">⚡</div><div class="card-title">Aksi</div><div class="card-desc">Petisi, polling, dan agenda kolektif yang nyata.</div></div>
+    <div class="card"><div class="card-icon">🎯</div><div class="card-title">Tagih Janji</div><div class="card-desc">Database janji pejabat — kita pantau bareng-bareng.</div></div>
+    <div class="card"><div class="card-icon">🦜</div><div class="card-title">Nala AI</div><div class="card-desc">Beo curhat. Selalu pakai sumber, jujur kalau belum tahu.</div></div>
+    <div class="card"><div class="card-icon">📇</div><div class="card-title">KTP Warga</div><div class="card-desc">Paspor digital dari kontribusimu — bukti nyata partisipasi.</div></div>
+  </div>
+
+  <div class="cta-block">
+    <div class="cta-text">
+      <h3>Soft launch dalam beberapa hari.</h3>
+      <p>Lagi polish UI, hubungin backend, beresin onboarding. Mau jadi orang pertama yang nyobain? Kabari kami.</p>
+    </div>
+    <a class="btn" href="mailto:halo@spdindonesia.org?subject=Daftar%20Beta%20Jubir%20Warga">Daftar jadi beta tester →</a>
+  </div>
+</div>
+
+<div class="footer">
+  © 2026 Jubir Warga · Inisiatif <a href="https://spdindonesia.org" target="_blank" rel="noopener">SPD Indonesia</a> ·
+  <a href="https://github.com/msyafiqwahyudi26/Jubir-Warga" target="_blank" rel="noopener">Build in public di GitHub</a>
+</div>
+</body>
+</html>

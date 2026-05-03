@@ -17,7 +17,7 @@
 | #11 | Tagih page (Index + JanjiDetail + Submit) | ✅ DONE 2026-05-01 (19 file baru, 24 test baru, 120/120 pass, level filter workaround clever, race-safe unfollow) | ec347ab |
 | #12 | Profil + KTP Warga (PasporPublic) | ✅ DONE 2026-05-01 (16 file baru, 35 test baru, 155/155 pass, paralel zero conflict, privacy by design — public visa filter action-privat) | 6db285b |
 | #X1 | Custom SVG icon + emoji foundation (Tier 2 prep, paralel) | ✅ DONE 2026-05-01 (12 file baru, 18 test baru termasuk brand-palette guard, 142/142 pass, strict file ownership respected, zero conflict dengan #12) | b4b7656 |
-| #13 | Main games (Tebak Kata + game #2) | 📋 Listed (game #2 TBD: saran Tebak Pejabat) | — |
+| #13 | Main games (Tebak Kata + Tebak Pejabat) | 📋 Spec written 2026-05-01, **NEXT untuk Claude Code #1** (decisions: Tebak Kata Wordle-clone civic-fixed + Tebak Pejabat leverage 14 pejabat seed real, paralel-safe) | — |
 | #14 | Brand consistency cleanup PPTX/DOCX | 📋 Listed | — |
 | #15 | Polish + audit (mock 8 baru, mode selector Nala, react-markdown) | 📋 Listed | — |
 

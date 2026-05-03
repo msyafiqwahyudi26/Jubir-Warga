@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -c pack.windowMemory=128m -c pack.packSizeLimit=128m -c pack.deltaCacheSize=64m -c pack.threads=1 push origin main)",
+      "Bash(git commit -m ' *)",
+      "Bash(awk '/^      game_scores: {/,/Relationships:/' \"packages/data/src/database.types.ts\")"
+    ]
+  }
+}
