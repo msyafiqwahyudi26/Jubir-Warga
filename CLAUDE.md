@@ -6,14 +6,26 @@ Dokumen ini dibaca **pertama kali** oleh Claude Code (atau LLM developer lain) s
 
 ## 0. Required reading sebelum task pertama
 
-Wajib baca dulu file-file di bawah ini sebelum implementasi apapun. Konteks brand & produk lengkap ada di sana:
+Wajib baca dulu file-file di bawah ini sebelum implementasi apapun. Konteks brand & produk lengkap ada di sana.
+
+**Tier 1 — memory file system (di repo root, urutan baca saat resume / fresh session):**
+
+| File | Untuk task apa |
+|---|---|
+| `memory.md` | Persistent context — owner, locked decisions, recurring quirks, brand voice digest |
+| `context.md` | Current state — recently completed, pending decisions, conversation summary |
+| `handover.md` | Sprint status detail (canonical untuk dual-agent workflow planner ↔ Claude Code), decisions open, next step |
+| `agents.md` | Surface routing — kapan pakai Claude Code vs Cowork vs sub-agent |
+| `skills.md` | Playbook task umum — git push Windows OOM workaround, quality gates, end-of-session ritual |
+
+**Tier 2 — domain context (baca saat task spesifik):**
 
 | File | Untuk task apa |
 |---|---|
 | `apps/legacy/docs/RENCANA_1_BULAN.md` | Roadmap, success metrics, IA, persona target |
 | `apps/legacy/docs/Landing_Page_Beta_Copy.md` | Copy landing page (11 section) — source of truth saat tulis copy publik |
 | `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` | Design system spec lengkap — palette, tipografi, ilustrasi, page-by-page IA |
-| `specs/SPRINT-2/*.md` | Spec aktif untuk sprint berjalan |
+| `specs/SPRINT-3/*.md` | Spec aktif untuk sprint berjalan (Sprint 3, Sprint 2 closed) |
 
 Kalau task bersinggungan dengan visual / copy / brand, **WAJIB cross-check** ke Landing copy dan Design v2. Kalau bertentangan dengan implementasi Phase 1 — design doc menang untuk Phase 2.
 
