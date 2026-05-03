@@ -2,7 +2,26 @@
 
 > **Untuk Mas (owner):** Paste isi file ini sebagai pesan PERTAMA di chat Cowork baru saat pindah device (e.g., dari komputer kantor ke laptop di rumah). Planner Claude akan onboard dengan konteks penuh.
 >
-> Last updated: 2026-05-01 (post Spec #8 Karya + new evaluation report + Sprint 4/5 gap identified)
+> Last updated: 2026-05-03 (post Sprint 3 Spec #13 Main games DONE — commit `72ce58c`, 9/10 Sprint 3 closed, tinggal #15 Polish)
+
+---
+
+## ⚡ Quick resume cheat sheet (added 2026-05-03)
+
+Mas mau pindah ke laptop. Setup memory file system baru di repo root supaya continuity makin seamless:
+
+| File | Isi |
+|---|---|
+| `CLAUDE.md` | Operating manual lengkap (existing, source of truth untuk konvensi & brand) |
+| `memory.md` | 🆕 Persistent context — owner, locked decisions, recurring quirks, brand voice digest |
+| `agents.md` | 🆕 Routing guide — kapan pakai Claude Code vs Cowork vs sub-agent |
+| `context.md` | 🆕 Current state — recently completed, pending decisions, conversation summary |
+| `skills.md` | 🆕 Playbook — git push Windows OOM workaround, quality gates, end-of-session ritual |
+| `handover.md` | File ini — comprehensive Sprint status & dual-agent workflow |
+
+**Urutan baca saat resume di laptop**: `CLAUDE.md` → `memory.md` → `context.md` → `handover.md` (file ini, untuk Sprint detail).
+
+**Last commit pushed**: `72ce58c` (Spec #13 Main games — Tebak Kata + Tebak Pejabat. Fast-forward dari `383a82d`, no conflict dengan Window 2). Verify dengan `git log --oneline -5`.
 
 ---
 
@@ -85,8 +104,8 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 | #11 — Tagih page (Index + JanjiDetail + Submit) | ✅ DONE 2026-05-01, commit `ec347ab` (19 file baru, 24 test baru, 120 total pass) |
 | #12 — Profil + KTP Warga (PasporPublic) | ✅ DONE 2026-05-01, commit `6db285b` (16 file baru, 35 test baru, 155 total pass, privacy by design — public visa filter action-privat) |
 | #X1 — Custom SVG icon + emoji foundation (Tier 2 prep) | ✅ DONE 2026-05-01, commit `b4b7656` (12 file baru, 18 test, brand-palette guard test) |
-| #X2 — Mock responses Nala 8 baru (paralel, tunggu Claude Code #2) | ⏳ IN PROGRESS Claude Code #2 |
-| #13 — Main games (Tebak Kata + Tebak Pejabat) | 📋 Spec written 2026-05-01 (decisions: Wordle-clone civic-fixed + Tebak Pejabat 14 seed). **NEXT untuk Claude Code #1** |
+| #X2 — Mock responses Nala 8 baru | ✅ DONE 2026-05-01, commit `383a82d` (8 mock — DPR/DPD, KUHP, BPJS, polisi, MK, APBD, pungli, pilkada — total 11 rule. 10 test baru, 142→165 pass. Citation per allowlist. Limitation: chip cap `.slice(0,4)` di `nala-prompt-chips.tsx:17` — 4 topic baru belum visible sebagai chip, di-BACKLOG) |
+| #13 — Main games (Tebak Kata + Tebak Pejabat) | ✅ DONE 2026-05-03, commit `72ce58c` (12 impl + 4 test = 16 file. `lib/main/`: constants/word-of-day/pejabat-of-day/streak. `app/main/`: actions, page, tebak-kata + tebak-pejabat (Server + Client + leaderboard). 4 test baru: word-of-day, pejabat-of-day, streak, tebak-kata-game. Total test 155→195 pass. Strict ownership respected — Nala territory untouched. Smoke test SKIPPED — `pnpm dev` memory pressure, rest on typecheck+test. Acceptance 18/22 verified via test, 4 perlu manual browser. Header nav `/main` link out-of-scope, Mas follow-up commit needed.) |
 | #14 — Brand consistency cleanup PPTX/DOCX | 📋 Listed |
 | #15 — Polish + audit | 📋 Listed |
 
@@ -201,16 +220,20 @@ Plan ada di `specs/SPRINT-3/00-overview.md`. 10 spec total (#6-#15), BACKLOG-dri
 
 Sebelum aku (planner) mulai bantu di chat baru, aku akan baca **WAJIB**:
 1. `CLAUDE.md` — operating manual
-2. `HANDOVER.md` — file ini
-3. `BACKLOG.md` — backlog item dengan timing eksplisit (Sprint 3/4/5 priority)
-4. `docs/AUDIT_PRE_BETA_2026-05-01.md` — pre-beta launch checklist & audit per dimensi (skor, gap, sequence)
-5. `docs/EVALUATION_PHASE1_VS_PHASE2_2026-05-01.md` — side-by-side comparison Phase 1 vs Phase 2, gap analysis super web/app, list 28 fitur kritis untuk Sprint 4-5
-5. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
-6. `apps/web/QUICKSTART.md` — setup runbook
-7. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
-8. `specs/SPRINT-2/STATUS.md` — apa yang sudah selesai
-9. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
-10. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
+2. `memory.md` — persistent context (owner, locked decisions, recurring quirks)
+3. `context.md` — current state + recent conversation summary
+4. `handover.md` — file ini (Sprint status detail, dual-agent workflow)
+5. `agents.md` — surface & sub-agent routing guide
+6. `skills.md` — playbook task umum
+7. `BACKLOG.md` — backlog item dengan timing eksplisit (Sprint 3/4/5 priority)
+8. `docs/AUDIT_PRE_BETA_2026-05-01.md` — pre-beta launch checklist & audit per dimensi (skor, gap, sequence)
+9. `docs/EVALUATION_PHASE1_VS_PHASE2_2026-05-01.md` — side-by-side comparison Phase 1 vs Phase 2, gap analysis super web/app, list 28 fitur kritis untuk Sprint 4-5
+10. `packages/data/README.md` — data layer API surface (queries + hooks udah lengkap, JANGAN re-build)
+11. `apps/web/QUICKSTART.md` — setup runbook
+12. `specs/SPRINT-3/*.md` — spec aktif (overview + spec individual)
+13. `specs/SPRINT-2/STATUS.md` — apa yang sudah selesai
+14. `apps/legacy/docs/Prompt_Claude_Design_Jubir_Warga_v2.md` — design system spec lengkap
+15. `apps/legacy/docs/Landing_Page_Beta_Copy.md` — copy landing source-of-truth
 
 Kalau aku belum baca, ingatkan aku.
 
@@ -220,4 +243,14 @@ Kalau aku belum baca, ingatkan aku.
 
 Saat Mas pindah ke laptop dan paste HANDOVER.md ini ke chat baru, kasih juga konteks tambahan apa yang Mas inget terjadi terakhir (mis. "lorem fix Claude Code selesai dengan hasil X" atau "ada bug Y yang belum di-resolve"). Aku akan cross-check dengan repo state via tools yang tersedia.
 
-Lanjut Sprint 2 Spec #4 (Design heritage port) adalah next logical step. Aku akan kasih starter prompt setelah Mas confirm laptop ready + pnpm dev jalan.
+**Status per 2026-05-03**: Sprint 2 closed. Sprint 3 9/10 DONE (#6, #6.5, #7-#13, #X1, #X2 ✅). Yang tersisa di Sprint 3: **#15 Polish** (final audit + per laporan Mas: 8 more mock responses Nala — perlu klarifikasi apakah folded ke #15 atau jadi #X3 terpisah). #14 (brand cleanup PPTX/DOCX) status ambigu — tidak disebut di laporan terakhir, perlu cross-check apakah masih open atau sudah diserap ke #15.
+
+**Follow-up commit kecil dari Mas** (out of #13 ownership): tambah `/main` link ke `site-header.tsx` nav (existing 5-surface: Komunitas/Karya/Kelas/Janji/Aksi) supaya games discoverable dari header.
+
+**Smoke test gap**: 4 acceptance item Spec #13 (hero render, link visual, tile color, win/lose banner) belum ke-verify via browser karena `pnpm dev` memory pressure. Manual smoke 2-3 menit di laptop sufficient. Kalau Sprint 4 bawa Playwright/E2E infra, re-verify via headless test.
+
+**4 pending decision** (juga di `context.md`):
+1. Chip exposure strategy untuk 4 topic Nala baru — opsi A (rotasi) / B (kategorisasi tab) / C (expander) / D (free-text)
+2. Citation URL audit owner + timeline pre-Juni 2026
+3. Windows git OOM root cause — bikin BACKLOG item terpisah?
+4. Mock responses Nala phase 2 (8 more): folded ke #15 Polish atau spec terpisah #X3?
