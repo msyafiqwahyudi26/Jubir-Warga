@@ -32,6 +32,18 @@ Status per 2026-05-03 (canonical: `specs/SPRINT-3/STATUS.md` + `handover.md`):
 
 ## Recently completed
 
+### 2026-05-03 — Sprint 3 Spec #13 Main games (Tebak Kata + Tebak Pejabat)
+- **Commit**: `72ce58c` (fast-forward dari `383a82d`, no conflict dengan Window 2's parallel Nala work)
+- **Files**: 16 actual (12 impl + 4 test)
+  - `lib/main/`: `constants.ts` (50 word `WORDS_OF_DAY` validated, `KEYBOARD_LAYOUT` QWERTY ID, `evaluateGuess` Wordle 2-pass, `scoreForAttempt`), `word-of-day.ts` (deterministic UTC-day-index), `pejabat-of-day.ts` (deterministic + stride-based distractors), `streak.ts` (consecutive days, today-missing-OK, 365 cap)
+  - `app/main/`: `actions.ts` (`submitGameScoreAction` Zod-validated, anonymous redirect, server one-game-per-day check), `page.tsx` (Server, hero + 2 card + Flame streak), `tebak-kata/` (Server page + Client game + leaderboard top 3 by attempts asc), `tebak-pejabat/` (Server page + Client game + leaderboard top 3 by score desc)
+  - `__tests__/`: word-of-day (dictionary integrity + deterministic + cycle), pejabat-of-day (deterministic + 3 distractors distinct + edge), streak (7 case incl. 365 cap), tebak-kata-game (evaluateGuess + scoreForAttempt + render + keyboard)
+- **Quality gates**: typecheck 0 error (1 fix mid-flight: `vi.fn` mock signature for spread-arg type), lint 0 new warning, test **195/195 pass** in 32 file (155 → 195, +40)
+- **Strict file ownership respected**: edited only `/app/main`, `/lib/main`, 4 new test, spec markdown. Window 2 territory (`nala/mock-responses.ts`, `nala-prompts.ts`, `lib-nala-mock-responses.test.ts`) **untouched**.
+- **Acceptance 18/22 verified via test**, 4 perlu manual browser (hero render, link visual, tile color full visual confirm, win/lose banner UI). Smoke `pnpm dev` SKIPPED karena memory pressure (paging file crash earlier in session).
+- **Anti-pattern audit pre-render**: 0 occurrence "civic", 0 "Citizen", copy "Tebak Kata Hari Ini" + "Kata warga 5 huruf" in place.
+- **Out-of-scope follow-up**: tambah `/main` link ke `site-header.tsx` (existing nav 5-surface tidak include, Mas perlu commit terpisah).
+
 ### 2026-05-01 — Nala mock responses expansion (BACKLOG item)
 - **Commit**: `383a82d`
 - **Files**:
@@ -51,6 +63,11 @@ Status per 2026-05-03 (canonical: `specs/SPRINT-3/STATUS.md` + `handover.md`):
 ---
 
 ## Pending decision (perlu Mas konfirmasi)
+
+### 0. Header nav `/main` link follow-up (out of Spec #13 ownership)
+Spec #13 strict scope `/app/main` + `/lib/main`, jadi tidak edit `site-header.tsx`. Existing nav 5-surface (Komunitas/Karya/Kelas/Janji/Aksi) belum include `/main` — games not discoverable dari header.
+
+**Action**: Mas (atau Claude Code laptop di follow-up commit) tambah link `Main` ke nav. Small change, satu file edit.
 
 ### 1. Chip exposure strategy untuk 8 topic Nala
 Sekarang `nala-prompt-chips.tsx` pakai `.slice(0, 4)` — cuma 4 chip visible. Topic baru (MK, APBD, pungli, pilkada) belum exposed sebagai chip walaupun mock response-nya udah jadi.
@@ -83,10 +100,11 @@ _(kosong — last work selesai di commit `383a82d`)_
 
 ## Recent conversation summary
 
-### Session 2026-05-03 — Setup persistent memory files (current)
-- Mas mau pindah ke laptop, minta verifikasi semua udah ke-push (jawab: per laporan sebelumnya commit `383a82d` udah pushed). Aku kasih command verifikasi: `git status` + `git log @{u}..HEAD --oneline`.
-- Mas request setup `memory.md`, `agents.md`, `context.md`, `skills.md`, `handover.md` untuk continuity cross-device.
-- Aku create 5 file di repo root, commitable ke git biar sync via `git pull` di laptop. Update `CLAUDE.md` §0 untuk reference file baru ini.
+### Session 2026-05-03 — Spec #13 DONE + memory files setup (current)
+- Mas push commit `72ce58c` — Spec #13 Main games (Tebak Kata Wordle-clone + Tebak Pejabat). 16 file (12 impl + 4 test). Detail di "Recently completed" di atas.
+- Pre-#13: setup memory file system (`memory.md`/`agents.md`/`context.md`/`skills.md`/`handover.md` di repo root) untuk continuity cross-device. Update `CLAUDE.md` §0 jadi 2-tier (memory file system + domain context).
+- Mas mau pindah ke laptop, verifikasi state pushed. Aku kasih command verifikasi: `git status` + `git log @{u}..HEAD --oneline`.
+- Mas tanya soal scheduled Playwright agent untuk re-verify 4 acceptance gap Spec #13 setelah Sprint 4 bawa E2E infra. Rekomendasi-ku: tunda jangan schedule sekarang (terlalu speculative — tergantung Sprint 4 commit Playwright), masuk BACKLOG saja sebagai trigger-based "saat Playwright landed → re-verify Spec #13".
 
 ### Session 2026-05-01 — Nala mock responses expansion
 - Mas push commit `383a82d` dengan 8 mock response Nala baru, 10 test case baru, BACKLOG item ✅ done. Detail di "Recently completed" di atas.
