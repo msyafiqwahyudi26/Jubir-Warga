@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { withSentryConfig } from '@sentry/nextjs';
 
 const config: NextConfig = {
   reactStrictMode: true,
@@ -32,4 +33,13 @@ const config: NextConfig = {
   },
 };
 
-export default config;
+export default withSentryConfig(config, {
+  org: process.env.SENTRY_ORG ?? 'spd-indonesia',
+  project: process.env.SENTRY_PROJECT ?? 'jubir-warga-web',
+  silent: !process.env.CI,
+  sourcemaps: { disable: false },
+  telemetry: false,
+  webpack: {
+    treeshake: { removeDebugLogging: true },
+  },
+});

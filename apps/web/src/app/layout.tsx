@@ -3,6 +3,7 @@ import { Inter, Vollkorn, Caveat, Fira_Code, Patrick_Hand } from 'next/font/goog
 import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { NalaPanel } from '@/components/nala/nala-panel';
+import { PlausibleScript } from '@/components/analytics/plausible-script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -91,6 +92,9 @@ export default function RootLayout({
       className={`${inter.variable} ${vollkorn.variable} ${caveat.variable} ${patrickHand.variable} ${firaCode.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <PlausibleScript />
+      </head>
       <body suppressHydrationWarning>
         <QueryProvider>
           {children}
