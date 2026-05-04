@@ -39,7 +39,7 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-[1fr_auto] gap-10 items-center">
             <div>
               <span className="font-hand text-lg text-jw-coral">{todayString()}</span>
-              <h1 className="font-display font-bold mt-2 leading-tight text-jw-blue text-5xl md:text-7xl">
+              <h1 className="font-display font-bold mt-2 leading-tight text-jw-blue text-4xl md:text-5xl lg:text-7xl">
                 Hari ini,<br />
                 <em>kita ngomongin</em><br />
                 <span className="relative inline-block text-jw-coral">

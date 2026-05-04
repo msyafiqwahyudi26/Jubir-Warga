@@ -42,7 +42,7 @@ export async function ThreadList() {
   }
 
   return (
-    <ul className="grid md:grid-cols-3 gap-4">
+    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {threads.map((t) => (
         <li
           key={t.id ?? Math.random()}
@@ -86,7 +86,7 @@ export async function ThreadList() {
 
 export function ThreadListSkeleton() {
   return (
-    <ul className="grid md:grid-cols-3 gap-4">
+    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {[0, 1, 2].map((i) => (
         <li
           key={i}
