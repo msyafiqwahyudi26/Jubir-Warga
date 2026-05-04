@@ -110,15 +110,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <footer className="py-12 mt-8">
-        <div className="mx-auto max-w-6xl px-4 text-sm text-jw-ink/60">
-          © 2026 SPD Indonesia · Jubir Warga ·{' '}
-          <Link href="/api/healthcheck" className="underline">
-            Status sistem
-          </Link>
-        </div>
-      </footer>
-
       {/* Floating Nala trigger — Spec #5 wires the global panel */}
       <NalaTriggerButton context="tentang halaman ini" />
     </main>
