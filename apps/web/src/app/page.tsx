@@ -50,7 +50,7 @@ export default async function HomePage() {
                 </span>
               </h1>
               <p className="mt-4 text-base md:text-lg max-w-md leading-relaxed text-jw-ink/80">
-                Hak berekspresi yang dijamin konstitusi — tapi seberapa jauh sudah dipraktikkan?
+                Hak berekspresi yang dijamin konstitusi. Tapi seberapa jauh sudah dipraktikkan?
               </p>
               <HelloUser user={user} />
               <div className="mt-6 flex flex-wrap gap-3">

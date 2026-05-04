@@ -27,6 +27,9 @@ export function SiteHeader({ user }: { user: User | null }) {
           <Link href="/aksi" className="text-jw-ink hover:text-jw-coral transition">
             Aksi
           </Link>
+          <Link href="/main" className="text-jw-ink hover:text-jw-coral transition">
+            Main
+          </Link>
         </nav>
         {user ? (
           <div className="flex items-center gap-3">

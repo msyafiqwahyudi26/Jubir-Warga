@@ -56,8 +56,8 @@ export default async function KaryaPage({
         <button
           type="button"
           disabled
-          title="Submit Karya — Coming Sprint 4"
-          aria-label="Upload karya (segera tersedia di Sprint 4)"
+          title="Submit Karya (segera tersedia)"
+          aria-label="Upload karya (segera tersedia)"
           className="inline-flex items-center gap-1.5 rounded-jw-md border border-jw-line bg-jw-line/30 px-4 py-2 text-sm font-semibold text-jw-muted cursor-not-allowed"
         >
           + Upload karya (segera)
@@ -88,9 +88,6 @@ export default async function KaryaPage({
               <EmptyKarya size={220} />
               <p className="font-hand text-xl text-jw-coral mt-3">
                 — belum ada karya {filter.type ?? ''}
-              </p>
-              <p className="text-sm text-jw-muted mt-1">
-                Submit karya pertama akan ada di Sprint 4.
               </p>
               {filter.type && (
                 <Link

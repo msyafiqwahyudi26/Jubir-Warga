@@ -29,7 +29,7 @@ export default async function AksiPage() {
           Aksi
         </h1>
         <p className="text-base md:text-lg text-jw-ink/70 mt-2 max-w-xl">
-          Bukan cuma ngomong — kita kerjain.
+          Bukan cuma ngomong, kita kerjain.
         </p>
       </header>
 

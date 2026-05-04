@@ -47,8 +47,8 @@ export async function JanjiTracker() {
         Janji yang sedang dipantau
       </h3>
       <p className="text-sm text-jw-ink/70 mt-1">
-        Total <strong className="text-jw-blue">{total}</strong> janji dari pejabat publik —
-        warga ikut pantau, jejaknya tercatat.
+        Total <strong className="text-jw-blue">{total}</strong> janji dari pejabat publik.
+        Warga ikut pantau, jejaknya tercatat.
       </p>
 
       <ul className="mt-5 grid grid-cols-2 gap-3">

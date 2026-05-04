@@ -55,9 +55,6 @@ export function StatusTimeline({
           )}
         </div>
       </div>
-      <p className="mt-4 text-xs text-jw-muted italic">
-        Riwayat perubahan status (timeline lengkap) Sprint 4.
-      </p>
     </article>
   );
 }

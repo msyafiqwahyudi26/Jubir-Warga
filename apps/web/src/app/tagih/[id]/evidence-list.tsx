@@ -36,7 +36,7 @@ export function EvidenceList({ evidence }: { evidence: EvidenceRow[] }) {
       </header>
       {evidence.length === 0 ? (
         <p className="text-sm text-jw-muted italic">
-          Belum ada bukti. Warga bisa kirim bukti via fitur Lapor Sprint 4.
+          Belum ada bukti yang masuk. Nanti kalau ada, akan tampil di sini.
         </p>
       ) : (
         <ul className="space-y-2">

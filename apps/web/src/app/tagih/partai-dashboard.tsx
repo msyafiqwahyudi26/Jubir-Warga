@@ -44,9 +44,6 @@ export function PartaiDashboard() {
           );
         })}
       </div>
-      <p className="text-xs text-jw-muted mt-3 italic">
-        Detail page partai Sprint 4 (data agregat akurat menyusul).
-      </p>
     </section>
   );
 }

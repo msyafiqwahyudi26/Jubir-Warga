@@ -1,0 +1,33 @@
+{
+  "name": "Jubir Warga",
+  "short_name": "Jubir Warga",
+  "description": "Rumah online anak muda Indonesia — ngumpul, bersuara, berkarya, belajar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFAEE",
+  "theme_color": "#1A2256",
+  "categories": ["social", "education", "news", "lifestyle"],
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

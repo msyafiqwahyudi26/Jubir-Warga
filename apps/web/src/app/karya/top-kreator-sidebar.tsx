@@ -38,9 +38,6 @@ export async function TopKreatorSidebar() {
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-xs text-jw-muted italic">
-        Aggregat akurat (karya count per author) Sprint 4.
-      </p>
     </div>
   );
 }

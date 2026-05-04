@@ -24,7 +24,7 @@ export function JanjiBody({
         </p>
       )}
       <blockquote className="border-l-4 border-jw-coral pl-5 font-display italic text-jw-ink/90 text-xl md:text-2xl leading-snug">
-        &ldquo;{janjiText}&rdquo;
+        {janjiText}
       </blockquote>
       {sourceQuote && (
         <p className="text-sm text-jw-ink/70 leading-relaxed whitespace-pre-wrap">

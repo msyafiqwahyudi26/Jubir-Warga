@@ -55,9 +55,6 @@ export function PejabatCard({ pejabat }: { pejabat: PejabatRow | null }) {
           </div>
         )}
       </dl>
-      <p className="mt-4 text-xs text-jw-muted italic">
-        Profil pejabat lengkap (semua janji + riwayat) Sprint 4.
-      </p>
     </article>
   );
 }

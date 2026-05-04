@@ -91,9 +91,6 @@ export function PetaIndonesia() {
           Papua
         </text>
       </svg>
-      <p className="text-xs text-jw-muted mt-2 italic">
-        Peta interaktif (tap-province → drilldown) Sprint 4.
-      </p>
       <div className="mt-3 flex items-center gap-3 text-xs text-jw-muted flex-wrap">
         {PROVINSI_OPTIONS.map((p) => (
           <span key={p.id} className="inline-flex items-center gap-1">
