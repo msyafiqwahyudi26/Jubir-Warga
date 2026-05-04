@@ -22,8 +22,8 @@ describe('<VoteArrows />', () => {
       />,
     );
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByLabelText('Upvote')).toBeInTheDocument();
-    expect(screen.getByLabelText('Downvote')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Upvote/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Downvote/)).toBeInTheDocument();
   });
 
   it('optimistically increments score on upvote click', async () => {
@@ -34,7 +34,7 @@ describe('<VoteArrows />', () => {
         initialScore={5}
       />,
     );
-    fireEvent.click(screen.getByLabelText('Upvote'));
+    fireEvent.click(screen.getByLabelText(/Upvote/));
     expect(screen.getByText('6')).toBeInTheDocument();
     await waitFor(() => expect(voteThreadAction).toHaveBeenCalledTimes(1));
   });
@@ -47,7 +47,7 @@ describe('<VoteArrows />', () => {
         initialScore={5}
       />,
     );
-    fireEvent.click(screen.getByLabelText('Upvote'));
+    fireEvent.click(screen.getByLabelText(/Upvote/));
     expect(screen.getByText('6')).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('5')).toBeInTheDocument());
   });

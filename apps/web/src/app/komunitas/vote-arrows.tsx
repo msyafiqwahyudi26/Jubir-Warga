@@ -47,8 +47,9 @@ export function VoteArrows({ threadId, initialScore }: Props) {
         type="button"
         onClick={() => handle('up')}
         disabled={pending}
-        aria-label="Upvote"
-        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 ${
+        aria-label={`Upvote thread, skor saat ini ${score}`}
+        aria-pressed={voted === 'up'}
+        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jw-coral ${
           voted === 'up'
             ? 'text-jw-coral bg-jw-pill-coral-bg/60'
             : 'text-jw-muted hover:text-jw-coral'
@@ -57,6 +58,8 @@ export function VoteArrows({ threadId, initialScore }: Props) {
         <ChevronUp size={20} aria-hidden />
       </button>
       <span
+        aria-live="polite"
+        aria-atomic="true"
         className={`text-sm font-mono font-semibold ${
           voted === 'up' ? 'text-jw-coral' : 'text-jw-ink'
         }`}
@@ -67,8 +70,9 @@ export function VoteArrows({ threadId, initialScore }: Props) {
         type="button"
         onClick={() => handle('down')}
         disabled={pending}
-        aria-label="Downvote"
-        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 ${
+        aria-label={`Downvote thread, skor saat ini ${score}`}
+        aria-pressed={voted === 'down'}
+        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jw-blue ${
           voted === 'down'
             ? 'text-jw-blue-soft bg-jw-pill-blue-bg'
             : 'text-jw-muted hover:text-jw-blue-soft'

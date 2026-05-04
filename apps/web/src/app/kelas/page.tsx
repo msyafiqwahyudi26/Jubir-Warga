@@ -25,9 +25,9 @@ export default async function KelasPage({
   const filter = parseKelasFilter(sp);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <main className="max-w-7xl mx-auto px-6 py-8">
       <header className="mb-8 border-b border-jw-line pb-6">
-        <span className="font-hand text-jw-coral text-base">
+        <span className="font-hand text-jw-coral text-base" aria-hidden="true">
           — belajar bareng
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-jw-blue leading-tight">
@@ -48,7 +48,7 @@ export default async function KelasPage({
       <MentorSection className="mt-16" />
 
       <NalaTriggerButton context="tentang Kelas" />
-    </div>
+    </main>
   );
 }
 

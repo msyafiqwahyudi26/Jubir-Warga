@@ -46,7 +46,7 @@ const PARTNERS = ['SPD', 'KitaBisa', 'Komisi.co', 'Indorelawan', 'ceksuaramu.com
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 bg-jw-blue text-jw-cream">
+    <footer className="mt-16 bg-jw-blue text-jw-cream" role="contentinfo" aria-label="Informasi situs">
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">

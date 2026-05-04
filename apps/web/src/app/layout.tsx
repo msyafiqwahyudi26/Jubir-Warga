@@ -4,6 +4,7 @@ import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { NalaPanel } from '@/components/nala/nala-panel';
 import { SiteFooter } from '@/components/site-footer';
+import { SkipLink } from '@/components/skip-link';
 import { PlausibleScript } from '@/components/analytics/plausible-script';
 
 const inter = Inter({
@@ -97,9 +98,10 @@ export default function RootLayout({
         <PlausibleScript />
       </head>
       <body suppressHydrationWarning>
+        <SkipLink />
         <QueryProvider>
           <div className="flex min-h-dvh flex-col">
-            <div className="flex-1">{children}</div>
+            <div id="main-content" className="flex-1">{children}</div>
             <SiteFooter />
           </div>
           <NalaPanel />

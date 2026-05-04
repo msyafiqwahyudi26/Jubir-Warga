@@ -19,9 +19,9 @@ export function PollingFeaturedCard({
       <span className="inline-flex items-center gap-1.5 rounded-jw-sm bg-jw-coral text-white text-xs font-bold px-2 py-0.5 mb-3">
         <Vote size={11} aria-hidden /> POLLING HARI INI
       </span>
-      <h3 className="font-display text-xl md:text-2xl font-bold text-jw-blue leading-snug">
+      <h2 className="font-display text-xl md:text-2xl font-bold text-jw-blue leading-snug">
         {polling.question}
-      </h3>
+      </h2>
       <p className="text-xs text-jw-muted mt-2">
         {polling.total_votes ?? 0} suara · {formatDeadline(polling.deadline)}
       </p>

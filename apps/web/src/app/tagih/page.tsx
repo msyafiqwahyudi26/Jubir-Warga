@@ -37,7 +37,7 @@ export default async function TagihPage({
   const filter = parseTagihFilter(sp);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <main className="max-w-7xl mx-auto px-6 py-8">
       <TagihHero />
 
       <Suspense fallback={<TagihStatsLoading />}>
@@ -59,7 +59,7 @@ export default async function TagihPage({
       </section>
 
       <NalaTriggerButton context="tentang Tagih Janji" />
-    </div>
+    </main>
   );
 }
 
