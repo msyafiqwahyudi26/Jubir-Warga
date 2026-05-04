@@ -14,7 +14,7 @@ export function KaryaCard({ karya }: { karya: KaryaRow }) {
   return (
     <Link
       href={`/karya/${karya.id}`}
-      className="group rounded-jw-lg border border-jw-line bg-white overflow-hidden hover:border-jw-blue-soft/40 transition flex flex-col"
+      className="group rounded-jw-lg border border-jw-line bg-white overflow-hidden hover:border-jw-blue-soft/40 hover:-translate-y-0.5 hover:shadow-jw-md transition-all duration-200 flex flex-col"
     >
       {karya.cover_url ? (
         // eslint-disable-next-line @next/next/no-img-element

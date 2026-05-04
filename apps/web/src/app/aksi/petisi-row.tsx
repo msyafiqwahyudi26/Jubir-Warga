@@ -16,7 +16,7 @@ export function PetisiRow({ petisi }: { petisi: PetisiViewRow }) {
   return (
     <Link
       href={`/aksi/petisi/${petisi.id}`}
-      className="group rounded-jw-lg border border-jw-line bg-white p-5 hover:border-jw-coral/40 transition flex flex-col"
+      className="group rounded-jw-lg border border-jw-line bg-white p-5 hover:border-jw-coral/40 hover:-translate-y-0.5 hover:shadow-jw-md transition-all duration-200 flex flex-col"
     >
       <h3 className="font-display text-lg font-semibold text-jw-blue leading-snug group-hover:underline">
         {petisi.title}

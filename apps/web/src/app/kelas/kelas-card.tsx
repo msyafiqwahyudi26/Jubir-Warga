@@ -25,7 +25,7 @@ export function KelasCard({ kelas }: { kelas: KelasRow }) {
   return (
     <Link
       href={`/kelas/${kelas.id}`}
-      className="group rounded-jw-lg border border-jw-line bg-white p-5 hover:border-jw-blue-soft/40 transition flex flex-col"
+      className="group rounded-jw-lg border border-jw-line bg-white p-5 hover:border-jw-blue-soft/40 hover:-translate-y-0.5 hover:shadow-jw-md transition-all duration-200 flex flex-col"
     >
       <div className="flex items-center gap-2 mb-3">
         {levelOpt && (

@@ -27,7 +27,7 @@ export function PollingFeaturedCard({
       </p>
       <Link
         href={`/aksi/polling/${polling.id}`}
-        className="inline-flex items-center gap-1.5 mt-4 rounded-jw-md bg-jw-coral text-white px-5 py-2.5 text-sm font-semibold hover:bg-jw-coral/90 transition"
+        className="inline-flex items-center gap-1.5 mt-4 rounded-jw-md bg-jw-coral text-white px-5 py-2.5 text-sm font-semibold hover:bg-jw-coral/90 active:scale-[0.97] transition-all duration-200"
       >
         Vote sekarang <ArrowRight size={14} aria-hidden />
       </Link>

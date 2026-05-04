@@ -14,7 +14,7 @@ export function JanjiRow({ janji }: { janji: JanjiViewRow }) {
   return (
     <Link
       href={`/tagih/${janji.id}`}
-      className="group block rounded-jw-lg border border-jw-line bg-white p-4 hover:border-jw-blue-soft/40 transition"
+      className="group block rounded-jw-lg border border-jw-line bg-white p-4 hover:border-jw-blue-soft/40 hover:-translate-y-0.5 hover:shadow-jw-md transition-all duration-200"
     >
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="flex-1 min-w-0">

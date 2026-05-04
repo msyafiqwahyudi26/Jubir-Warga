@@ -16,7 +16,7 @@ export function ThreadRow({ thread }: { thread: ThreadView }) {
   const score = (thread.upvotes ?? 0) - (thread.downvotes ?? 0);
 
   return (
-    <article className="rounded-jw-lg border border-jw-line bg-white p-4 hover:border-jw-blue-soft/40 transition flex gap-3">
+    <article className="rounded-jw-lg border border-jw-line bg-white p-4 hover:border-jw-blue-soft/40 hover:-translate-y-0.5 hover:shadow-jw-md transition-all duration-200 flex gap-3">
       <VoteArrows threadId={thread.id} initialScore={score} />
       <div className="flex-1 min-w-0">
         <Link

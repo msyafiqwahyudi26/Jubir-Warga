@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
+import { AksiSkeleton } from '@/components/skeletons/aksi-skeleton';
 import { PollingFeaturedCard } from './polling-featured-card';
 import { PetisiList } from './petisi-list';
 import { KampanyePreview } from './kampanye-preview';
@@ -10,17 +12,7 @@ export const metadata: Metadata = {
   description: 'Polling, petisi, kampanye warga.',
 };
 
-export default async function AksiPage() {
-  const supabase = await createClient();
-
-  const { data: polling } = await supabase
-    .from('polling')
-    .select('*')
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
+export default function AksiPage() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
       <header className="mb-8 border-b border-jw-line pb-6">
@@ -33,6 +25,30 @@ export default async function AksiPage() {
         </p>
       </header>
 
+      <Suspense fallback={<AksiSkeleton />}>
+        <AksiContent />
+      </Suspense>
+
+      <KampanyePreview className="mt-12" />
+
+      <NalaTriggerButton context="tentang Aksi" />
+    </div>
+  );
+}
+
+async function AksiContent() {
+  const supabase = await createClient();
+
+  const { data: polling } = await supabase
+    .from('polling')
+    .select('*')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return (
+    <>
       {polling && <PollingFeaturedCard polling={polling} className="mb-12" />}
 
       <section className="mb-12">
@@ -44,10 +60,6 @@ export default async function AksiPage() {
         </header>
         <PetisiList />
       </section>
-
-      <KampanyePreview className="mt-12" />
-
-      <NalaTriggerButton context="tentang Aksi" />
-    </div>
+    </>
   );
 }

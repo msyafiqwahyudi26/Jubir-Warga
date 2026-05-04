@@ -1,12 +1,15 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import {
   parseFilterFromSearchParams,
   buildFilterUrl,
+  type KomunitasFilter,
 } from '@/lib/komunitas/filters';
 import { EmptyForum } from '@/components/illustrations/empty-forum';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
+import { ThreadListSkeleton } from '@/components/skeletons/thread-list-skeleton';
 import { KomunitasSidebar } from './komunitas-sidebar';
 import { ThreadRow } from './thread-row';
 import { SubKomunitasSection } from './sub-komunitas-section';
@@ -29,6 +32,51 @@ export default async function KomunitasPage({
 }) {
   const sp = await searchParams;
   const filter = parseFilterFromSearchParams(sp);
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+        <aside>
+          <KomunitasSidebar currentFilter={filter} />
+        </aside>
+
+        <main>
+          <Suspense
+            key={JSON.stringify(filter)}
+            fallback={<ThreadListLoading />}
+          >
+            <ThreadList filter={filter} />
+          </Suspense>
+
+          <SubKomunitasSection className="mt-12" />
+          <ChapterRegionalSection className="mt-12" />
+        </main>
+      </div>
+
+      <NalaTriggerButton context="tentang Komunitas" />
+    </div>
+  );
+}
+
+function ThreadListLoading() {
+  return (
+    <>
+      <header className="mb-6 flex items-center justify-between gap-3 flex-wrap">
+        <div>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-jw-blue">
+            Komunitas
+          </h1>
+          <p className="text-sm text-jw-muted mt-1">
+            ngumpul, nimbrung, atau cuma baca
+          </p>
+        </div>
+      </header>
+      <ThreadListSkeleton />
+    </>
+  );
+}
+
+async function ThreadList({ filter }: { filter: KomunitasFilter }) {
   const page = filter.page ?? 1;
   const offset = (page - 1) * PAGE_SIZE;
 
@@ -50,94 +98,81 @@ export default async function KomunitasPage({
     !!filter.topic || !!filter.chapter || !!filter.format || !!filter.hot;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
-        <aside>
-          <KomunitasSidebar currentFilter={filter} />
-        </aside>
+    <>
+      <header className="mb-6 flex items-center justify-between gap-3 flex-wrap">
+        <div>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-jw-blue">
+            Komunitas
+          </h1>
+          <p className="text-sm text-jw-muted mt-1">
+            {count ?? 0} thread · ngumpul, nimbrung, atau cuma baca
+          </p>
+        </div>
+        <Link
+          href="/komunitas/baru"
+          className="inline-flex items-center gap-1.5 rounded-jw-md bg-jw-coral px-4 py-2 text-sm font-semibold text-white hover:bg-jw-coral/90 active:scale-[0.97] transition-all duration-200"
+        >
+          + Mulai thread
+        </Link>
+      </header>
 
-        <main>
-          <header className="mb-6 flex items-center justify-between gap-3 flex-wrap">
-            <div>
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-jw-blue">
-                Komunitas
-              </h1>
-              <p className="text-sm text-jw-muted mt-1">
-                {count ?? 0} thread · ngumpul, nimbrung, atau cuma baca
-              </p>
-            </div>
+      {error ? (
+        <div className="rounded-jw-lg bg-jw-pill-coral-bg border border-jw-coral/30 p-4 text-sm text-jw-pill-coral-text">
+          Gagal memuat thread: {error.message}
+        </div>
+      ) : !threads || threads.length === 0 ? (
+        <div className="rounded-jw-lg border border-dashed border-jw-line p-10 text-center flex flex-col items-center">
+          <EmptyForum size={240} />
+          <p className="font-hand text-xl text-jw-coral mt-3">
+            — belum ada thread sesuai filter
+          </p>
+          <p className="text-sm text-jw-muted mt-1">
+            Coba reset filter atau jadi yang pertama.
+          </p>
+          {hasFilter && (
             <Link
-              href="/komunitas/baru"
-              className="inline-flex items-center gap-1.5 rounded-jw-md bg-jw-coral px-4 py-2 text-sm font-semibold text-white hover:bg-jw-coral/90 transition"
+              href="/komunitas"
+              className="inline-block mt-4 text-sm font-semibold text-jw-coral hover:underline"
             >
-              + Mulai thread
+              Reset filter
             </Link>
-          </header>
+          )}
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {threads.map((t) => (
+            <ThreadRow key={t.id ?? Math.random()} thread={t} />
+          ))}
+        </div>
+      )}
 
-          {error ? (
-            <div className="rounded-jw-lg bg-jw-pill-coral-bg border border-jw-coral/30 p-4 text-sm text-jw-pill-coral-text">
-              Gagal memuat thread: {error.message}
-            </div>
-          ) : !threads || threads.length === 0 ? (
-            <div className="rounded-jw-lg border border-dashed border-jw-line p-10 text-center flex flex-col items-center">
-              <EmptyForum size={240} />
-              <p className="font-hand text-xl text-jw-coral mt-3">
-                — belum ada thread sesuai filter
-              </p>
-              <p className="text-sm text-jw-muted mt-1">
-                Coba reset filter atau jadi yang pertama.
-              </p>
-              {hasFilter && (
-                <Link
-                  href="/komunitas"
-                  className="inline-block mt-4 text-sm font-semibold text-jw-coral hover:underline"
-                >
-                  Reset filter
-                </Link>
-              )}
-            </div>
+      {count != null && count > PAGE_SIZE && (
+        <nav className="mt-6 flex items-center justify-between text-sm">
+          {page > 1 ? (
+            <Link
+              href={buildFilterUrl({ ...filter, page: page - 1 })}
+              className="text-jw-coral font-semibold hover:underline"
+            >
+              ← Sebelumnya
+            </Link>
           ) : (
-            <div className="space-y-3">
-              {threads.map((t) => (
-                <ThreadRow key={t.id ?? Math.random()} thread={t} />
-              ))}
-            </div>
+            <span />
           )}
-
-          {count != null && count > PAGE_SIZE && (
-            <nav className="mt-6 flex items-center justify-between text-sm">
-              {page > 1 ? (
-                <Link
-                  href={buildFilterUrl({ ...filter, page: page - 1 })}
-                  className="text-jw-coral font-semibold hover:underline"
-                >
-                  ← Sebelumnya
-                </Link>
-              ) : (
-                <span />
-              )}
-              <span className="text-jw-muted">
-                Page {page} dari {Math.ceil(count / PAGE_SIZE)}
-              </span>
-              {offset + PAGE_SIZE < count ? (
-                <Link
-                  href={buildFilterUrl({ ...filter, page: page + 1 })}
-                  className="text-jw-coral font-semibold hover:underline"
-                >
-                  Selanjutnya →
-                </Link>
-              ) : (
-                <span />
-              )}
-            </nav>
+          <span className="text-jw-muted">
+            Page {page} dari {Math.ceil(count / PAGE_SIZE)}
+          </span>
+          {offset + PAGE_SIZE < count ? (
+            <Link
+              href={buildFilterUrl({ ...filter, page: page + 1 })}
+              className="text-jw-coral font-semibold hover:underline"
+            >
+              Selanjutnya →
+            </Link>
+          ) : (
+            <span />
           )}
-
-          <SubKomunitasSection className="mt-12" />
-          <ChapterRegionalSection className="mt-12" />
-        </main>
-      </div>
-
-      <NalaTriggerButton context="tentang Komunitas" />
-    </div>
+        </nav>
+      )}
+    </>
   );
 }

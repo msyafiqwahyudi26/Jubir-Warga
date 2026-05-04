@@ -13,9 +13,12 @@ export function VoteArrows({ threadId, initialScore }: Props) {
   const [score, setScore] = useState(initialScore);
   const [voted, setVoted] = useState<'up' | 'down' | null>(null);
   const [pending, startTransition] = useTransition();
+  const [bump, setBump] = useState<'up' | 'down' | null>(null);
 
   const handle = (direction: 'up' | 'down') => {
     if (pending) return;
+    setBump(direction);
+    window.setTimeout(() => setBump(null), 200);
     const isToggle = voted === direction;
     const optimisticScore = isToggle
       ? score + (direction === 'up' ? -1 : 1)
@@ -45,11 +48,11 @@ export function VoteArrows({ threadId, initialScore }: Props) {
         onClick={() => handle('up')}
         disabled={pending}
         aria-label="Upvote"
-        className={`p-1 rounded-jw-sm transition disabled:opacity-50 ${
+        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 ${
           voted === 'up'
             ? 'text-jw-coral bg-jw-pill-coral-bg/60'
             : 'text-jw-muted hover:text-jw-coral'
-        }`}
+        } ${bump === 'up' ? 'scale-110' : ''}`}
       >
         <ChevronUp size={20} aria-hidden />
       </button>
@@ -65,11 +68,11 @@ export function VoteArrows({ threadId, initialScore }: Props) {
         onClick={() => handle('down')}
         disabled={pending}
         aria-label="Downvote"
-        className={`p-1 rounded-jw-sm transition disabled:opacity-50 ${
+        className={`p-1 rounded-jw-sm transition-all duration-200 disabled:opacity-50 ${
           voted === 'down'
             ? 'text-jw-blue-soft bg-jw-pill-blue-bg'
             : 'text-jw-muted hover:text-jw-blue-soft'
-        }`}
+        } ${bump === 'down' ? 'scale-110' : ''}`}
       >
         <ChevronDown size={20} aria-hidden />
       </button>

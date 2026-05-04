@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { parseKelasFilter } from '@/lib/kelas/filters';
+import { parseKelasFilter, type KelasFilter } from '@/lib/kelas/filters';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
+import { KelasGridSkeleton } from '@/components/skeletons/kelas-grid-skeleton';
 import { KelasFilters } from './kelas-filters';
 import { KelasCard } from './kelas-card';
 import { FeaturedHero } from './featured-hero';
@@ -22,6 +24,53 @@ export default async function KelasPage({
   const sp = await searchParams;
   const filter = parseKelasFilter(sp);
 
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <header className="mb-8 border-b border-jw-line pb-6">
+        <span className="font-hand text-jw-coral text-base">
+          — belajar bareng
+        </span>
+        <h1 className="font-display text-4xl md:text-5xl font-bold text-jw-blue leading-tight">
+          Kelas
+        </h1>
+        <p className="text-base md:text-lg text-jw-ink/70 mt-2 max-w-xl">
+          Belajar dari sesama, eksekusi yang nyata-nyata kepake.
+        </p>
+      </header>
+
+      <Suspense
+        key={JSON.stringify(filter)}
+        fallback={<KelasContentLoading />}
+      >
+        <KelasContent filter={filter} />
+      </Suspense>
+
+      <MentorSection className="mt-16" />
+
+      <NalaTriggerButton context="tentang Kelas" />
+    </div>
+  );
+}
+
+function KelasContentLoading() {
+  return (
+    <>
+      <div className="mb-10 rounded-jw-xl border border-jw-line bg-white p-6 animate-pulse">
+        <div className="h-4 w-24 bg-jw-pill-grey-bg rounded mb-3" />
+        <div className="h-7 w-2/3 bg-jw-pill-grey-bg rounded mb-2" />
+        <div className="h-3 w-full bg-jw-pill-grey-bg rounded" />
+      </div>
+      <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
+        <h2 className="font-display text-xl font-semibold text-jw-blue">
+          Semua kelas
+        </h2>
+      </div>
+      <KelasGridSkeleton />
+    </>
+  );
+}
+
+async function KelasContent({ filter }: { filter: KelasFilter }) {
   const supabase = await createClient();
 
   const { data: featured } = await supabase
@@ -42,19 +91,7 @@ export default async function KelasPage({
   const { data: kelasList, error } = await q;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <header className="mb-8 border-b border-jw-line pb-6">
-        <span className="font-hand text-jw-coral text-base">
-          — belajar bareng
-        </span>
-        <h1 className="font-display text-4xl md:text-5xl font-bold text-jw-blue leading-tight">
-          Kelas
-        </h1>
-        <p className="text-base md:text-lg text-jw-ink/70 mt-2 max-w-xl">
-          Belajar dari sesama, eksekusi yang nyata-nyata kepake.
-        </p>
-      </header>
-
+    <>
       {featured && <FeaturedHero kelas={featured} className="mb-10" />}
 
       <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
@@ -89,10 +126,6 @@ export default async function KelasPage({
           ))}
         </div>
       )}
-
-      <MentorSection className="mt-16" />
-
-      <NalaTriggerButton context="tentang Kelas" />
-    </div>
+    </>
   );
 }
