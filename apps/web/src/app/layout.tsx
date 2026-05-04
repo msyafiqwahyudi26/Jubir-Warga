@@ -3,9 +3,11 @@ import { Inter, Vollkorn, Caveat, Fira_Code, Patrick_Hand } from 'next/font/goog
 import './globals.css';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { NalaPanel } from '@/components/nala/nala-panel';
+import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { SkipLink } from '@/components/skip-link';
 import { PlausibleScript } from '@/components/analytics/plausible-script';
+import { createClient } from '@/lib/supabase/server';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -83,11 +85,14 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <html
       lang="id"
@@ -101,7 +106,8 @@ export default function RootLayout({
         <SkipLink />
         <QueryProvider>
           <div className="flex min-h-dvh flex-col">
-            <div id="main-content" className="flex-1">{children}</div>
+            <SiteHeader user={user} />
+            <main id="main-content" className="flex-1">{children}</main>
             <SiteFooter />
           </div>
           <NalaPanel />

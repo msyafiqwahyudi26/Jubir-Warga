@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
-import { SiteHeader } from '@/components/site-header';
 import { ThreadList, ThreadListSkeleton } from '@/components/beranda/thread-list';
 import { PetisiPreview, PetisiSkeleton } from '@/components/beranda/petisi-preview';
 import { JanjiTracker, JanjiSkeleton } from '@/components/beranda/janji-tracker';
@@ -30,9 +29,7 @@ export default async function HomePage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <main className="min-h-screen bg-jw-cream text-jw-ink">
-      <SiteHeader user={user} />
-
+    <div className="bg-jw-cream text-jw-ink">
       {/* HERO */}
       <section className="border-b border-jw-line py-12 md:py-16">
         <div className="mx-auto max-w-6xl px-4">
@@ -112,7 +109,7 @@ export default async function HomePage() {
 
       {/* Floating Nala trigger — Spec #5 wires the global panel */}
       <NalaTriggerButton context="tentang halaman ini" />
-    </main>
+    </div>
   );
 }
 
