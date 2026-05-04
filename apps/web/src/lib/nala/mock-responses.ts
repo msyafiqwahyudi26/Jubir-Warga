@@ -308,6 +308,300 @@ Mau breakdown sistem pencalonan (jalur partai vs independen), atau cara ngecek c
       },
     ],
   },
+  // ── Batch 2 (Spec #15 — topic 12-19) ─────────────────────────
+  {
+    keywords: [
+      'tanah ulayat',
+      'konflik agraria',
+      'reformasi agraria',
+      'hgu',
+      'land grab',
+      'sengketa tanah',
+    ],
+    response: `Konflik tanah di Indonesia itu salah satu PR struktural yang umurnya udah berdekade. Skalanya gede: KPA mencatat ratusan kasus aktif tiap tahun, mayoritas antara warga vs perusahaan perkebunan, tambang, atau properti.
+
+**Akar masalahnya tiga lapis:**
+
+- **Tumpang tindih izin** — satu plot bisa punya HGU (Hak Guna Usaha), izin tambang, dan klaim adat sekaligus. Sertifikat sering kalah lawan SK Menteri yang lebih baru
+- **Tanah ulayat (adat) belum diakui penuh** — UU Pokok Agraria 1960 sebenarnya mengakui, tapi peta wilayah adat masih banyak yang belum ditetapkan resmi
+- **Asimetri akses hukum** — perusahaan punya pengacara + birokrasi, warga sering cuma punya bukti turun-temurun + foto kopi sertifikat luntur
+
+**Kalau lingkar kamu kena:**
+- Dokumentasikan riwayat tanah (foto satelit lama, kesaksian tetua, peta partisipatif)
+- Hubungi **KPA** atau **AMAN** untuk pendampingan — gratis untuk komunitas
+- Kalau melibatkan kawasan hutan atau lingkungan, **Walhi** punya jaringan provinsi [1]
+
+Soal "reformasi agraria" yang dijanjiin (target 9 juta hektar): realisasinya jauh dari target, dan banyak yang dipertanyakan kualitasnya — apakah yang dibagi memang lahan konflik, atau lahan yang udah lama dikuasai warga.
+
+Kamu lagi pelajari kasus tertentu, atau pengen tau cara cek status HGU di kawasan kamu lewat data publik?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Catatan Akhir Tahun Konflik Agraria — Konsorsium Pembaruan Agraria',
+        url: 'https://example.org/kpa-catahu-agraria',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'cipta kerja',
+      'omnibus',
+      'outsourcing',
+      'pesangon',
+      'uu ck',
+    ],
+    response: `UU Cipta Kerja (Omnibus) itu paket besar yang ngubah puluhan UU sekaligus — dari ketenagakerjaan, lingkungan, sampai izin usaha. Buat pekerja muda, dampaknya kebanyakan di sisi ketenagakerjaan.
+
+**Yang berubah signifikan untuk pekerja:**
+
+- **Outsourcing diperluas** — pra-Cipta Kerja, outsourcing dibatasi 5 jenis pekerjaan (cleaning, security, dll). Sekarang prinsipnya semua jenis pekerjaan bisa di-outsource, kecuali yang masuk "core business"
+- **Pesangon dikurangi** — dari max 32x upah jadi 25x. Skema PHK lebih longgar untuk pengusaha
+- **PKWT (kontrak) diperpanjang** — dulu max 3 tahun, sekarang bisa 5 tahun. Status karyawan tetap jadi makin susah dicapai
+- **Upah minimum** — mekanisme kenaikan dipatok ke formula PP 51/2023, sering lebih rendah dari survei kebutuhan hidup layak
+
+**Kontroversi utama:**
+- Proses pengesahan dianggap cacat formil (MK 2021 minta perbaikan, lalu disahkan ulang via Perppu 2/2022)
+- Konsultasi publik dinilai minim — terutama di RUU yang awal
+- Banyak buruh, akademisi, dan LBH bilang ini "race to the bottom" untuk bargaining position pekerja [1]
+
+Pemerintah bilang ini buat tarik investasi + buka lapangan kerja. Apakah berhasil? Data investasi naik, tapi kualitas kerja (job security, social protection) jadi pertanyaan terpisah.
+
+Mau aku breakdown hak kamu kalau di-PHK setelah Cipta Kerja, atau gimana cara baca PKWT supaya gak kena jebakan?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Kertas Kebijakan UU Cipta Kerja — LBH Jakarta',
+        url: 'https://example.org/lbh-jakarta-uu-cipta-kerja',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'rth',
+      'ruang terbuka hijau',
+      'trotoar',
+      'taman kota',
+      'ruang publik',
+    ],
+    response: `RTH (Ruang Terbuka Hijau) di kota-kota besar Indonesia masih jauh di bawah standar. UU 26/2007 minta minimal 30% (20% publik + 10% privat), tapi realita di Jakarta sekitar 9-10%, Bandung 12%, Surabaya 13%. Yang punya angka mendekati target cuma kota-kota kecil.
+
+**Kenapa ini penting?**
+
+- **Termal & kesehatan** — RTH cukup bikin suhu kota turun 2-4°C, polusi PM2.5 lebih rendah, asma + heat stroke berkurang
+- **Sosial** — taman, trotoar, alun-alun = tempat warga ketemu, anak main, lansia jalan. Kota tanpa ruang publik = kota yang cuma rumah-mall-kantor
+- **Ekologis** — RTH serap air hujan, kurangi banjir; penting buat kota yang udah konsolidasi tertutup beton
+
+**Yang sering jadi tantangan:**
+
+- **Trotoar** — sering dianggap "ruang sisa", padahal ini RTH paling demokratis. PKL, parkir liar, motor naik trotoar bikin krisis ruang publik harian
+- **Privatisasi** — taman besar di kota dijaga, tapi sering "berbayar" lewat tiket masuk atau diatur kode dress, bikin gak inklusif
+- **Konversi** — RTH jadi mall, jalan tol, perumahan. Sekali hilang, hampir mustahil dikembalikan
+
+Cara kamu ikut intervensi: laporan via **Lapor.go.id** untuk trotoar bermasalah, dorong RDTR (Rencana Detail Tata Ruang) yang prowarga, ikut konsultasi publik perubahan zonasi [1]. Komunitas seperti **Rujak Center for Urban Studies** rajin ngumpulin data + advokasi.
+
+Mau kita zoom ke kota kamu — gimana cara cek persentase RTH-nya, atau kasus konversi taman yang lagi rame?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Studi Ruang Publik Kota Indonesia — Rujak Center for Urban Studies',
+        url: 'https://example.org/rujak-rth-kota',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'sisdiknas',
+      'ukt',
+      'guru honorer',
+      'ppdb',
+      'zonasi',
+      'kuliah mahal',
+    ],
+    response: `Sektor pendidikan Indonesia lagi di persimpangan: rencana revisi UU Sisdiknas, UKT yang naik tiap tahun, isu guru honorer yang gak kunjung selesai, dan PPDB zonasi yang setiap musim kontroversi.
+
+**UKT (Uang Kuliah Tunggal):**
+- UKT idealnya proporsional ke pendapatan keluarga (golongan 1-8). Praktiknya: banyak kampus golongan 1-2 jarang diisi, mahasiswa kelas menengah bawah masuk golongan 4-5
+- **UKT naik 2024** — banyak PTN naikin sampai 100%+, dipicu pengurangan subsidi negara. Sebagian dirollback setelah protes mahasiswa, tapi tren strukturalnya tetap naik
+- Beasiswa KIP-K + LPDP punya kuota terbatas; banyak yang gak ke-cover
+
+**Guru honorer:**
+- Sekitar 1 juta guru honorer dengan upah Rp 200rb-1jt/bulan, tanpa BPJS
+- Janji "satu juta guru P3K" jalan, tapi seleksi tiap tahun bikin stres + ada yang berkali-kali gak lolos walau udah mengabdi 15+ tahun
+- Krisisnya: tanpa honorer, banyak sekolah pelosok gak bisa jalan; dengan honorer, sistem upah bermasalah secara struktural [1]
+
+**PPDB Zonasi:**
+- Niat: pemerataan kualitas sekolah biar gak terpusat di "sekolah favorit"
+- Praktik: orang tua "geser KK" (titipkan anak ke alamat dekat sekolah favorit), ada manipulasi titik koordinat, sekolah pinggiran tetap kekurangan murid
+- Solusi yang sering didorong: pemerataan kualitas guru + fasilitas, bukan cuma tweak rumus zonasi
+
+Yang bisa kamu lakuin: dorong transparansi kebijakan kampus atau sekolahmu via mahasiswa atau OSIS, ikut audiens pansus DPR kalau revisi Sisdiknas, baca kertas posisi **PGRI** atau **FSGI** yang biasa kasih kritik substantif.
+
+Mau bahas isu spesifik (UKT kampus tertentu, kasus zonasi 2026), atau kamu lagi advokasi sebagai pengajar atau mahasiswa?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Kertas Posisi Reformasi Pendidikan — Federasi Serikat Guru Indonesia',
+        url: 'https://example.org/fsgi-kertas-posisi-pendidikan',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'kesehatan mental',
+      'kesehatan jiwa',
+      'psikolog',
+      'konseling',
+      'mental health',
+    ],
+    response: `Akses kesehatan mental di Indonesia masih timpang banget. Per data Riskesdas + IPK, ratio psikolog ke populasi sekitar 1:90.000 — jauh dari standar WHO. Stigma + biaya bikin banyak orang tahan lama sebelum cari bantuan.
+
+**Lapisan akses (dari paling murah ke profesional):**
+
+- **Hotline darurat** — bantuan cepat untuk krisis. Beberapa yang gratis: **119 ext 8** (Kemenkes), **Into the Light**, **Yayasan Pulih**. Bukan terapi, tapi triage + rujukan
+- **Puskesmas + BPJS** — sejak 2019, BPJS cover layanan psikolog (10x sesi/tahun) lewat rujukan dari Puskesmas atau RS Tipe C. Banyak yang gak tau ini ada — bisa hemat jutaan
+- **Praktik mandiri** — Rp 200rb-800rb per sesi (psikolog), Rp 500rb-2jt (psikiater untuk obat). Banyak yang accept QRIS atau cicilan
+- **Online platform** — Riliv, Halodoc, Get Happy. Lebih murah + accessible, tapi cocoknya untuk konseling ringan, bukan trauma berat
+
+**Tanda mesti escalate ke profesional:**
+- Gangguan tidur lebih dari 2 minggu
+- Pikiran menyakiti diri atau orang lain
+- Aktivitas harian (kerja, kuliah, makan) terganggu signifikan
+- Substance use jadi koping utama [1]
+
+**Penting:** aku gak bisa kasih saran medis spesifik. Kalau lagi krisis, please reach out ke hotline sekarang — bukan nanti.
+
+Stigma kerasa banget di Indonesia ("kurang iman", "kurang piknik"), padahal kondisi mental sama medisnya kayak diabetes atau asma — butuh treatment, bukan judgment.
+
+Kamu lagi cari resource buat diri sendiri, atau bantu temen atau keluarga? Aku bisa bantu nyari layanan terdekat berdasarkan kota.`,
+    citations: [
+      {
+        index: 1,
+        title: 'Panduan Akses Kesehatan Mental Indonesia — Into the Light',
+        url: 'https://example.org/intothelight-panduan-akses',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'uu pdp',
+      'data pribadi',
+      'kebocoran data',
+      'privasi data',
+      'kominfo',
+    ],
+    response: `UU PDP (UU 27/2022 tentang Pelindungan Data Pribadi) berlaku efektif Oktober 2024. Indonesia akhirnya punya kerangka hukum untuk privacy, mirip GDPR di Eropa — walau implementasinya masih banyak PR.
+
+**Hak kamu sebagai pemilik data:**
+
+- **Hak akses** — kamu boleh minta tau data apa aja yang dikumpulin platform tentang kamu
+- **Hak penghapusan** — minta data dihapus (right to be forgotten), kecuali ada kepentingan hukum
+- **Hak portabilitas** — minta data kamu di-export dalam format yang bisa dipindah ke layanan lain
+- **Hak menolak** — opt out dari profiling, iklan target, atau pemrosesan otomatis
+- **Hak ganti rugi** — kalau data bocor karena kelalaian pengelola
+
+**Yang bisa kamu lakuin sekarang:**
+- Cek **privacy settings** di app yang kamu pakai sehari-hari (gojek, shopee, IG, dll)
+- Jangan kasih NIK, KK, atau foto KTP ke "lomba berhadiah" atau aplikasi pinjol abal
+- Kalau dapat OTP yang gak kamu request, ada yang lagi nyobain login. Ganti password
+- Kalau kena breach (data bocor di Have I Been Pwned), ganti password + aktifkan 2FA
+
+**Pertanyaan terbuka:**
+- Otoritas Penyelenggara Data Pribadi (lembaga independen yang harusnya enforce UU PDP) belum sepenuhnya beroperasi
+- Kebocoran data Kominfo, BPJS, dan kependudukan = sinyal bahwa enforcement masih lemah
+- UU ITE pasal 27 masih dipakai paralel buat content moderation, bikin tumpang tindih [1]
+
+Resource lebih lanjut: **ELSAM**, **ICT Watch**, **SAFEnet** rajin advokasi privacy + digital rights.
+
+Mau aku bantu cara filing complaint kalau data kamu bocor, atau breakdown apa yang harus dilakuin platform menurut UU PDP?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Kertas Kebijakan UU PDP & Hak Digital — ELSAM',
+        url: 'https://example.org/elsam-uu-pdp-hak-digital',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'uu ite',
+      'kriminalisasi jurnalis',
+      'kebebasan pers',
+      'lbh pers',
+      'pasal 27 ite',
+      'pasal 28 ite',
+    ],
+    response: `UU ITE udah lama jadi senjata yang bisa dipake dua arah. Niat awalnya transaksi elektronik, tapi pasal-pasal "karet"-nya sering dipake buat kriminalisasi kritik publik, jurnalis, atau warga biasa yang posting di sosmed.
+
+**Pasal yang paling sering dipake:**
+
+- **Pasal 27 ayat 3** — pencemaran nama baik atau penghinaan via elektronik. Threshold rendah, ancaman 4 tahun
+- **Pasal 28 ayat 2** — ujaran kebencian SARA. Sering tafsirannya melebar ke kritik institusi
+- **Pasal 29** — ancaman kekerasan via elektronik
+
+UU ITE direvisi 2024 (jadi UU 1/2024) — beberapa pasal "diperhalus", penalty diturunin, ada arahan ke restorative justice. Tapi pasal-pasal pokoknya tetap ada.
+
+**Buat jurnalis & content creator:**
+- **UU Pers (40/1999)** secara prinsip lebih kuat dari UU ITE untuk produk jurnalistik. Hak Jawab + Dewan Pers harus dipake dulu sebelum pidana
+- Praktiknya: pelapor sering pilih jalur ITE buat bypass mekanisme pers
+- **AJI Indonesia** + **LBH Pers** punya hotline darurat untuk jurnalis yang dilaporkan atau dipidana [1]
+
+**Tips kalau kamu posting kritik publik:**
+- Sertakan sumber + bukti (link, screenshot, kutipan asli)
+- Hindari label personal ("dia maling", "dia korup") — ganti dengan deskripsi tindakan + dasar bukti
+- Jangan posting saat emosi — draft, tahan 24 jam, baca lagi
+- Kalau dilaporkan, jangan langsung respons sendiri — kontak LBH dulu
+
+UU ITE bukan alasan buat self-censor habis-habisan, tapi awareness penting biar kritik kamu sustain — bukan dipotong jadi kriminalisasi.
+
+Mau bahas case study (kasus yang lagi rame, kasus serupa kamu), atau kita drafting kritik publik yang aman tapi tetap punya gigi?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Catatan Kasus UU ITE & Kebebasan Pers — Aliansi Jurnalis Independen',
+        url: 'https://example.org/aji-catatan-uu-ite',
+      },
+    ],
+  },
+  {
+    keywords: [
+      'transisi energi',
+      'pltu',
+      'batu bara',
+      'krisis iklim',
+      'paris agreement',
+      'energi bersih',
+    ],
+    response: `Transisi energi di Indonesia itu pertarungan tiga arah: komitmen iklim global (Paris Agreement, NDC), realita ekonomi (batu bara masih export andalan + supply listrik 60%+ dari PLTU), dan tekanan publik (polusi udara Jakarta + komunitas terdampak tambang).
+
+**Komitmen vs realita:**
+
+- **Net Zero 2060** target Indonesia (lebih lama dari banyak negara: AS 2050, EU 2050)
+- **JETP (Just Energy Transition Partnership)** — komitmen $20 miliar dari G7 untuk percepatan, tapi disbursement-nya lambat + ada concern soal "fair share"
+- **Pensiun PLTU** — direncanakan 2040-2055, tapi banyak PLTU baru (captive power untuk smelter nikel) tetep dibangun
+- **Kapasitas EBT (Energi Baru Terbarukan)** — masih sekitar 13% dari total bauran, target RUEN 23% tahun 2025 [1]
+
+**Yang sering jadi blind spot:**
+
+- **"Energi hijau"** untuk kendaraan listrik — kalau pembangkitnya batu bara, mobil listrik masih dirty. Net effect baru positif kalau mix EBT-nya tinggi
+- **Komunitas terdampak** — relokasi tambang, gangguan mata pencaharian nelayan dekat PLTU, masalah air bersih. Adaptasi sering tertinggal
+- **Subsidi BBM + listrik** — masih besar, sebagian jatuh ke kelas menengah-atas yang punya mobil pribadi. Realokasi ke transportasi publik bisa langsung kurangi emisi
+
+**Yang bisa kamu lakuin:**
+- Audit jejak karbon harian (commute, listrik, makanan)
+- Push perusahaan, kampus, atau kantor kamu untuk RE100 (100% renewable)
+- Ikut advokasi via **Walhi**, **Trend Asia**, atau **IESR** — semua punya kanal partisipasi publik
+
+Soal "transisi adil": pertanyaannya bukan cuma seberapa cepet pensiun PLTU, tapi siapa yang tanggung biayanya. Pekerja tambang, petani sawit, nelayan harus jadi bagian solusi, bukan kena dampak terus.
+
+Mau breakdown kebijakan iklim Indonesia spesifik, atau kita bahas cara baca laporan emisi perusahaan biar gak greenwashing?`,
+    citations: [
+      {
+        index: 1,
+        title: 'Laporan Status Transisi Energi Indonesia — Institute for Essential Services Reform',
+        url: 'https://example.org/iesr-status-transisi-energi',
+      },
+    ],
+  },
 ];
 
 export function getMockResponse(userMessage: string): {

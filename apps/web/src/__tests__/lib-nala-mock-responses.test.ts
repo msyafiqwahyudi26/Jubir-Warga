@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getMockResponse } from '@/lib/nala/mock-responses';
+import { getMockResponse, MOCK_RESPONSES } from '@/lib/nala/mock-responses';
 
 describe('getMockResponse', () => {
   it('matches keyword "pasal 28e" (case insensitive) and returns citation', () => {
@@ -114,6 +114,77 @@ describe('getMockResponse', () => {
     for (const sample of samples) {
       const result = getMockResponse(sample);
       expect(result.content.toLowerCase()).not.toContain('civic');
+    }
+  });
+
+  // ── Spec #15 batch 2 (topic 12-19) ────────────────────────────
+  // 8 mock baru: agraria, omnibus, RTH, sisdiknas, mental health,
+  // data privacy, UU ITE, transisi energi.
+
+  it('matches reformasi agraria chip phrasing', () => {
+    const result = getMockResponse('Konflik agraria di kampung halaman aku');
+    expect(result.content).toContain('HGU');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches UU Cipta Kerja chip phrasing', () => {
+    const result = getMockResponse('Apa dampak UU Cipta Kerja ke pekerja?');
+    expect(result.content).toContain('Outsourcing');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches RTH / ruang publik chip phrasing', () => {
+    const result = getMockResponse('Kenapa RTH di Jakarta sedikit?');
+    expect(result.content).toContain('Ruang Terbuka Hijau');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches Sisdiknas / UKT chip phrasing', () => {
+    const result = getMockResponse('UKT kampusku naik 100%, gimana?');
+    expect(result.content).toContain('UKT');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches kesehatan mental chip phrasing', () => {
+    const result = getMockResponse('Mau cari psikolog murah, gimana ya?');
+    expect(result.content).toContain('BPJS');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches UU PDP / data privacy chip phrasing', () => {
+    const result = getMockResponse('Data pribadi aku bocor, harus gimana?');
+    expect(result.content).toContain('UU PDP');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches UU ITE / kebebasan pers chip phrasing', () => {
+    const result = getMockResponse('Aku mau posting kritik, takut kena UU ITE');
+    expect(result.content).toContain('UU ITE');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('matches transisi energi / krisis iklim chip phrasing', () => {
+    const result = getMockResponse('Gimana progres transisi energi Indonesia?');
+    expect(result.content).toContain('PLTU');
+    expect(result.citations).toHaveLength(1);
+  });
+
+  it('batch 2 responses use "kamu/aku" voice (no Anda/Saya)', () => {
+    // Slice from index 11 onward = batch 2 (topic 12-19).
+    const batch2 = MOCK_RESPONSES.slice(11);
+    expect(batch2).toHaveLength(8);
+    for (const rule of batch2) {
+      expect(rule.response).not.toMatch(/\bAnda\b/);
+      expect(rule.response).not.toMatch(/\bSaya\b/);
+      expect(/\bkamu\b/i.test(rule.response)).toBe(true);
+    }
+  });
+
+  it('batch 2 responses avoid forbidden vocab (civic, "warga negara yang kritis")', () => {
+    const batch2 = MOCK_RESPONSES.slice(11);
+    for (const rule of batch2) {
+      expect(rule.response.toLowerCase()).not.toContain('civic');
+      expect(rule.response).not.toMatch(/warga negara yang kritis/i);
     }
   });
 });
