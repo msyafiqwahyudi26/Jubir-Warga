@@ -109,6 +109,17 @@ comment on column public.janji.editorial_status is
 comment on table public.editorial_review is
   'Immutable audit trail untuk editorial moderation actions. Spec #34 Sprint 4.';
 
+-- ── Seed: bootstrap Mas (admin@spdindonesia.org) sebagai admin ────
+-- Idempotent — re-run sets the same is_admin=true. No-op kalau profile
+-- gak ada (signup belum). Mas adjust manually via Supabase dashboard
+-- kalau email-nya beda dari yang di-seed di sini.
+update public.profiles
+   set is_admin = true
+ where id = (
+   select id from auth.users where email = 'admin@spdindonesia.org' limit 1
+ )
+   and is_admin is distinct from true;
+
 -- Verify (run manually after apply):
 -- select column_name from information_schema.columns
 --   where table_schema='public' and table_name='janji'

@@ -47,10 +47,18 @@ SELECT count(*) FROM public.editorial_review;
    # atau langsung CLI: supabase gen types typescript --project-id ifrautpvbhdbhieystxk > packages/data/src/database.types.ts
    ```
 
-6. Set Mas sebagai admin (one-shot, manual via SQL editor):
+6. Migration sudah include admin seed untuk `admin@spdindonesia.org`. Verify:
    ```sql
-   UPDATE public.profiles SET is_admin = true WHERE id = auth.uid();
-   -- atau by email lookup di auth.users join profiles
+   SELECT p.id, p.is_admin, u.email
+     FROM public.profiles p JOIN auth.users u ON u.id = p.id
+    WHERE u.email = 'admin@spdindonesia.org';
+   -- Expected: 1 row dengan is_admin = true
+   ```
+   Kalau email beda, set manual:
+   ```sql
+   UPDATE public.profiles SET is_admin = true WHERE id = (
+     SELECT id FROM auth.users WHERE email = '<email Mas>'
+   );
    ```
 
 7. Test /admin route — login sebagai Mas, navigate ke `/admin` → harus render dashboard.
@@ -64,9 +72,9 @@ SELECT count(*) FROM public.editorial_review;
 - [x] VerificationBadge component reusable (Lucide icons, 3 status)
 - [x] /admin/audit-log riwayat moderation actions
 - [x] typecheck 0 error, lint 0 new di admin scope, 240/240 test pass
+- [x] Admin seed (`admin@spdindonesia.org` → is_admin=true) embedded di migration — idempotent
 - [ ] Migration applied ke production (pending Mas, runbook di atas)
 - [ ] Database types regenerated post-apply (pending Mas)
-- [ ] Mas set as admin via SQL editor (pending Mas)
 
 ## File ownership respected (Spec #34 Window A)
 
