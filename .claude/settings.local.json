@@ -22,7 +22,11 @@
       "Bash(curl *)",
       "Bash(awk '{print $5\"  \"$NF}')",
       "Bash(git add *)",
-      "PowerShell(pnpm --filter @jw/web typecheck)"
+      "PowerShell(pnpm --filter @jw/web typecheck)",
+      "Bash(git -C \"d:/Website-Jubir Warga\" diff)"
+    ],
+    "additionalDirectories": [
+      "d:\\Website-Jubir Warga\\apps\\legacy\\public\\icons"
     ]
   }
 }
