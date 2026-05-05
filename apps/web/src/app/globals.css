@@ -27,6 +27,15 @@
   --color-jw-pill-grey-bg: #F0EDE8;
   --color-jw-pill-grey-text: #6B6860;
 
+  /* === Tinted surfaces (Spec #34 visual parity Wave 1) =========== */
+  /* Same hex sebagai pill-*-bg, exposed sebagai utility yang lebih
+     ekspresif untuk surface fills (cards, sections, callouts). */
+  --color-jw-surface-blue: #E8ECF7;
+  --color-jw-surface-coral: #FCE9E1;
+  --color-jw-surface-marigold: #FEF3D9;
+  --color-jw-surface-mint: #E1F2EC;
+  --color-jw-surface-grey: #F0EDE8;
+
   /* === Typography =============================================== */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Vollkorn', 'Times New Roman', serif;
