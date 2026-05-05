@@ -11,6 +11,19 @@
 
 > **"Imperfect MVP launch" itu strategi cerdas startup early stage. Lebih baik nyata + kecil daripada sempurna tapi gak jalan-jalan."**
 
+### ⚠️ Clarification (correction 2026-05-05 sesi diskusi)
+
+**TAGIH JANJI bukan replace branding awal.**
+
+Jubir Warga tetap = **ekosistem suara warga muda Indonesia** (Komunitas + Karya + Kelas + Aksi + Tagih + Main). Tagih Janji = **pilar yang di-eksploit Sprint 4** sebagai entry point + signal sekarang, bukan platform akuntabilitas-only.
+
+**Tagline dual-layer**:
+- Brand-wide: *"Suara warga, rumahnya di sini"* (preserved original)
+- Tagih pilar: *"Setiap janji punya jejak"* (spotlight Sprint 4 di hero Beranda + /tagih)
+- Sub Tagih: *"Janji ditagih, jejaknya tercatat"*
+
+Karya/Kelas/Aksi/Komunitas/Main = **tetap visible + accessible** di nav + footer + Beranda fitur grid. Tidak hilang dari ekosistem. Sprint 4 = TIDAK build feature baru di tier 2 ini, **bukan delete**.
+
 **Yang penting**:
 1. ✅ Sistem yang berdiri (bukan sempurna)
 2. ✅ Ekosistem yang bisa scale-up nanti
@@ -51,15 +64,34 @@
 
 ---
 
-## 📋 Sprint 4 reduced — 5 spec untuk 5 window paralel
+## 📋 Sprint 4 reduced — FRONTEND-FIRST 2 phase
 
-| Window | Spec | Estimasi | Conflict risk |
-|---|---|---|---|
-| **A** | #34 Migration 0004 LIGHT + Editorial admin skeleton | 1 minggu | None (DB + admin dedicated) |
-| **B** | #24-light Tagih Dashboard light | 1-1.5 minggu | Coordinate dengan A (consume schema) |
-| **C** | #28-light Janji vs Realita game v1 | 1 minggu | Independent, consume schema A |
-| **D** | #32 Beranda redesign + #33 Brand copy combined | 1 minggu | Light, low conflict |
-| **E** | Self-host VPS setup (GlitchTip + Umami) + Deploy activation #22 | 0.5-1 minggu | Independent, ops only |
+**Decision Mas 2026-05-05**: frontend complete + connected + deploy live DULU. Backend (admin schema, data scraping, AI) phase 2.
+
+### Phase 1 (week 1-3) — Frontend + Deploy live
+
+4 window paralel:
+
+| Window | Spec | Estimasi |
+|---|---|---|
+| **D** | #32 Beranda redesign + #33 Brand copy pivot (BALANCED dual-tagline) | 1 minggu |
+| **E** | Self-host VPS (GlitchTip + Umami) + Deploy + CI/CD activation | 1-2 minggu |
+| **B** | #24-light Tagih Dashboard light (hardcoded seed data) | 1 minggu |
+| **C** | #28-light Janji vs Realita game v1 (hardcoded pool) | 1 minggu |
+
+**Phase 1 outcome**: Phase 2 LIVE di `jubirbetaapp.spdindonesia.org` dengan brand pivot visible, observability working, CI/CD auto-deploy on push, Tagih dashboard kelihatan alive dengan 10-30 janji seed.
+
+### Phase 2 (week 3+) — Backend + manual seed
+
+Setelah phase 1 complete:
+
+| Window | Spec | Estimasi |
+|---|---|---|
+| **A** | #34 Migration 0004 LIGHT + Editorial admin skeleton | 1 minggu |
+| **Cowork** | Manual seed real janji + verdict batch (Mas + Claude session) | 2-4 jam |
+| **Refactor** | Switch Window B + C dari hardcoded ke DB query (1 file change per window) | 0.5 hari |
+
+**Phase 2 outcome**: editorial admin functional, Tagih + Game switch dari hardcoded ke real DB. Game phase 1 tetap playable selama transisi.
 
 ---
 
