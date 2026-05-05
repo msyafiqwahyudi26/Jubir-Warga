@@ -55,7 +55,7 @@ export function JanjiCardWithBadge({ janji }: Props) {
           </div>
 
           <p className="font-display text-base text-jw-ink leading-snug group-hover:text-jw-blue line-clamp-3">
-            &ldquo;{janji.janji_text}&rdquo;
+            {janji.janji_text}
           </p>
 
           <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">

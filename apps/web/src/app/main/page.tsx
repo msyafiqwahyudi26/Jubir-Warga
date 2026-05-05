@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { Gamepad2, Flame, Trophy, ArrowRight } from 'lucide-react';
+import { Gamepad2, Flame, Trophy, ArrowRight, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { calculateStreak } from '@/lib/main/streak';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
 
 export const metadata: Metadata = {
   title: 'Main — Jubir Warga',
-  description: 'Game harian: Tebak Kata + Tebak Pejabat. Ringan tapi bobotnya nyata.',
+  description: 'Game harian: Janji vs Realita, Tebak Kata, Tebak Pejabat. Ringan tapi bobotnya nyata.',
 };
 
 export default async function MainPage() {
@@ -50,7 +50,25 @@ export default async function MainPage() {
         )}
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Link
+          href="/main/janji-vs-realita"
+          className="group rounded-jw-xl bg-jw-marigold/90 text-jw-blue p-6 hover:bg-jw-marigold transition flex flex-col"
+        >
+          <span className="inline-flex items-center gap-1.5 rounded-jw-sm bg-jw-blue/15 text-jw-blue text-xs font-bold px-2 py-0.5 self-start">
+            <Sparkles size={11} aria-hidden /> SIGNATURE
+          </span>
+          <h2 className="font-display text-2xl font-bold mt-3 leading-tight">
+            Janji vs Realita
+          </h2>
+          <p className="text-sm opacity-80 mt-2">
+            Tebak alignment janji pejabat · 30 detik · fact-grounded
+          </p>
+          <span className="inline-flex items-center gap-1 mt-auto pt-4 text-sm font-semibold text-jw-coral">
+            Main sekarang <ArrowRight size={14} aria-hidden />
+          </span>
+        </Link>
+
         <Link
           href="/main/tebak-kata"
           className="group rounded-jw-xl bg-jw-blue text-jw-cream p-6 hover:bg-jw-blue-soft transition flex flex-col"

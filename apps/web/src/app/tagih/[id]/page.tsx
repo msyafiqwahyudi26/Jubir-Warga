@@ -122,7 +122,7 @@ export default async function JanjiDetailPage({
         <EvidenceList evidence={evidence} />
       </div>
 
-      <NalaTriggerButton context={`janji "${janji.janji_text.slice(0, 60)}"`} />
+      <NalaTriggerButton context={`janji ${janji.janji_text.slice(0, 60)}`} />
     </main>
   );
 }
