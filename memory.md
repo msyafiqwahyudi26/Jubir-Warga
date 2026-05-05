@@ -83,6 +83,18 @@ Kalau ada konflik dengan `CLAUDE.md`, **`CLAUDE.md` menang**. File ini supplemen
 | Vector DB | pgvector di Supabase (existing, leverage) | strategy doc |
 | Site header global | Wired di `app/layout.tsx` root (post Sprint 3 fix 2026-05-04) | repo: `app/layout.tsx` |
 
+## Sprint 4 reduced scope (2026-05-05)
+
+Per diskusi Mas overwhelm + reality check resource terbatas:
+- **Source of truth**: `specs/SPRINT-4/SCOPE-REDUCED-2026-05-05.md`
+- **Scope**: 5 spec untuk 5 window paralel (A admin schema, B Tagih light, C Game v1, D Beranda+brand copy, E self-host VPS+deploy)
+- **Cost commitment**: $0 tambahan (leverage VPS existing + Anthropic Max + Supabase free)
+- **Deferred Sprint 5+**: scraping automated, Live Watch automated, embedding, Nala live AI, BPS API, leaderboard gubernur, pgvector
+- **Replacement**: manual seed janji via Cowork session (Mas + Claude), manual verdict generation
+- **Stack final**: GlitchTip self-host (bukan Sentry $), Umami self-host (bukan Plausible $), Postgres LISTEN/NOTIFY (bukan Upstash/Inngest $), GitHub Actions cron (bukan Inngest $)
+- **Target launch beta**: 2026-06-02 (4 minggu)
+- **Prinsip**: imperfect MVP launch realistic > perfect tertunda. Sistem nyata + sustain > fitur lengkap.
+
 ## Recurring quirks & workaround
 
 ### Windows git push OOM
