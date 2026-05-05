@@ -1,0 +1,93 @@
+# GlitchTip — self-host error tracking (Sentry-compatible)
+# Reference: https://glitchtip.com/documentation/install
+#
+# Path on VPS: /opt/glitchtip
+# Internal port: 8000 (web), behind Nginx reverse proxy glitchtip.spdindonesia.org
+# Compatible dengan @sentry/nextjs SDK — DSN format identik.
+#
+# Pre-deploy:
+#   1. cp .env.example .env  (lalu fill SECRET_KEY, DATABASE_PASSWORD, EMAIL_*)
+#   2. mkdir -p /opt/glitchtip/data/{postgres,redis,uploads}
+#   3. docker compose up -d
+#   4. docker compose exec web ./manage.py createsuperuser
+#
+# Backup: data/postgres + data/uploads via daily cron (lihat README §6)
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-glitchtip}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-glitchtip}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-glitchtip}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Tidak expose ke host — only internal network
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  web:
+    image: glitchtip/glitchtip:v4
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment: &glitchtip-env
+      DATABASE_URL: postgres://${POSTGRES_USER:-glitchtip}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-glitchtip}
+      SECRET_KEY: ${SECRET_KEY}
+      PORT: 8000
+      EMAIL_URL: ${EMAIL_URL:-consolemail://}
+      GLITCHTIP_DOMAIN: https://glitchtip.spdindonesia.org
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-noreply@spdindonesia.org}
+      CELERY_WORKER_AUTOSCALE: "1,3"
+      CELERY_WORKER_MAX_TASKS_PER_CHILD: "10000"
+      REDIS_URL: redis://redis:6379/0
+      # Disable signup di production setelah Mas bikin akun pertama
+      ENABLE_USER_REGISTRATION: ${ENABLE_USER_REGISTRATION:-false}
+    volumes:
+      - ./data/uploads:/code/uploads
+    ports:
+      - "127.0.0.1:8000:8000"  # Bind ke loopback only — Nginx handle public
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8000/api/0/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  worker:
+    image: glitchtip/glitchtip:v4
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    command: ./bin/run-celery-with-beat.sh
+    environment: *glitchtip-env
+    volumes:
+      - ./data/uploads:/code/uploads
+
+  migrate:
+    image: glitchtip/glitchtip:v4
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ./manage.py migrate
+    environment: *glitchtip-env
+    restart: "no"

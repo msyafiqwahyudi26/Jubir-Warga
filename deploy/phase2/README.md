@@ -7,6 +7,8 @@
 
 > Decision rationale + alternatives considered: see `docs/DEPLOY_DECISION_2026-05-04.md`.
 > Phase 1 rename plan (`jubir.spdindonesia.org` → `mockupjubir.spdindonesia.org`): see `PHASE1_RENAME.md`.
+> Self-host monitoring (GlitchTip + Umami, replaces Sentry/Plausible SaaS per Spec #38): see `../self-host/README.md`.
+> End-to-end launch checklist target 2026-06-02: see `docs/PHASE2_LAUNCH_2026-06-02.md`.
 
 ---
 
@@ -21,7 +23,8 @@ This kit is **scaffold only**. Files prepared, but production activation require
 | DNS A record `jubirbetaapp` → `76.13.196.172` | Mas | ⏳ Pending |
 | SSH ke VPS, jalankan setup commands (section 2) | Mas | ⏳ Pending |
 | Fill `.env.production.local` di VPS | Mas | ⏳ Pending |
-| Verify Sentry DSN + Plausible domain registered | Mas | ⏳ Pending |
+| Self-host GlitchTip + Umami live (per `../self-host/README.md`) | Mas | ⏳ Pending |
+| Verify GlitchTip DSN + Umami website UUID registered | Mas | ⏳ Pending |
 | GitHub repo secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` (already exist for Phase 1 — reuse) | Mas | ✅ Already set |
 | First deploy via `git push origin main` (auto-trigger) | Auto | ⏳ Pending |
 | Smoke test (section 5) | Mas + Claude Code | ⏳ Pending |
@@ -35,8 +38,10 @@ Before SSH ke VPS:
 
 - [ ] Domain `jubirbetaapp.spdindonesia.org` DNS A record → `76.13.196.172` (TTL 300, propagation <1 jam)
 - [ ] SSH key untuk akses VPS sudah ada di laptop (Phase 1 already uses this)
-- [ ] Sentry project `jubir-warga-web` di `spd-indonesia` org sudah dibuat (per Spec #18) — DSN siap
-- [ ] Plausible account aktif, domain `jubirbetaapp.spdindonesia.org` sudah di-add di dashboard
+- [ ] **Self-host GlitchTip live** di `glitchtip.spdindonesia.org` (per `deploy/self-host/README.md` §3) — DSN siap
+- [ ] **Self-host Umami live** di `umami.spdindonesia.org` (per `deploy/self-host/README.md` §4) — website UUID siap
+- [ ] (Legacy) Sentry SaaS — di-superseded oleh GlitchTip self-host per Spec #38; abaikan kalau Mas pakai self-host
+- [ ] (Legacy) Plausible SaaS — di-superseded oleh Umami self-host per Spec #38
 - [ ] Supabase anon key + service role key copy dari `https://supabase.com/dashboard/project/ifrautpvbhdbhieystxk/settings/api`
 
 Verify DNS sebelum lanjut:

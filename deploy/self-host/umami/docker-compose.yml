@@ -1,0 +1,52 @@
+# Umami — self-host privacy-first analytics (Plausible alternative)
+# Reference: https://umami.is/docs/install
+#
+# Path on VPS: /opt/umami
+# Internal port: 3000 (umami), behind Nginx reverse proxy umami.spdindonesia.org
+# NOTE: Phase 2 Next.js app jalan di port 3001 (PM2). Umami pake 3000 — no conflict
+# karena umami port di-bind ke 127.0.0.1 only, Phase 2 PM2 bind ke 127.0.0.1 juga.
+#
+# Pre-deploy:
+#   1. cp .env.example .env  (lalu fill DATABASE_PASSWORD, APP_SECRET, HASH_SALT)
+#   2. mkdir -p /opt/umami/data/postgres
+#   3. docker compose up -d
+#   4. Login default: admin / umami (CHANGE PASSWORD setelah login pertama)
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-umami}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-umami}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-umami}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-umami}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-umami}
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${APP_SECRET}
+      HASH_SALT: ${HASH_SALT}
+      # Disable telemetry homing
+      DISABLE_TELEMETRY: "1"
+      # Disable Umami's auto-update check
+      DISABLE_UPDATES: "1"
+    ports:
+      - "127.0.0.1:3000:3000"  # Loopback bind — Nginx handle public
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3000/api/heartbeat || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
