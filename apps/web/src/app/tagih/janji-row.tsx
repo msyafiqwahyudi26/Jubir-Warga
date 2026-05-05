@@ -28,7 +28,7 @@ export function JanjiRow({ janji }: { janji: JanjiViewRow }) {
             )}
           </div>
           <p className="font-display text-base text-jw-ink leading-snug group-hover:text-jw-blue line-clamp-3">
-            &ldquo;{janji.janji_text}&rdquo;
+            {janji.janji_text}
           </p>
           {janji.topik && (
             <p className="text-xs text-jw-muted mt-2">

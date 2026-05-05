@@ -11,7 +11,7 @@
     "build": "pnpm --filter @jw/web build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "data:typegen": "pnpm --filter @jw/data typegen",
+    "data:typegen": "pnpm --filter @jw/data generate-types",
     "seed:demo": "tsx scripts/generate-demo-seed.ts",
     "seed:demo:cleanup": "tsx scripts/cleanup-demo-seed.ts",
     "seed:demo:refresh-bodies": "tsx scripts/refresh-demo-bodies.ts"
