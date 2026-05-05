@@ -1,4 +1,14 @@
-# Phase 1 rename runbook — `jubir.spdindonesia.org` → `mockupjubir.spdindonesia.org`
+# Phase 1 rename runbook — DEPRECATED (2026-05-05)
+
+> **⚠️ STATUS: DEPRECATED**. Decision Mas 2026-05-05: cutover langsung Phase 1 → Phase 2 di `jubir.spdindonesia.org` (NO subdomain mockup). Phase 1 archive di Claude Design + `apps/legacy/` source di repo cukup.
+>
+> Doc ini di-preserve sebagai historical reference. **JANGAN execute** runbook di bawah.
+>
+> **Plan baru** (cutover langsung): see `deploy/phase2/README.md` + `docs/PHASE2_LAUNCH_2026-06-02.md`.
+
+---
+
+# (DEPRECATED) Phase 1 rename runbook — `jubir.spdindonesia.org` → `mockupjubir.spdindonesia.org`
 
 > **STATUS**: Doc only. Mas executes manually via DNS provider + SSH ke VPS.
 > **Why**: Repositioning Phase 1 sebagai legacy/mockup. Phase 2 (Next.js) jadi primary di `jubirbetaapp.spdindonesia.org`.

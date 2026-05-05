@@ -1,6 +1,6 @@
 # Phase 2 Deployment Kit — VPS Hostinger
 
-**Target domain**: `jubirbetaapp.spdindonesia.org`
+**Target domain**: `jubir.spdindonesia.org`
 **VPS**: `76.13.196.172` (same Hostinger box as Phase 1)
 **App path on VPS**: `/var/www/jubir-warga-phase2`
 **App port (internal)**: `3001` (Phase 1 occupies 80/443; Next.js Node process listens on localhost:3001 behind Nginx reverse proxy)
@@ -19,8 +19,8 @@ This kit is **scaffold only**. Files prepared, but production activation require
 | Step | Owner | Status |
 |---|---|---|
 | Scaffold files (this kit) | Claude Code | ✅ Done |
-| Buy / verify domain `jubirbetaapp.spdindonesia.org` available on DNS provider | Mas | ⏳ Pending |
-| DNS A record `jubirbetaapp` → `76.13.196.172` | Mas | ⏳ Pending |
+| Buy / verify domain `jubir.spdindonesia.org` available on DNS provider | Mas | ⏳ Pending |
+| DNS A record `jubir.spdindonesia.org` sudah point ke `76.13.196.172` (existing Phase 1) | Mas | ⏳ Pending |
 | SSH ke VPS, jalankan setup commands (section 2) | Mas | ⏳ Pending |
 | Fill `.env.production.local` di VPS | Mas | ⏳ Pending |
 | Self-host GlitchTip + Umami live (per `../self-host/README.md`) | Mas | ⏳ Pending |
@@ -36,7 +36,7 @@ This kit is **scaffold only**. Files prepared, but production activation require
 
 Before SSH ke VPS:
 
-- [ ] Domain `jubirbetaapp.spdindonesia.org` DNS A record → `76.13.196.172` (TTL 300, propagation <1 jam)
+- [ ] Domain `jubir.spdindonesia.org` DNS A record → `76.13.196.172` (TTL 300, propagation <1 jam)
 - [ ] SSH key untuk akses VPS sudah ada di laptop (Phase 1 already uses this)
 - [ ] **Self-host GlitchTip live** di `glitchtip.spdindonesia.org` (per `deploy/self-host/README.md` §3) — DSN siap
 - [ ] **Self-host Umami live** di `umami.spdindonesia.org` (per `deploy/self-host/README.md` §4) — website UUID siap
@@ -46,7 +46,7 @@ Before SSH ke VPS:
 
 Verify DNS sebelum lanjut:
 ```bash
-dig jubirbetaapp.spdindonesia.org +short
+dig jubir.spdindonesia.org +short
 # expected: 76.13.196.172
 ```
 
@@ -105,7 +105,7 @@ nano /var/www/jubir-warga-phase2/apps/web/.env.production.local
 #   SUPABASE_SERVICE_ROLE_KEY      (dari Supabase dashboard, server-only)
 #   NEXT_PUBLIC_SENTRY_DSN         (dari Sentry project setting)
 #   SENTRY_AUTH_TOKEN              (dari Sentry org setting)
-#   NEXT_PUBLIC_PLAUSIBLE_DOMAIN=jubirbetaapp.spdindonesia.org
+#   NEXT_PUBLIC_PLAUSIBLE_DOMAIN=jubir.spdindonesia.org
 
 chmod 600 /var/www/jubir-warga-phase2/apps/web/.env.production.local
 chown root:root /var/www/jubir-warga-phase2/apps/web/.env.production.local
@@ -144,11 +144,11 @@ ln -s /etc/nginx/sites-available/jubir-warga-phase2 \
 nginx -t
 
 # Issue SSL via Let's Encrypt (interactive — pick your email + agree TOS)
-certbot --nginx -d jubirbetaapp.spdindonesia.org
+certbot --nginx -d jubir.spdindonesia.org
 
 # certbot otomatis modify nginx config + reload. Verify:
 systemctl status nginx
-curl -I https://jubirbetaapp.spdindonesia.org
+curl -I https://jubir.spdindonesia.org
 # Expected: HTTP/2 200
 ```
 
@@ -212,7 +212,7 @@ pm2 start deploy/phase2/ecosystem.config.js
 ## 5. Post-deploy smoke test
 
 Browser:
-1. `https://jubirbetaapp.spdindonesia.org` — Beranda render, no console errors
+1. `https://jubir.spdindonesia.org` — Beranda render, no console errors
 2. `/komunitas` — thread list render, vote arrows responsive
 3. `/karya` — karya grid render, hover lift smooth
 4. `/kelas` — kelas grid render, FREE badge visible
@@ -230,7 +230,7 @@ DevTools Network tab:
 - Supabase auth cookie set after login
 
 UptimeRobot:
-- Add monitor URL `https://jubirbetaapp.spdindonesia.org` per `deploy/runbooks/uptime-monitoring.md`
+- Add monitor URL `https://jubir.spdindonesia.org` per `deploy/runbooks/uptime-monitoring.md`
 
 ---
 
@@ -265,7 +265,7 @@ df -h
 - [ ] Cloudflare in front of VPS for free CDN + DDoS protection (Sprint 4)
 - [ ] Database backup automation via `supabase db dump` cron (Sprint 4)
 - [ ] Disaster recovery runbook (Sprint 4)
-- [ ] Cutover redirect `mockupjubir.spdindonesia.org` → `jubirbetaapp.spdindonesia.org` 2 minggu post-stable (per ADR migration plan)
+- [ ] Cutover redirect `mockupjubir.spdindonesia.org` → `jubir.spdindonesia.org` 2 minggu post-stable (per ADR migration plan)
 
 ---
 

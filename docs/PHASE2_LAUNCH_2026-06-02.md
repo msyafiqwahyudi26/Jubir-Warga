@@ -2,7 +2,7 @@
 
 **Status**: Working draft — Window E + Mas drives execution. Updated as steps land.
 **Target launch**: 2026-06-02 (per Sprint 4 SCOPE-REDUCED)
-**Scope**: Phase 2 Next.js publik di `jubirbetaapp.spdindonesia.org` + self-host monitoring (GlitchTip + Umami) live.
+**Scope**: Phase 2 Next.js publik di `jubir.spdindonesia.org` + self-host monitoring (GlitchTip + Umami) live.
 **Not in scope**: Phase 1 rename (`jubir → mockupjubir`) — separate runbook `deploy/phase2/PHASE1_RENAME.md`, executed post-stable +14 hari.
 
 ---
@@ -24,7 +24,7 @@
 ## 1. Pre-launch — T-7 to T-3
 
 ### 1a. DNS setup (Mas)
-- [ ] A record `jubirbetaapp.spdindonesia.org` → `76.13.196.172` (TTL 300)
+- [ ] A record `jubir.spdindonesia.org` → `76.13.196.172` (TTL 300)
 - [ ] A record `glitchtip.spdindonesia.org` → `76.13.196.172` (TTL 300)
 - [ ] A record `umami.spdindonesia.org` → `76.13.196.172` (TTL 300)
 - [ ] All three resolve via `dig <domain> +short` returning `76.13.196.172`
@@ -53,7 +53,7 @@
 - [ ] PM2 started — `pm2 status` shows `jubir-warga-phase2 online`
 - [ ] `curl http://localhost:3001` returns HTTP 200
 - [ ] Nginx vhost copied + symlinked + `nginx -t` passes
-- [ ] Certbot issued SSL — `https://jubirbetaapp.spdindonesia.org` HTTP 200
+- [ ] Certbot issued SSL — `https://jubir.spdindonesia.org` HTTP 200
 - [ ] PM2 startup script registered — survives `reboot` test (optional)
 
 ### 1e. GitHub Secrets verification (Mas via Settings → Secrets and variables → Actions)
@@ -72,7 +72,7 @@
 - [ ] Workflow completes green (timeout 15 min default)
 - [ ] Job log shows: `✓ Local check OK — PM2 alive` + `✓ Public endpoint healthy`
 - [ ] PM2 restart confirmed: `ssh root@76.13.196.172 'pm2 logs --lines 5'` shows recent restart timestamp
-- [ ] Browser `https://jubirbetaapp.spdindonesia.org` shows latest deploy (verify via response header `X-Deploy-Time` atau visual check)
+- [ ] Browser `https://jubir.spdindonesia.org` shows latest deploy (verify via response header `X-Deploy-Time` atau visual check)
 
 ### 1g. Manual workflow_dispatch sanity (fallback test)
 - [ ] Repo → Actions → "Deploy Phase 2 to VPS" → Run workflow → branch `main` → Run
@@ -137,7 +137,7 @@ Visit each route, verify render + DevTools no critical errors. Mark blocking fai
 
 - [ ] Final smoke test ulang section 2 — tidak ada regression
 - [ ] UptimeRobot monitor active untuk:
-  - [ ] `https://jubirbetaapp.spdindonesia.org` (5 min interval)
+  - [ ] `https://jubir.spdindonesia.org` (5 min interval)
   - [ ] `https://glitchtip.spdindonesia.org` (15 min interval, info-level alert)
   - [ ] `https://umami.spdindonesia.org` (15 min interval, info-level alert)
 - [ ] Mas IG `@jubirwarga.id` post launch announcement (copy ready in `apps/legacy/docs/Landing_Page_Beta_Copy.md` adapt)
@@ -172,7 +172,7 @@ pm2 restart jubir-warga-phase2
 ```
 
 ### 6b. DNS rollback (lebih lambat — 30 menit propagation)
-Edit DNS provider: temporarily point `jubirbetaapp.spdindonesia.org` ke maintenance page (gak ada — fallback bisa ke 503 page Nginx kalau bikin).
+Edit DNS provider: temporarily point `jubir.spdindonesia.org` ke maintenance page (gak ada — fallback bisa ke 503 page Nginx kalau bikin).
 
 Belum disiapkan maintenance page → Sprint 4 backlog kalau perlu.
 

@@ -233,7 +233,7 @@ certbot --nginx -d umami.spdindonesia.org
 Di Umami dashboard:
 1. Login → Settings → Websites → Add website
 2. Name: "Jubir Warga Beta"
-3. Domain: `jubirbetaapp.spdindonesia.org`
+3. Domain: `jubir.spdindonesia.org`
 4. Save → click website → Tracking code
 5. Copy `data-website-id="<uuid>"`
 6. Paste ke `/var/www/jubir-warga-phase2/apps/web/.env.production.local` sebagai `NEXT_PUBLIC_UMAMI_WEBSITE_ID`
@@ -355,7 +355,7 @@ GlitchTip:
 Umami:
 1. Browser `https://umami.spdindonesia.org` → login OK (after password change)
 2. Dashboard shows website "Jubir Warga Beta"
-3. Visit Phase 2 `https://jubirbetaapp.spdindonesia.org` → pageview muncul real-time di Umami dashboard "Active visitors"
+3. Visit Phase 2 `https://jubir.spdindonesia.org` → pageview muncul real-time di Umami dashboard "Active visitors"
 
 ---
 

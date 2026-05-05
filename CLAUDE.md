@@ -72,9 +72,8 @@ Kalau task bersinggungan dengan visual / copy / brand, **WAJIB cross-check** ke 
 - Lapor Janji warga (UGC, moderated)
 
 **Domain:**
-- `jubir.spdindonesia.org` — Phase 1 live (akan tetap aktif sampai cutover)
-- `jubirwarga.id` — target brand domain (untuk launch Juni 2026)
-- App subdomain TBD (`app.jubirwarga.id` atau `beta.jubirwarga.id`)
+- `jubir.spdindonesia.org` — Phase 1 LIVE → akan di-cutover ke Phase 2 (decision 2026-05-05). Phase 1 archive di Claude Design + `apps/legacy/` source.
+- `jubirwarga.id` — target brand domain (untuk launch Juni 2026, post-cutover)
 
 ---
 
@@ -426,8 +425,8 @@ Repo dalam mode "beta + dummy data" sampai launch publik Juni 2026.
 | Supabase project ref | `ifrautpvbhdbhieystxk` |
 | Supabase URL | `https://ifrautpvbhdbhieystxk.supabase.co` |
 | Supabase region | `ap-southeast-1` (Singapore) |
-| Phase 1 production | `https://jubir.spdindonesia.org` |
-| Phase 2 staging | TBD (Sprint 3) |
+| Phase 2 production (post-cutover 2026-05-05) | `https://jubir.spdindonesia.org` |
+| Phase 1 archive | Claude Design project + `apps/legacy/` source di repo |
 | Brand domain (target) | `jubirwarga.id` |
 | VPS IP | `76.13.196.172` (Hostinger) |
 | GitHub repo | `https://github.com/msyafiqwahyudi26/Jubir-Warga` |

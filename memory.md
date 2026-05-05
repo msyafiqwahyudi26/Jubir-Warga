@@ -26,8 +26,8 @@ Kalau ada konflik dengan `CLAUDE.md`, **`CLAUDE.md` menang**. File ini supplemen
 - **Tagline primary**: *"Setiap janji punya jejak"*
 - **Tagline sub**: *"Janji ditagih, jejaknya tercatat"*
 - **Positioning** (post-pivot 2026-05-04): "Platform akuntabilitas pemerintah berbasis data resmi (RPJMN/RPJMD/Visi Misi paslon) yang dianalisis AI untuk warga muda Indonesia"
-- **Phase 1**: Live di `jubir.spdindonesia.org` (vanilla CDN, akan rename → `mockupjubir.spdindonesia.org` post-Phase 2 stable)
-- **Phase 2**: Next.js + Supabase, in dev di `apps/web`. Deploy target: `jubirbetaapp.spdindonesia.org`
+- **Phase 1**: Live di `jubir.spdindonesia.org` (vanilla CDN). **CUTOVER PLAN (2026-05-05)**: Phase 2 timpa Phase 1 di domain yang sama. Phase 1 archive: Claude Design + `apps/legacy/` source di repo. Subdomain "mockupjubir" plan DEPRECATED.
+- **Phase 2**: Next.js + Supabase, in dev di `apps/web`. Deploy target (CUTOVER): `jubir.spdindonesia.org`
 - **Brand domain target**: `jubirwarga.id` (post-launch)
 - **Repo**: `https://github.com/msyafiqwahyudi26/Jubir-Warga`
 - **Supabase project**: `ifrautpvbhdbhieystxk` (region ap-southeast-1)
