@@ -3,42 +3,39 @@ import type { User } from '@supabase/supabase-js';
 import { signOut } from '@/app/(auth)/masuk/actions';
 import { JwLogo } from './jw-logo';
 import { NalaPanelTrigger } from './nala/nala-panel-trigger';
+import { NavLinks } from './nav-links';
+import { Avatar } from './ui/avatar';
 
 export function SiteHeader({ user }: { user: User | null }) {
+  const userName =
+    (user?.user_metadata?.name as string | undefined) ??
+    user?.email?.split('@')[0] ??
+    '';
+
   return (
-    <header className="border-b border-jw-line bg-jw-cream/80 backdrop-blur sticky top-0 z-20" role="banner">
-      <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-        <Link href="/" aria-label="Jubir Warga — beranda" className="flex-shrink-0">
+    <header
+      className="border-b border-jw-line bg-jw-cream/80 backdrop-blur sticky top-0 z-20"
+      role="banner"
+    >
+      <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          aria-label="Jubir Warga — beranda"
+          className="flex-shrink-0"
+        >
           <JwLogo size={28} />
         </Link>
-        <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link href="/komunitas" className="text-jw-ink hover:text-jw-coral transition">
-            Komunitas
-          </Link>
-          <Link href="/karya" className="text-jw-ink hover:text-jw-coral transition">
-            Karya
-          </Link>
-          <Link href="/kelas" className="text-jw-ink hover:text-jw-coral transition">
-            Kelas
-          </Link>
-          <Link href="/tagih" className="text-jw-ink hover:text-jw-coral transition">
-            Janji
-          </Link>
-          <Link href="/aksi" className="text-jw-ink hover:text-jw-coral transition">
-            Aksi
-          </Link>
-          <Link href="/main" className="text-jw-ink hover:text-jw-coral transition">
-            Main
-          </Link>
-        </nav>
+        <NavLinks />
         {user ? (
           <div className="flex items-center gap-3">
             <NalaPanelTrigger />
             <Link
               href="/profil"
-              className="hidden sm:block text-sm font-medium text-jw-blue hover:underline"
+              aria-label={`Profil ${userName}`}
+              className="hidden sm:flex items-center gap-2 text-sm font-medium text-jw-blue hover:opacity-80 transition"
             >
-              {user.user_metadata?.name ?? user.email?.split('@')[0]}
+              <Avatar name={userName} size="sm" showLevel={false} />
+              <span className="hidden lg:inline">{userName}</span>
             </Link>
             <form action={signOut}>
               <button
