@@ -23,14 +23,37 @@ Kalau ada konflik dengan `CLAUDE.md`, **`CLAUDE.md` menang**. File ini supplemen
 
 - **Nama**: Jubir Warga (DIPISAH dua kata — bukan "Jubirwarga")
 - **Status**: Beta, target launch publik **Juni 2026**
-- **Tagline kerja**: "VICE Indonesia × Discord × Coursera × Change.org × Wordle, dengan AI sebagai sahabat dan paspor sebagai identitas"
-- **Phase 1**: Live di `jubir.spdindonesia.org` (vanilla CDN, tetap aktif sampai cutover)
-- **Phase 2**: Next.js + Supabase, in dev di `apps/web`
-- **Brand domain target**: `jubirwarga.id`
+- **Tagline primary**: *"Setiap janji punya jejak"*
+- **Tagline sub**: *"Janji ditagih, jejaknya tercatat"*
+- **Positioning** (post-pivot 2026-05-04): "Platform akuntabilitas pemerintah berbasis data resmi (RPJMN/RPJMD/Visi Misi paslon) yang dianalisis AI untuk warga muda Indonesia"
+- **Phase 1**: Live di `jubir.spdindonesia.org` (vanilla CDN, akan rename → `mockupjubir.spdindonesia.org` post-Phase 2 stable)
+- **Phase 2**: Next.js + Supabase, in dev di `apps/web`. Deploy target: `jubirbetaapp.spdindonesia.org`
+- **Brand domain target**: `jubirwarga.id` (post-launch)
 - **Repo**: `https://github.com/msyafiqwahyudi26/Jubir-Warga`
 - **Supabase project**: `ifrautpvbhdbhieystxk` (region ap-southeast-1)
 
 ## Locked decisions (jangan re-debate kecuali Mas eksplisit minta)
+
+### Strategic (post-pivot 2026-05-04)
+
+| Topic | Decision | Source |
+|---|---|---|
+| **Strategic backbone** | Tagih Janji = backbone. Live Watch AI = differentiator. Game = engagement. Komunitas = retention. | `docs/STRATEGY_PIVOT_2026-05-04.md` |
+| **Tier 1 deep build** | Tagih + Game + Komunitas (Sprint 4 fokus) | strategy doc |
+| **Tier 2 surface only** | Karya + Kelas + Aksi (maintenance mode, no new feature Sprint 4) | strategy doc |
+| **Tagline primary** | "Setiap janji punya jejak" | strategy doc |
+| **Tagline sub** | "Janji ditagih, jejaknya tercatat" | strategy doc |
+| **Tone framing** | "akuntabilitas = dukungan terbaik" — kayak medsos KPK. Selaras pemerintah pusat, bukan oposisi. | strategy doc |
+| **Audience** | B2C primary (warga muda 17-39) + B2B layer post-launch | strategy doc |
+| **Data foundation** | RPJMN/RPJMD/Visi Misi/BPS Index/Media mainstream/Lapor warga UGC | strategy doc |
+| **AI moderation** | Editorial human-in-loop pre-publish. Verification badge: "Terverifikasi Kurator" (manual) atau "Kurasi AI" (auto, marked) | strategy doc |
+| **AI verdict tier** | 4-status: Aligned / Partial / Drift / Contradict (hindari binary "Diingkari" yang accusatory) | strategy doc |
+| **Game mechanic Sprint 4** | Predict & Reveal (Mechanic A) — fact-grounded daily quiz | strategy doc |
+| **Phase 1 cutover plan** | Phase 1 rename `jubir.spdindonesia.org` → `mockupjubir.spdindonesia.org` post Phase 2 stable T+14 hari | `deploy/phase2/PHASE1_RENAME.md` |
+| **Phase 2 deploy target** | `jubirbetaapp.spdindonesia.org` di VPS Hostinger 76.13.196.172 | `docs/DEPLOY_DECISION_2026-05-04.md` |
+| **Pre-pivot positioning DROP** | "VICE × Discord × Coursera × Change.org × Wordle" — DI-SUPERSEDE post 2026-05-04 | strategy doc |
+
+### Brand & design (existing, unchanged post-pivot)
 
 | Topic | Decision | Source |
 |---|---|---|
@@ -44,11 +67,21 @@ Kalau ada konflik dengan `CLAUDE.md`, **`CLAUDE.md` menang**. File ini supplemen
 | Native unicode emoji | **Dilarang** sebagai dekorasi UI. OK di dalam quoted UGC. | `CLAUDE.md` §5.4b, §5.6 |
 | Custom emoji set | Brand-aligned SVG (Sprint 4-5 BACKLOG) | `CLAUDE.md` §5.4b |
 | Color palette | 11 token brand. **Jangan tambah warna baru.** | `CLAUDE.md` §5.1, §5.6 |
+| Em dash policy | Selective — hapus di curated copy, keep di body UGC (Spec #16) | `specs/SPRINT-3/16-tier-a-cleanup.md` |
+
+### Engineering (existing, unchanged)
+
+| Topic | Decision | Source |
+|---|---|---|
 | Package manager | pnpm only (npm/yarn break workspace) | `CLAUDE.md` §2 |
 | Supabase pin strategy | Tilde (`~`) untuk supabase-js & ssr — `^` nge-drift breaking compat | `CLAUDE.md` §2 |
 | Demo data | `is_demo` flag per content table. Jangan filter sekarang, wipe pre-launch via `cleanup_demo_data()`. | `CLAUDE.md` §9 |
 | Auth helper | `@supabase/ssr` (cookie-based). **Bukan** `@supabase/auth-helpers` (deprecated). | `CLAUDE.md` §2 |
 | Migration immutability | `0001_*.sql` immutable setelah apply. Migration baru = file baru numbered. | `CLAUDE.md` §11 |
+| AI embedding model | BGE-M3 multilingual (1024 dim, open source) — Sprint 4 build | `docs/STRATEGY_PIVOT_2026-05-04.md` |
+| AI LLM analyzer | Claude Haiku 4.5 (cheap pre-filter) + Claude Sonnet 4.6 (final verdict) | strategy doc |
+| Vector DB | pgvector di Supabase (existing, leverage) | strategy doc |
+| Site header global | Wired di `app/layout.tsx` root (post Sprint 3 fix 2026-05-04) | repo: `app/layout.tsx` |
 
 ## Recurring quirks & workaround
 

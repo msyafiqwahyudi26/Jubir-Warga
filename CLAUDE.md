@@ -31,18 +31,45 @@ Kalau task bersinggungan dengan visual / copy / brand, **WAJIB cross-check** ke 
 
 ---
 
-## 1. Project context
+## 1. Project context (post-pivot 2026-05-04)
 
-**Jubir Warga** adalah platform online untuk anak muda Indonesia (17–39 tahun) untuk mengumpulkan, mengkurasi, dan mengangkat suara warga ke percakapan publik — diskusi, karya, kelas, petisi, laporan warga, pemantauan janji pejabat. Owner & operator: **SPD Indonesia** (Sindikasi Pemilu & Demokrasi). Sekarang dalam beta, target launch publik **Juni 2026**. Repo ini berisi Phase 1 (vanilla CDN, sudah live di `jubir.spdindonesia.org`) dan Phase 2 (Next.js + Supabase, in development) sebagai monorepo.
+**Jubir Warga** adalah **platform akuntabilitas pemerintah berbasis data resmi (RPJMN/RPJMD/Visi Misi paslon) yang dianalisis AI untuk warga muda Indonesia 17–39 tahun**. Owner & operator: **SPD Indonesia** (Sindikasi Pemilu & Demokrasi). Sekarang dalam beta, target launch publik **Juni 2026**. Repo ini berisi Phase 1 (vanilla CDN, sudah live di `jubir.spdindonesia.org`) dan Phase 2 (Next.js + Supabase, in development) sebagai monorepo.
+
+**Tagline primary**: *"Setiap janji punya jejak"*
+**Tagline sub**: *"Janji ditagih, jejaknya tercatat"*
 
 **Status institusional:** Jubir Warga lahir dari SPD sebagai platform anak muda. Sedang dalam proses pembentukan PT independen 2026. Pasca-PT: Jubir Warga otonom, SPD jadi partner. **Brand utama: Jubir Warga.** Untuk publik, jangan disclose riwayat institusional ini di copy halaman — Jubir Warga diposisikan sebagai brand utuh.
 
-**Positioning v2:** "VICE Indonesia × Discord × Coursera × Change.org × Wordle, dengan AI sebagai sahabat dan paspor sebagai identitas."
+**Positioning (post-pivot strategic doc `docs/STRATEGY_PIVOT_2026-05-04.md`):**
 
-**Audience inti (3 persona):**
-- **Aulia** (21, mahasiswi Bandung) — mau ngerti isu publik tanpa baca jurnal. Pakai untuk explainer.
-- **Reza** (26, NGO Surabaya) — punya opini, butuh panggung. Pakai Writing Partner & upload Karya.
-- **Sari** (29, alumni Jubir Warga 2024, Jakarta) — organize komunitas, follow janji wali kotanya. Pakai Tagih Janji.
+- **Backbone**: Tagih Janji — database janji + alignment scoring + dashboard publik per region
+- **Differentiator**: Live Watch AI — scrape media mainstream + analyze alignment vs visi misi/RPJMN real-time
+- **Engagement**: Janji vs Realita game — Predict & Reveal mechanic, fact-grounded
+- **Retention**: Komunitas — diskusi per janji (thread tagged `janji_id`)
+- **Trust signal**: editorial moderation 2-tier verification badge — "Terverifikasi Kurator" (manual) vs "Kurasi AI" (auto, marked transparently)
+
+**Tone**: kritis fakta, pro-democracy, **selaras agenda pembangunan pemerintah pusat** (bukan oposisi). Framing: "akuntabilitas adalah bentuk dukungan terbaik" — kayak medsos KPK.
+
+**Tier prioritas pembangunan**:
+- **Tier 1 deep build** (Sprint 4 fokus): Tagih Janji + Janji vs Realita Game + Komunitas
+- **Tier 2 surface only** (maintenance mode, no Sprint 4 new feature): Karya + Kelas + Aksi
+
+**Pre-pivot positioning yang DI-DROP** (jangan dipakai lagi): "VICE × Discord × Coursera × Change.org × Wordle". Itu pre-2026-05-04, sekarang di-supersede.
+
+**Audience inti (3 persona)**:
+- **Aulia** (21, mahasiswi Bandung) — mau ngerti isu publik tanpa baca jurnal. Primary: Tagih Dashboard + Janji vs Realita game.
+- **Reza** (26, NGO Surabaya) — punya opini, butuh panggung. Primary: Live Watch follow + diskusi Komunitas per janji.
+- **Sari** (29, alumni Jubir Warga 2024, Jakarta) — organize komunitas, follow janji wali kotanya. Primary: Lapor janji baru ke Tagih DB + tracking pejabat region.
+
+**Strategi produk**: B2C primary (warga muda, free) + B2B layer post-launch (API access NGO/peneliti, dashboard kepatuhan janji untuk OPD/dinas, sponsorship konten edukasi).
+
+**Data foundation** (Sprint 4 build):
+- RPJMN (Bappenas) — Presiden + Wapres + 7 menteri kunci
+- RPJMD (38 prov + 514 kab/kota, phased rollout)
+- Visi Misi paslon (KPU per pemilu/pilkada)
+- Indeks BPS (IPM/IDH/IPMD) — context indikator pembangunan
+- Media mainstream RSS (Kompas/Tempo/Detik/Antara/CNN ID/Tirto) — Live Watch source
+- Lapor Janji warga (UGC, moderated)
 
 **Domain:**
 - `jubir.spdindonesia.org` — Phase 1 live (akan tetap aktif sampai cutover)
