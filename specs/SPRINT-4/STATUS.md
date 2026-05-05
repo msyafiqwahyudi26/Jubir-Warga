@@ -11,7 +11,7 @@
 | #34 | Migration 0004 LIGHT + Editorial admin skeleton | A | 🟡 SCAFFOLD READY 2026-05-05 — migration file written + admin scaffold (lib/admin types/role-check/moderation-actions/audit-logger, components/admin badge-verification + janji-edit-form, app/admin layout + dashboard + janji list/edit + audit-log). Apply migration + types regen pending Mas (no DB password locally). 240/240 test pass, typecheck 0, lint 0 new in admin scope. | TBD (apply) |
 | #24-light | Tagih Dashboard light v2 | B | 📋 In progress | — |
 | #28-light | Janji vs Realita game v1 | C | ✅ DONE | 6ba5b3f |
-| #32+#33 | Beranda redesign + Brand copy combined | D | 📋 In progress | — |
+| #32+#33 | Beranda redesign + Brand copy combined (DUAL-LAYER) | D | ✅ DONE 2026-05-05 — Beranda dual-layer: brand "Suara warga, rumahnya di sini" tetap + Tagih spotlight card "Setiap janji punya jejak" sebagai sub. 14 file (3 BARU komponen Beranda hero-tagih-spotlight/janji-prominent-cards/fitur-pendukung-grid + 4 BARU page tentang/privasi/etika/syarat + 7 modif: layout metadata + page.tsx + manifest + footer + masuk/daftar + nala-prompts NALA_SYSTEM_PROMPT canonical). Komunitas threads tetap visible di Beranda + ekosistem 6 fitur visible di footer + grid. 0 occurrence framing lama (VICE/Discord/Coursera/Change.org) di copy publik. 269/269 test pass. typecheck 0, lint 0 new, build 27 routes OK. | 231981d |
 | #38 | Self-host VPS setup + Deploy activation | E | ✅ DONE | 3fb7d54 |
 
 ## Sprint 4 Spec #34 — Apply migration runbook
