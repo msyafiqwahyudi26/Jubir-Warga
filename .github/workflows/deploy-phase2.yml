@@ -68,12 +68,22 @@ jobs:
             pm2 restart jubir-warga-phase2 --update-env
             pm2 save
 
-            echo "→ Health check"
+            echo "→ Health check (local PM2)"
             sleep 3
-            curl --fail --max-time 10 -I http://localhost:3001 || (echo "✗ Health check failed"; exit 1)
+            curl --fail --retry 3 --retry-delay 2 --max-time 10 -I http://localhost:3001 \
+              || (echo "✗ Local health check failed (PM2 not responding)"; exit 1)
 
-            echo "✓ Deploy success"
+            echo "✓ Local check OK — PM2 alive"
           ENDSSH
+
+      - name: Public HTTPS health check
+        run: |
+          echo "→ Verifying https://jubirbetaapp.spdindonesia.org reachable + 200"
+          curl --fail --retry 5 --retry-delay 3 --max-time 15 -sS -o /dev/null \
+               -w "HTTP %{http_code} · %{time_total}s · ssl_verify=%{ssl_verify_result}\n" \
+               https://jubirbetaapp.spdindonesia.org \
+            || (echo "✗ Public HTTPS health check failed — Nginx/SSL/Node down. Cek log VPS."; exit 1)
+          echo "✓ Public endpoint healthy"
 
       - name: Notify success
         if: success()

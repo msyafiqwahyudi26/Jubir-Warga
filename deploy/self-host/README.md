@@ -95,7 +95,7 @@ Edit `/opt/glitchtip/.env`:
 - `POSTGRES_PASSWORD=<generated>`
 - `SECRET_KEY=<generated>`
 - `EMAIL_URL=smtp://...` (optional, console:// for now)
-- `ENABLE_USER_REGISTRATION=true` (sementara untuk first-run, lalu false)
+- `ENABLE_OPEN_USER_REGISTRATION=True` (sementara untuk first-run, lalu False — Title Case Python boolean)
 
 ```bash
 chmod 600 /opt/glitchtip/.env
@@ -137,7 +137,7 @@ docker compose exec web ./manage.py createsuperuser
 
 ### 3e. Disable signup (post-firstrun)
 
-Edit `/opt/glitchtip/.env`: `ENABLE_USER_REGISTRATION=false`
+Edit `/opt/glitchtip/.env`: `ENABLE_OPEN_USER_REGISTRATION=False`
 
 ```bash
 docker compose up -d --force-recreate web worker

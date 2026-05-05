@@ -56,11 +56,27 @@
 - [ ] Certbot issued SSL — `https://jubirbetaapp.spdindonesia.org` HTTP 200
 - [ ] PM2 startup script registered — survives `reboot` test (optional)
 
-### 1e. CI/CD verification
-- [ ] Test push to `main` triggers `.github/workflows/deploy-phase2.yml`
-- [ ] Workflow run completes green
-- [ ] PM2 restart confirmed via `pm2 logs --lines 5` showing recent restart
-- [ ] `curl https://jubirbetaapp.spdindonesia.org` shows updated content
+### 1e. GitHub Secrets verification (Mas via Settings → Secrets and variables → Actions)
+- [ ] `VPS_HOST` set (`76.13.196.172` or hostname alias)
+- [ ] `VPS_USER` set (`root`)
+- [ ] `VPS_SSH_KEY` set (private key content; reuse from Phase 1 deploy)
+- [ ] (Optional, source map upload) `SENTRY_AUTH_TOKEN` set — token dari `glitchtip.spdindonesia.org` → user menu → API Tokens
+
+### 1f. CI/CD verification — empty-commit test
+- [ ] Trigger empty commit + push:
+  ```bash
+  git commit --allow-empty -m "ci: smoke test deploy-phase2 workflow"
+  git push origin main
+  ```
+- [ ] GitHub Actions tab → "Deploy Phase 2 to VPS" run starts within 30 detik
+- [ ] Workflow completes green (timeout 15 min default)
+- [ ] Job log shows: `✓ Local check OK — PM2 alive` + `✓ Public endpoint healthy`
+- [ ] PM2 restart confirmed: `ssh root@76.13.196.172 'pm2 logs --lines 5'` shows recent restart timestamp
+- [ ] Browser `https://jubirbetaapp.spdindonesia.org` shows latest deploy (verify via response header `X-Deploy-Time` atau visual check)
+
+### 1g. Manual workflow_dispatch sanity (fallback test)
+- [ ] Repo → Actions → "Deploy Phase 2 to VPS" → Run workflow → branch `main` → Run
+- [ ] Verifies workflow_dispatch trigger works (untuk emergency redeploy tanpa code change)
 
 ---
 
