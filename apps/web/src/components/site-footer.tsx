@@ -51,8 +51,11 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <JwLogo size={28} variant="cream" />
-            <p className="mt-3 text-sm text-jw-cream/70">
-              Kumpul. Berkarya. Bersuara.
+            <p className="mt-3 font-display italic text-base text-jw-cream/95 leading-snug">
+              Suara warga, rumahnya di sini.
+            </p>
+            <p className="mt-2 text-xs text-jw-cream/70 leading-relaxed">
+              Sprint ini lagi spotlight Tagih Janji — setiap janji punya jejak. Karya, Kelas, Aksi tetap berkembang bertahap.
             </p>
             <p className="mt-3 text-xs leading-relaxed text-jw-cream/55">
               Jl. Tebet Barat Dalam IIC No. 14,

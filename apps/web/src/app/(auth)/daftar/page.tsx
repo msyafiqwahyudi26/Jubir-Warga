@@ -9,10 +9,10 @@ export default function DaftarPage() {
   return (
     <div>
       <div className="text-center mb-8">
-        <p className="font-hand text-2xl text-jw-coral">— senang ketemu kamu</p>
+        <p className="font-hand text-2xl text-jw-coral" aria-hidden="true">— senang ketemu kamu</p>
         <h1 className="font-display text-3xl font-bold text-jw-blue mt-1">Bikin akun warga</h1>
         <p className="text-sm text-jw-ink/70 mt-2">
-          Gratis, tanpa iklan. Datamu kamu yang punya.
+          Ngumpul, bersuara, berkarya, belajar — bareng warga muda Indonesia. Gratis, tanpa iklan. Datamu kamu yang punya.
         </p>
       </div>
       <SignUpForm />

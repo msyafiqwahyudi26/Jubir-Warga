@@ -1,138 +1,67 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { createClient } from '@/lib/supabase/server';
+import { ArrowRight } from 'lucide-react';
+import { HeroTagihSpotlight } from '@/components/beranda/hero-tagih-spotlight';
+import {
+  JanjiProminentCards,
+  JanjiProminentSkeleton,
+} from '@/components/beranda/janji-prominent-cards';
+import { JanjiVsRealitaCard } from '@/components/beranda/janji-vs-realita-card';
 import { ThreadList, ThreadListSkeleton } from '@/components/beranda/thread-list';
-import { PetisiPreview, PetisiSkeleton } from '@/components/beranda/petisi-preview';
-import { JanjiTracker, JanjiSkeleton } from '@/components/beranda/janji-tracker';
-import { HelloUser } from '@/components/beranda/hello-user';
-import { HeroBacaDokumen } from '@/components/illustrations/hero-baca-dokumen';
-import { SquigglyUnderline } from '@/components/decor/squiggly-underline';
-import { AnnotationTag } from '@/components/decor/annotation-tag';
+import { FiturPendukungGrid } from '@/components/beranda/fitur-pendukung-grid';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
 
-export const revalidate = 60; // ISR — re-render setiap 60 detik
+// Spec #32+33 dual-layer Beranda. SiteHeader/SiteFooter di-wire global via
+// app/layout.tsx (commit a85e988). Page tinggal isi konten utama:
+//   1. Hero — brand-wide tagline + Sprint 4 Tagih spotlight card
+//   2. Janji prominent (Tagih spotlight)
+//   3. Janji vs Realita game card
+//   4. Komunitas threads — yang lagi rame minggu ini (ekosistem visible)
+//   5. Ekosistem grid — Karya/Kelas/Aksi/Komunitas (4 fitur lainnya)
+export const revalidate = 60;
 
-const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-const BULAN = [
-  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
-];
-
-function todayString() {
-  const d = new Date();
-  return `${HARI[d.getDay()]}, ${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
-}
-
-export default async function HomePage() {
-  // Auth status untuk personalized greeting
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
+export default function HomePage() {
   return (
     <div className="bg-jw-cream text-jw-ink">
-      {/* HERO */}
-      <section className="border-b border-jw-line py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="grid md:grid-cols-[1fr_auto] gap-10 items-center">
-            <div>
-              <span className="font-hand text-lg text-jw-coral">{todayString()}</span>
-              <h1 className="font-display font-bold mt-2 leading-tight text-jw-blue text-4xl md:text-5xl lg:text-7xl">
-                Hari ini,<br />
-                <em>kita ngomongin</em><br />
-                <span className="relative inline-block text-jw-coral">
-                  Pasal 28E.
-                  <span className="absolute left-0 right-0 -bottom-2">
-                    <SquigglyUnderline width={280} thickness={4} />
-                  </span>
-                </span>
-              </h1>
-              <p className="mt-4 text-base md:text-lg max-w-md leading-relaxed text-jw-ink/80">
-                Hak berekspresi yang dijamin konstitusi. Tapi seberapa jauh sudah dipraktikkan?
-              </p>
-              <HelloUser user={user} />
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/komunitas"
-                  className="rounded-jw-lg bg-jw-coral px-6 py-3 font-semibold text-white hover:bg-jw-coral/90 transition shadow-jw-md"
-                >
-                  Ikut diskusi →
-                </Link>
-                <Link
-                  href="/kelas"
-                  className="rounded-jw-lg border border-jw-line bg-white px-6 py-3 font-semibold text-jw-blue hover:bg-jw-pill-grey-bg transition"
-                >
-                  Baca lebih dalam
-                </Link>
-              </div>
-            </div>
+      <HeroTagihSpotlight />
 
-            {/* Illustration */}
-            <div className="hidden md:block relative w-80">
-              <HeroBacaDokumen size={320} />
-              <span className="absolute -top-1 right-2">
-                <AnnotationTag text="baca!" rotation={-6} arrowDirection="left" />
-              </span>
-              <span className="absolute -bottom-2 left-2">
-                <AnnotationTag text="kamu juga bisa" rotation={4} color="marigold" arrowDirection="none" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<JanjiProminentSkeleton />}>
+        <JanjiProminentCards />
+      </Suspense>
 
-      {/* THREADS — live dari Supabase */}
+      <JanjiVsRealitaCard />
+
+      {/* Komunitas threads — ekosistem visible, bukan cuma Tagih spotlight */}
       <section className="py-12 border-b border-jw-line">
         <div className="mx-auto max-w-6xl px-4">
-          <SectionHead
-            kicker="komunitas"
-            title="Yang lagi rame minggu ini"
-            href="/komunitas"
-            hrefLabel="Lihat semua →"
-          />
+          <div className="flex items-end justify-between mb-6 gap-3 flex-wrap">
+            <div>
+              <span
+                className="font-hand text-lg text-jw-coral"
+                aria-hidden="true"
+              >
+                — komunitas
+              </span>
+              <h2 className="font-display text-3xl font-bold text-jw-blue">
+                Yang lagi rame minggu ini
+              </h2>
+            </div>
+            <Link
+              href="/komunitas"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-jw-coral hover:underline"
+            >
+              Lihat semua <ArrowRight size={14} aria-hidden />
+            </Link>
+          </div>
           <Suspense fallback={<ThreadListSkeleton />}>
             <ThreadList />
           </Suspense>
         </div>
       </section>
 
-      {/* PETISI + JANJI — live counters */}
-      <section className="py-12 border-b border-jw-line">
-        <div className="mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-6">
-          <Suspense fallback={<PetisiSkeleton />}>
-            <PetisiPreview />
-          </Suspense>
-          <Suspense fallback={<JanjiSkeleton />}>
-            <JanjiTracker />
-          </Suspense>
-        </div>
-      </section>
+      <FiturPendukungGrid />
 
-      {/* Floating Nala trigger — Spec #5 wires the global panel */}
       <NalaTriggerButton context="tentang halaman ini" />
-    </div>
-  );
-}
-
-function SectionHead({
-  kicker,
-  title,
-  href,
-  hrefLabel,
-}: {
-  kicker: string;
-  title: string;
-  href: string;
-  hrefLabel: string;
-}) {
-  return (
-    <div className="flex items-end justify-between mb-6">
-      <div>
-        <span className="font-hand text-lg text-jw-coral">— {kicker}</span>
-        <h2 className="font-display text-3xl font-bold text-jw-blue">{title}</h2>
-      </div>
-      <Link href={href} className="text-sm font-semibold text-jw-coral hover:underline">
-        {hrefLabel}
-      </Link>
     </div>
   );
 }

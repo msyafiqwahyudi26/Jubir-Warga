@@ -53,20 +53,21 @@ export const metadata: Metadata = {
     template: '%s · Jubir Warga',
   },
   description:
-    'Rumah online anak muda Indonesia 17–39 tahun: ngumpul, bersuara, berkarya, belajar.',
+    'Rumah online warga muda Indonesia 17–39 tahun: ngumpul, bersuara, berkarya, belajar. Sprint ini lagi spotlight Tagih Janji — pantau janji pejabat dari RPJMN/RPJMD bareng-bareng.',
   applicationName: 'Jubir Warga',
   authors: [{ name: 'SPD Indonesia' }],
   openGraph: {
     type: 'website',
     locale: 'id_ID',
     title: 'Jubir Warga — Suara warga, rumahnya di sini.',
-    description: 'Rumah online anak muda Indonesia: ngumpul, bersuara, berkarya, belajar.',
+    description:
+      'Ngumpul, bersuara, berkarya, belajar bareng warga muda Indonesia. Lagi spotlight Tagih Janji: setiap janji punya jejak.',
     siteName: 'Jubir Warga',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Jubir Warga',
-    description: 'Suara warga, rumahnya di sini.',
+    description: 'Suara warga, rumahnya di sini. Ngumpul, bersuara, berkarya, belajar.',
   },
   icons: {
     icon: [

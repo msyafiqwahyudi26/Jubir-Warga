@@ -13,8 +13,11 @@ export default function MasukPage({
   return (
     <div>
       <div className="text-center mb-8">
-        <p className="font-hand text-2xl text-jw-coral">— selamat datang kembali</p>
+        <p className="font-hand text-2xl text-jw-coral" aria-hidden="true">— selamat datang kembali</p>
         <h1 className="font-display text-3xl font-bold text-jw-blue mt-1">Masuk ke Jubir Warga</h1>
+        <p className="text-sm text-jw-ink/70 mt-2">
+          Suara warga, rumahnya di sini. Lanjutin ngumpul, bersuara, atau pantau Tagih Janji bareng warga.
+        </p>
       </div>
       <LoginForm searchParams={searchParams} />
       <p className="text-center text-sm text-jw-ink/70 mt-6">
