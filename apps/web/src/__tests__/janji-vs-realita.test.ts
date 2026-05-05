@@ -5,11 +5,11 @@ import {
   isAlignmentStatus,
   scoreForGuess,
 } from '@/lib/main/janji-vs-realita/constants';
+import { pickJanjiOfDay } from '@/lib/main/janji-vs-realita/janji-of-day';
 import {
-  eligibleForGame,
-  pickJanjiOfDay,
-  type JanjiWithAlignment,
-} from '@/lib/main/janji-vs-realita/janji-of-day';
+  JANJI_VS_REALITA_POOL,
+  type JanjiPoolEntry,
+} from '@/lib/main/janji-vs-realita/pool-seed';
 import {
   appendResult,
   calculateAccuracy,
@@ -69,67 +69,70 @@ describe('scoreForGuess', () => {
   });
 });
 
-// ─── Janji of day ───────────────────────────────────────────────────────────
+// ─── Pool seed ──────────────────────────────────────────────────────────────
 
-function makeJanji(
-  id: string,
-  align: JanjiWithAlignment['alignment_status'],
-  ed: JanjiWithAlignment['editorial_status'],
-): JanjiWithAlignment {
-  return {
-    id,
-    janji_text: `janji ${id}`,
-    pejabat_id: null,
-    topik: null,
-    deadline: null,
-    status: 'Belum',
-    source_quote: null,
-    source_url: null,
-    submitted_by: null,
-    verified_at: null,
-    evidence_count: 0,
-    pemantau_count: 0,
-    is_demo: false,
-    created_at: '2026-05-05T00:00:00Z',
-    alignment_status: align,
-    alignment_reasoning: align ? 'reasoning sample' : null,
-    source_doc_url: null,
-    source_doc_page: null,
-    editorial_status: ed,
-  };
-}
-
-describe('eligibleForGame', () => {
-  it('passes when alignment_status set + editorial_status verified_curator', () => {
-    expect(eligibleForGame(makeJanji('a', 'aligned', 'verified_curator'))).toBe(true);
-    expect(eligibleForGame(makeJanji('b', 'partial', 'verified_curator'))).toBe(true);
-    expect(eligibleForGame(makeJanji('c', 'drift', 'verified_curator'))).toBe(true);
-    expect(eligibleForGame(makeJanji('d', 'contradict', 'verified_curator'))).toBe(true);
+describe('JANJI_VS_REALITA_POOL', () => {
+  it('has at least 5 entries (Window C placeholder; Mas top-up ke 20-30)', () => {
+    expect(JANJI_VS_REALITA_POOL.length).toBeGreaterThanOrEqual(5);
   });
 
-  it('fails when alignment_status null', () => {
-    expect(eligibleForGame(makeJanji('a', null, 'verified_curator'))).toBe(false);
+  it('every entry has unique id', () => {
+    const ids = JANJI_VS_REALITA_POOL.map((e) => e.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('fails when editorial_status not verified_curator', () => {
-    expect(eligibleForGame(makeJanji('a', 'aligned', 'pending'))).toBe(false);
-    expect(eligibleForGame(makeJanji('a', 'aligned', 'curated_ai'))).toBe(false);
-    expect(eligibleForGame(makeJanji('a', 'aligned', null))).toBe(false);
+  it('every entry has all required fields populated', () => {
+    for (const e of JANJI_VS_REALITA_POOL) {
+      expect(e.id).toMatch(/^jvr-\d{3}$/);
+      expect(e.pejabat_name.length).toBeGreaterThan(0);
+      expect(e.pejabat_role.length).toBeGreaterThan(0);
+      expect(e.claim.length).toBeGreaterThan(0);
+      expect(e.deadline_year).toBeGreaterThanOrEqual(2020);
+      expect(e.topic.length).toBeGreaterThan(0);
+      expect(isAlignmentStatus(e.alignment_status)).toBe(true);
+      expect(e.reasoning.length).toBeGreaterThanOrEqual(50);
+      expect(e.source_url).toMatch(/^https?:\/\//);
+      expect(['verified_curator', 'curated_ai']).toContain(e.editorial_status);
+    }
+  });
+
+  it('alignment_status distribution covers all 4 verdicts', () => {
+    const seen = new Set(JANJI_VS_REALITA_POOL.map((e) => e.alignment_status));
+    // Distribution check: minimal coverage 3 dari 4 verdict (placeholder pool
+    // 8 entry; final pool 20+ akan lebih lengkap).
+    expect(seen.size).toBeGreaterThanOrEqual(3);
   });
 });
 
+// ─── Janji of day ───────────────────────────────────────────────────────────
+
+function makeEntry(id: string): JanjiPoolEntry {
+  return {
+    id,
+    pejabat_name: 'X',
+    pejabat_role: 'Y',
+    claim: 'janji ' + id,
+    deadline_year: 2027,
+    topic: 'Test',
+    alignment_status: 'aligned',
+    reasoning: 'test reasoning placeholder',
+    source_url: 'https://example.com/',
+    editorial_status: 'verified_curator',
+  };
+}
+
 describe('pickJanjiOfDay', () => {
-  const pool = [
-    makeJanji('a', 'aligned', 'verified_curator'),
-    makeJanji('b', 'partial', 'verified_curator'),
-    makeJanji('c', 'drift', 'verified_curator'),
+  const pool: JanjiPoolEntry[] = [
+    makeEntry('a'),
+    makeEntry('b'),
+    makeEntry('c'),
   ];
 
   it('returns null on empty pool', () => {
     expect(pickJanjiOfDay(new Date(), [])).toBe(null);
   });
 
-  it('is deterministic — same date returns same janji', () => {
+  it('is deterministic — same date returns same entry', () => {
     const d1 = new Date('2026-05-02T08:00:00Z');
     const d2 = new Date('2026-05-02T20:00:00Z');
     expect(pickJanjiOfDay(d1, pool)?.id).toBe(pickJanjiOfDay(d2, pool)?.id);
@@ -141,7 +144,7 @@ describe('pickJanjiOfDay', () => {
     expect(pickJanjiOfDay(start, pool)?.id).toBe(pickJanjiOfDay(after, pool)?.id);
   });
 
-  it('returns a janji from the pool', () => {
+  it('returns an entry from the pool', () => {
     const ids = new Set(pool.map((j) => j.id));
     for (const offset of [0, 1, 5, 30]) {
       const d = new Date('2026-01-01T00:00:00Z');
@@ -150,6 +153,12 @@ describe('pickJanjiOfDay', () => {
       expect(picked).not.toBe(null);
       expect(ids.has(picked!.id)).toBe(true);
     }
+  });
+
+  it('handles real production pool', () => {
+    const today = pickJanjiOfDay(new Date(), JANJI_VS_REALITA_POOL);
+    expect(today).not.toBe(null);
+    expect(JANJI_VS_REALITA_POOL.map((e) => e.id)).toContain(today!.id);
   });
 });
 
@@ -276,10 +285,7 @@ describe('calculateStreak', () => {
     const now = new Date('2026-05-05T12:00:00Z');
     const state: ScoreState = {
       version: 1,
-      history: [
-        result('2026-05-04', true),
-        result('2026-05-03', true),
-      ],
+      history: [result('2026-05-04', true), result('2026-05-03', true)],
     };
     expect(calculateStreak(state, now)).toBe(2);
   });

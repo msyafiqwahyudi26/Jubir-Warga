@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { ExternalLink, Sparkles, Flame, Target } from 'lucide-react';
+import { ExternalLink, Sparkles, Flame, Target, Calendar } from 'lucide-react';
 import {
   ALIGNMENT_STATUSES,
   STORAGE_KEY,
@@ -19,37 +19,18 @@ import {
   type ScoreState,
 } from '@/lib/main/janji-vs-realita/score-calculator';
 import { todayKey } from '@/lib/main/janji-vs-realita/janji-of-day';
+import type { JanjiPoolEntry } from '@/lib/main/janji-vs-realita/pool-seed';
 import { submitJanjiVsRealitaScoreAction } from './actions';
 
 type Props = {
-  janjiId: string;
-  janjiText: string;
-  topik: string | null;
-  pejabatNama: string | null;
-  pejabatJabatan: string | null;
-  truthVerdict: AlignmentStatus;
-  reasoning: string;
-  sourceUrl: string | null;
-  sourcePage: number | null;
-  editorialStatus: 'verified_curator' | 'curated_ai';
+  entry: JanjiPoolEntry;
 };
 
 type GamePhase = 'predict' | 'reveal';
 
 const EMPTY: ScoreState = { version: 1, history: [] };
 
-export function GameClient({
-  janjiId,
-  janjiText,
-  topik,
-  pejabatNama,
-  pejabatJabatan,
-  truthVerdict,
-  reasoning,
-  sourceUrl,
-  sourcePage,
-  editorialStatus,
-}: Props) {
+export function GameClient({ entry }: Props) {
   const [phase, setPhase] = useState<GamePhase>('predict');
   const [picked, setPicked] = useState<AlignmentStatus | null>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -57,31 +38,32 @@ export function GameClient({
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
-  // Hydrate from localStorage. Kalau hari ini sudah main, skip ke reveal.
+  // Hydrate from localStorage. Kalau hari ini sudah main entry yang sama,
+  // skip ke reveal phase (no double-play).
   useEffect(() => {
     const storage = window.localStorage;
     const loaded = loadScore(storage, STORAGE_KEY);
     setScore(loaded);
     const today = findResult(loaded, todayKey());
-    if (today && today.janjiId === janjiId) {
+    if (today && today.janjiId === entry.id) {
       setPicked(today.guess);
       setPhase('reveal');
     }
     setHydrated(true);
-  }, [janjiId]);
+  }, [entry.id]);
 
   const handlePick = (verdict: AlignmentStatus) => {
     if (phase !== 'predict' || picked) return;
     setPicked(verdict);
     setPhase('reveal');
 
-    const correct = verdict === truthVerdict;
+    const correct = verdict === entry.alignment_status;
     const date = todayKey();
     const newScore = appendResult(score, {
       date,
       guess: verdict,
       correct,
-      janjiId,
+      janjiId: entry.id,
     });
     setScore(newScore);
     saveScore(window.localStorage, STORAGE_KEY, newScore);
@@ -98,11 +80,11 @@ export function GameClient({
     });
   };
 
-  const correctOpt = VERDICT_OPTIONS.find((v) => v.id === truthVerdict);
+  const correctOpt = VERDICT_OPTIONS.find((v) => v.id === entry.alignment_status);
   const pickedOpt = picked
     ? VERDICT_OPTIONS.find((v) => v.id === picked)
     : null;
-  const isCorrect = picked === truthVerdict;
+  const isCorrect = picked === entry.alignment_status;
 
   const streak = hydrated ? calculateStreak(score) : 0;
   const acc = hydrated ? calculateAccuracy(score) : { total: 0, correct: 0, pct: 0 };
@@ -111,21 +93,21 @@ export function GameClient({
     <div data-testid="janji-vs-realita-game">
       {/* Janji card — yang lagi di-tebak */}
       <article className="rounded-jw-lg border border-jw-line bg-white p-5 mb-6">
-        <header className="flex items-start gap-3 flex-wrap mb-3">
-          {topik && (
-            <span className="inline-flex items-center rounded-jw-sm bg-jw-pill-blue-bg text-jw-blue text-xs font-semibold px-2 py-0.5">
-              {topik}
-            </span>
-          )}
-          {pejabatNama && (
-            <span className="text-xs text-jw-muted">
-              {pejabatJabatan ? `${pejabatJabatan} · ` : ''}
-              <span className="font-semibold text-jw-blue">{pejabatNama}</span>
-            </span>
-          )}
+        <header className="flex items-start gap-2 flex-wrap mb-3">
+          <span className="inline-flex items-center rounded-jw-sm bg-jw-pill-blue-bg text-jw-blue text-xs font-semibold px-2 py-0.5">
+            {entry.topic}
+          </span>
+          <span className="inline-flex items-center gap-1 text-xs text-jw-muted">
+            <Calendar size={11} aria-hidden /> target {entry.deadline_year}
+          </span>
         </header>
         <p className="font-display text-lg md:text-xl font-semibold text-jw-blue leading-snug">
-          {janjiText}
+          {entry.claim}
+        </p>
+        <p className="text-xs text-jw-muted mt-3">
+          —{' '}
+          <span className="font-semibold text-jw-blue">{entry.pejabat_name}</span>
+          {entry.pejabat_role && `, ${entry.pejabat_role}`}
         </p>
       </article>
 
@@ -133,9 +115,13 @@ export function GameClient({
       {phase === 'predict' && hydrated && (
         <>
           <p className="text-sm text-jw-ink/70 mb-3">
-            Menurut kamu, janji vs realita-nya gimana?
+            Menurut kamu, gimana ceritanya sekarang?
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Pilih verdict">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-2"
+            role="radiogroup"
+            aria-label="Pilih verdict"
+          >
             {VERDICT_OPTIONS.map((opt) => (
               <button
                 key={opt.id}
@@ -159,14 +145,13 @@ export function GameClient({
           isCorrect={isCorrect}
           pickedOpt={pickedOpt}
           correctOpt={correctOpt}
-          reasoning={reasoning}
-          sourceUrl={sourceUrl}
-          sourcePage={sourcePage}
-          editorialStatus={editorialStatus}
+          reasoning={entry.reasoning}
+          sourceUrl={entry.source_url}
+          editorialStatus={entry.editorial_status}
         />
       )}
 
-      {/* Stats footer (always shown post-hydration) */}
+      {/* Stats footer (always shown post-hydration kalau sudah main minimal 1x) */}
       {hydrated && score.history.length > 0 && (
         <div className="mt-6 grid grid-cols-2 gap-3">
           <StatCard
@@ -200,15 +185,13 @@ function RevealPanel({
   correctOpt,
   reasoning,
   sourceUrl,
-  sourcePage,
   editorialStatus,
 }: {
   isCorrect: boolean;
   pickedOpt: (typeof VERDICT_OPTIONS)[number];
   correctOpt: (typeof VERDICT_OPTIONS)[number];
   reasoning: string;
-  sourceUrl: string | null;
-  sourcePage: number | null;
+  sourceUrl: string;
   editorialStatus: 'verified_curator' | 'curated_ai';
 }) {
   return (
@@ -245,31 +228,30 @@ function RevealPanel({
       >
         <p className="inline-flex items-center gap-2 font-semibold">
           <Sparkles size={14} aria-hidden />
-          {isCorrect ? 'Tepat! Tebakan kamu cocok kurator.' : 'Beda dari kurator — bukan berarti salah, beda perspektif boleh.'}
+          {isCorrect
+            ? 'Mantul, tebakan kamu cocok kurator!'
+            : 'Beda dari kurator — bukan berarti kamu salah, beda perspektif boleh.'}
         </p>
       </div>
 
       {/* Reasoning */}
       <article className="mt-4 rounded-jw-lg border border-jw-line bg-white p-5">
-        <header className="flex items-center gap-2 mb-2">
+        <header className="flex items-center gap-2 flex-wrap mb-2">
           <span className="font-hand text-jw-coral text-sm">— alasan</span>
           <VerificationBadge status={editorialStatus} />
         </header>
         <p className="text-sm text-jw-ink leading-relaxed whitespace-pre-line">
           {reasoning}
         </p>
-        {sourceUrl && (
-          <a
-            href={sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 mt-3 text-sm font-semibold text-jw-coral hover:underline"
-          >
-            Sumber dokumen
-            {sourcePage != null && ` · hal. ${sourcePage}`}
-            <ExternalLink size={12} aria-hidden />
-          </a>
-        )}
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 mt-3 text-sm font-semibold text-jw-coral hover:underline"
+        >
+          Sumber data
+          <ExternalLink size={12} aria-hidden />
+        </a>
       </article>
     </div>
   );
@@ -280,7 +262,9 @@ function VerificationBadge({
 }: {
   status: 'verified_curator' | 'curated_ai';
 }) {
-  // Spec #34 admin layer akan provide reusable badge — sementara inline.
+  // Spec #34 admin layer ada `components/admin/badge-verification.tsx` reusable.
+  // Sementara inline di sini untuk avoid cross-window import; refactor ke
+  // shared component saat brand-copy sweep beresan.
   if (status === 'verified_curator') {
     return (
       <span className="inline-flex items-center rounded-jw-sm bg-jw-pill-mint-bg text-jw-pill-mint-text text-[10px] font-semibold px-2 py-0.5">
@@ -322,5 +306,5 @@ function StatCard({
   );
 }
 
-// Re-export for tests / future consumers.
+// Re-export untuk test consumers.
 export { ALIGNMENT_STATUSES };
