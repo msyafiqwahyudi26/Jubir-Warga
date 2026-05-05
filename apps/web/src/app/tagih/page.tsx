@@ -9,19 +9,33 @@ import {
   isJanjiStatus,
   type StatusBreakdown,
 } from '@/lib/tagih/constants';
+import {
+  computeAlignmentBreakdown,
+  pendingReviewCount,
+} from '@/lib/tagih/alignment-counter';
+import {
+  ALIGNMENT_SEED,
+  alignmentSeedSize,
+  lookupAlignmentSeed,
+} from '@/lib/tagih/alignment-seed';
+import { isAlignmentStatus } from '@/lib/tagih/alignment';
 import { NalaTriggerButton } from '@/components/nala/nala-trigger-button';
 import { TagihSkeleton } from '@/components/skeletons/tagih-skeleton';
 import { TagihHero } from './tagih-hero';
 import { TagihStats } from './tagih-stats';
 import { PetaIndonesia } from './peta-indonesia';
 import { PartaiDashboard } from './partai-dashboard';
-import { JanjiFilters } from './janji-filters';
-import { JanjiRow } from './janji-row';
+import { AlignmentStats } from './components/alignment-stats';
+import { FilterAdvanced } from './components/filter-advanced';
+import {
+  JanjiCardWithBadge,
+  type JanjiViewWithAlignment,
+} from './components/janji-card-with-badge';
 
 export const metadata: Metadata = {
   title: 'Tagih Janji — Jubir Warga',
   description:
-    'Setiap janji yang diucapkan, kita catat. Yang ditepati, kita rayakan. Yang diingkari, kita ingatkan.',
+    'Setiap janji punya jejak. Pantau alignment janji pejabat dengan RPJMN/RPJMD/Visi Misi — bareng warga muda Indonesia.',
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -40,8 +54,14 @@ export default async function TagihPage({
     <main className="max-w-7xl mx-auto px-6 py-8">
       <TagihHero />
 
+      {/* Status breakdown (Sprint 3 carry-over) — count per Belum/Berjalan/dst */}
       <Suspense fallback={<TagihStatsLoading />}>
         <TagihStatsBlock />
+      </Suspense>
+
+      {/* Alignment breakdown (Spec #24-LIGHT phase 1) — frontend seed enrichment */}
+      <Suspense fallback={<AlignmentStatsLoading />}>
+        <AlignmentStatsBlock />
       </Suspense>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
@@ -50,9 +70,32 @@ export default async function TagihPage({
       </div>
 
       <section id="daftar-janji" className="mt-12 scroll-mt-20">
+        <header className="mb-4 flex items-center justify-between gap-3 flex-wrap">
+          <div>
+            <span className="font-hand text-jw-coral text-base" aria-hidden="true">
+              — daftar janji
+            </span>
+            <h2 className="font-display text-2xl font-bold text-jw-blue">
+              Janji terlacak
+            </h2>
+          </div>
+          <Link
+            href="/tagih/baru"
+            className="inline-flex items-center gap-1.5 rounded-jw-md bg-jw-coral text-white px-4 py-2 text-sm font-semibold hover:bg-jw-coral/90 active:scale-[0.97] transition-all duration-200"
+          >
+            <Plus size={14} aria-hidden /> Submit janji baru
+          </Link>
+        </header>
+
+        <FilterAdvanced filter={filter} />
+
         <Suspense
           key={JSON.stringify(filter)}
-          fallback={<JanjiListLoading filter={filter} />}
+          fallback={
+            <div className="mt-4">
+              <TagihSkeleton />
+            </div>
+          }
         >
           <JanjiList filter={filter} />
         </Suspense>
@@ -62,6 +105,8 @@ export default async function TagihPage({
     </main>
   );
 }
+
+// ─── Status (Belum/Berjalan/Mandek/Ditepati/Diingkari) ───────────────
 
 function TagihStatsLoading() {
   return (
@@ -90,50 +135,72 @@ async function TagihStatsBlock() {
   return <TagihStats total={total} breakdown={breakdown} className="mt-8" />;
 }
 
-function JanjiListLoading({ filter }: { filter: TagihFilter }) {
+// ─── Alignment (aligned/partial/drift/contradict) — phase 1 frontend seed ─
+
+function AlignmentStatsLoading() {
   return (
-    <>
-      <header className="mb-4 flex items-center justify-between gap-3 flex-wrap">
-        <div>
-          <span className="font-hand text-jw-coral text-base">
-            — daftar janji
-          </span>
-          <h2 className="font-display text-2xl font-bold text-jw-blue">
-            Memuat janji…
-          </h2>
-        </div>
-      </header>
-      <JanjiFilters
-        currentStatus={filter.status}
-        currentLevel={filter.level}
-      />
-      <div className="mt-4">
-        <TagihSkeleton />
+    <div className="mt-8">
+      <div className="h-5 w-48 bg-jw-pill-grey-bg rounded animate-pulse mb-3" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="rounded-jw-lg border border-jw-line bg-white p-4 animate-pulse"
+          >
+            <div className="h-4 w-24 bg-jw-pill-grey-bg rounded mb-3" />
+            <div className="h-7 w-12 bg-jw-pill-grey-bg rounded" />
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }
+
+async function AlignmentStatsBlock() {
+  const supabase = await createClient();
+  // Fetch janji ids untuk hitung total + cross-check seed coverage. Phase 1
+  // stay frontend-only — alignment_status enrichment murni dari ALIGNMENT_SEED.
+  const { data } = await supabase.from('janji').select('id');
+  const allIds = (data ?? []).map((r) => r.id).filter((x): x is string => !!x);
+
+  // Build pseudo-rows: lookup seed per id; pakai id ini supaya counter
+  // bisa hitung dari single source of truth.
+  const enriched = allIds.map((id) => ({
+    alignment_status: lookupAlignmentSeed(id)?.status ?? null,
+  }));
+
+  const breakdown = computeAlignmentBreakdown(enriched);
+  const pending = pendingReviewCount(enriched);
+  return <AlignmentStats breakdown={breakdown} pendingCount={pending} />;
+}
+
+// ─── Janji list ──────────────────────────────────────────────────────
 
 async function JanjiList({ filter }: { filter: TagihFilter }) {
   const supabase = await createClient();
 
-  // Level filter is on `pejabat.level` which the view doesn't expose. Sprint 3
-  // workaround: pre-select pejabat ids by level, then `.in()` on janji query.
+  // Level + partai filter on `pejabat.level/partai` (view doesn't expose level).
+  // Pre-select pejabat ids by predicate, then `.in()` on view query.
+  const needsPejabatLookup = !!(filter.level || filter.partai);
   let pejabatIds: string[] | null = null;
-  if (filter.level) {
-    const { data: filteredPejabat } = await supabase
-      .from('pejabat')
-      .select('id')
-      .eq('level', filter.level);
+  if (needsPejabatLookup) {
+    let pq = supabase.from('pejabat').select('id');
+    if (filter.level) pq = pq.eq('level', filter.level);
+    if (filter.partai) pq = pq.eq('partai', filter.partai);
+    const { data: filteredPejabat } = await pq;
     pejabatIds = (filteredPejabat ?? []).map((p) => p.id);
   }
 
+  // Status + topik filter di-apply di DB. Alignment filter di-apply
+  // post-fetch karena alignment_status enrichment frontend-only di phase 1.
   let janjiQuery = supabase
     .from('janji_with_pejabat')
     .select('*', { count: 'exact' })
     .order('created_at', { ascending: false })
     .limit(LIST_LIMIT);
+
   if (filter.status) janjiQuery = janjiQuery.eq('status', filter.status);
+  if (filter.topik) janjiQuery = janjiQuery.eq('topik', filter.topik);
   if (pejabatIds !== null) {
     if (pejabatIds.length === 0) {
       janjiQuery = janjiQuery.eq('id', '00000000-0000-0000-0000-000000000000');
@@ -143,56 +210,73 @@ async function JanjiList({ filter }: { filter: TagihFilter }) {
   }
 
   const janjiRes = await janjiQuery;
-  const janjiList = janjiRes.data ?? [];
+  const dbRows = janjiRes.data ?? [];
+
+  // Enrich tiap row dengan ALIGNMENT_SEED lookup. Row tanpa entry seed
+  // tetap di-render dengan badge "— belum ditelaah" (transparent UX).
+  const enrichedRows: JanjiViewWithAlignment[] = dbRows.map((row) => {
+    const seed = row.id ? lookupAlignmentSeed(row.id) : undefined;
+    return {
+      ...row,
+      alignment_status: seed?.status ?? null,
+      editorial_status: seed?.editorial_status ?? null,
+      source_doc_url: seed?.source_doc_url ?? null,
+    };
+  });
+
+  // Apply alignment filter di sisi frontend (post-enrichment). DB tidak
+  // tahu tentang alignment, jadi filter ini tidak bisa di-push ke query.
+  const filteredRows = filter.alignment
+    ? enrichedRows.filter(
+        (r) =>
+          isAlignmentStatus(r.alignment_status) &&
+          r.alignment_status === filter.alignment,
+      )
+    : enrichedRows;
 
   return (
-    <>
-      <header className="mb-4 flex items-center justify-between gap-3 flex-wrap">
-        <div>
-          <span className="font-hand text-jw-coral text-base">
-            — daftar janji
-          </span>
-          <h2 className="font-display text-2xl font-bold text-jw-blue">
-            {janjiRes.count ?? 0} janji terlacak
-          </h2>
-        </div>
-        <Link
-          href="/tagih/baru"
-          className="inline-flex items-center gap-1.5 rounded-jw-md bg-jw-coral text-white px-4 py-2 text-sm font-semibold hover:bg-jw-coral/90 active:scale-[0.97] transition-all duration-200"
-        >
-          <Plus size={14} aria-hidden /> Submit janji baru
-        </Link>
-      </header>
+    <div className="mt-4">
+      <p className="text-xs text-jw-muted mb-3">
+        {filteredRows.length} janji ditampilkan
+        {Object.keys(filter).length > 0 ? ' dengan filter aktif' : ''}.{' '}
+        <span className="text-jw-ink/60">
+          {alignmentSeedSize()} dari {Object.keys(ALIGNMENT_SEED).length + 2}{' '}
+          janji prioritas sudah ditelaah editorial.
+        </span>
+      </p>
 
-      <JanjiFilters
-        currentStatus={filter.status}
-        currentLevel={filter.level}
-      />
-
-      {janjiList.length === 0 ? (
-        <div className="mt-6 rounded-jw-lg border border-dashed border-jw-line p-10 text-center">
-          <p className="font-hand text-xl text-jw-coral">
+      {filteredRows.length === 0 ? (
+        <div className="rounded-jw-lg border border-dashed border-jw-line bg-white/50 p-10 text-center">
+          <p className="font-hand text-xl text-jw-coral" aria-hidden="true">
             — belum ada janji sesuai filter
           </p>
           <p className="text-sm text-jw-muted mt-2">
-            Coba reset filter atau submit janji baru.
+            Coba longgarkan filter atau submit janji baru ke daftar pantau
+            warga.
           </p>
-          {(filter.status || filter.level) && (
+          <div className="mt-4 flex items-center justify-center gap-3 flex-wrap">
             <Link
               href="/tagih"
-              className="inline-block mt-4 text-sm font-semibold text-jw-coral hover:underline"
+              className="inline-block text-sm font-semibold text-jw-coral hover:underline"
             >
               Reset filter
             </Link>
-          )}
+            <span className="text-jw-line">·</span>
+            <Link
+              href="/tagih/baru"
+              className="inline-block text-sm font-semibold text-jw-coral hover:underline"
+            >
+              Submit janji baru
+            </Link>
+          </div>
         </div>
       ) : (
-        <div className="mt-4 space-y-3">
-          {janjiList.map((j) => (
-            <JanjiRow key={j.id ?? Math.random()} janji={j} />
+        <div className="space-y-3">
+          {filteredRows.map((j) => (
+            <JanjiCardWithBadge key={j.id ?? Math.random()} janji={j} />
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
